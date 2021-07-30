@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    multiplierless::Multiplierless multiplierless(name);
-    std::cout << multiplierless.greet(langIt->second) << std::endl;
+    // multiplierless::Multiplierless multiplierless(name);
+    // std::cout << multiplierless.greet(langIt->second) << std::endl;
 
     return 0;
 }
