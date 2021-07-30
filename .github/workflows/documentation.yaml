@@ -25,6 +25,10 @@ jobs:
           brew install doxygen
           pip3 install jinja2 Pygments
 
+      - name: Install project dependencies
+        run: |
+          brew install boost
+
       - name: Build
         run: |
           cmake -S. -Bbuild

@@ -31,7 +31,7 @@ endif()
 enable_testing()
 
 # Note: doctest and similar testing frameworks can automatically configure CMake tests. For other
-# testing frameworks add the tests target instead: add_test(NAME bingoTests COMMAND
+# testing frameworks add the tests target instead: add_test(NAME multiplierlessTests COMMAND
 # ${PROJECT_NAME}Tests)
 
 string(TOLOWER ${PROJECT_NAME} PROJECT_FILE_NAME)

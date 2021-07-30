@@ -1,11 +1,11 @@
-#include <bingo/greeter.h>
+#include <multiplierless/greeter.h>
 #include <fmt/format.h>
 
-using namespace bingo;
+using namespace multiplierless;
 
-Bingo::Bingo(std::string _name) : name(std::move(_name)) {}
+Multiplierless::Multiplierless(std::string _name) : name(std::move(_name)) {}
 
-std::string Bingo::greet(LanguageCode lang) const {
+std::string Multiplierless::greet(LanguageCode lang) const {
     switch (lang) {
         default:
         case LanguageCode::EN:

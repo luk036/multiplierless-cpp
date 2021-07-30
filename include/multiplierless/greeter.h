@@ -2,23 +2,23 @@
 
 #include <string>
 
-namespace bingo {
+namespace multiplierless {
 
-    /**  Language codes to be used with the Bingo class */
+    /**  Language codes to be used with the Multiplierless class */
     enum class LanguageCode { EN, DE, ES, FR };
 
     /**
      * @brief A class for saying hello in multiple languages
      */
-    class Bingo {
+    class Multiplierless {
         std::string name;
 
       public:
         /**
-         * @brief Creates a new bingo
+         * @brief Creates a new multiplierless
          * @param name the name to greet
          */
-        Bingo(std::string name);
+        Multiplierless(std::string name);
 
         /**
          * @brief Creates a localized string containing the greeting
@@ -28,4 +28,4 @@ namespace bingo {
         std::string greet(LanguageCode lang = LanguageCode::EN) const;
     };
 
-}  // namespace bingo
+}  // namespace multiplierless
