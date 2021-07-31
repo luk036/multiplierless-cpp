@@ -1,5 +1,5 @@
 #include <multiplierless/lowpass_oracle.hpp>
-#include <xtensor-blas/xlinalg.hpp>
+#include <xtensor/xview.hpp>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using ParallelCut = std::tuple<Arr, Arr>;
@@ -14,8 +14,6 @@ using ParallelCut = std::tuple<Arr, Arr>;
 auto lowpass_oracle::operator()(const Arr& x, double& Spsq) const
     -> std::tuple<ParallelCut, bool>
 {
-    using xt::linalg::dot;
-
     // 1. nonnegative-real constraint
     // case 1,
     if (x[0] < 0)
@@ -38,7 +36,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) const
         {
             k = 0; // round robin
         }
-        auto v = dot(xt::view(this->_Ap, k, xt::all()), x)();
+        auto v = xt::sum(xt::view(this->_Ap, k, xt::all()) * x)();
         if (v > this->_Upsq)
         {
             // f = v - Upsq;
@@ -71,7 +69,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) const
         {
             k = 0; // round robin
         }
-        auto v = dot(xt::view(this->_As, k, xt::all()), x)();
+        auto v = xt::sum(xt::view(this->_As, k, xt::all()) * x)();
         if (v > Spsq)
         {
             // f = v - Spsq;
@@ -106,7 +104,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) const
         {
             k = 0; // round robin
         }
-        auto v = dot(xt::view(this->_Anr, k, xt::all()), x)();
+        auto v = xt::sum(xt::view(this->_Anr, k, xt::all()) * x)();
         if (v < 0.)
         {
             Arr f {-v};
