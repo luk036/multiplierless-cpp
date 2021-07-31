@@ -1,0 +1,5 @@
+
+vscode:
+  extensions:
+    - twxs.cmake
+    - ms-vscode.cmake-tools
