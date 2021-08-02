@@ -1,12 +1,12 @@
 #include <multiplierless/csdlowpass_oracle.hpp>
-#include <xtensor/xview.hpp>
 #include <string>
 #include <string_view>
+#include <xtensor/xview.hpp>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using ParallelCut = std::tuple<Arr, Arr>;
 
-extern auto to_csdfixed(double num, unsigned int ) -> std::string;
+extern auto to_csdfixed(double num, unsigned int) -> std::string;
 extern auto to_decimal(std::string_view csd_str) -> double;
 
 extern auto to_csdfixed();
@@ -15,8 +15,7 @@ extern auto inverse_spectral_fact(const Arr& r) -> Arr;
 extern auto spectral_fact(const Arr& r) -> Arr;
 
 auto csdlowpass_oracle::operator()(const Arr& r, double& Spsq, bool retry)
-    -> std::tuple<ParallelCut, bool, Arr, bool>
-{
+    -> std::tuple<ParallelCut, bool, Arr, bool> {
     if (!retry) {  // retry due to no effect in the previous cut
         this->_lowpass.retry = false;
         auto [cut, shrunk] = this->_lowpass(r, Spsq);

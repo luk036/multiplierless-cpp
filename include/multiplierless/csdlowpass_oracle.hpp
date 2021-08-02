@@ -10,12 +10,10 @@ class csdlowpass_oracle {
     Arr rcsd;
     unsigned int _nnz;
     lowpass_oracle& _lowpass;
-    
+
   public:
-    csdlowpass_oracle(unsigned int nnz, lowpass_oracle& lowpass)
-        : _nnz(nnz), _lowpass(lowpass) {}
+    csdlowpass_oracle(unsigned int nnz, lowpass_oracle& lowpass) : _nnz(nnz), _lowpass(lowpass) {}
 
     auto operator()(const Arr& r, double& Spsq, bool retry)
         -> std::tuple<ParallelCut, bool, Arr, bool>;
-
 };

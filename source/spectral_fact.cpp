@@ -1,12 +1,12 @@
 #include <cassert>
 #include <complex>
 #include <xtensor-blas/xlinalg.hpp>
-#include <xtensor-fftw/basic.hpp>  // rfft, irfft
-#include <xtensor-fftw/helper.hpp> // rfftscale
+#include <xtensor-fftw/basic.hpp>   // rfft, irfft
+#include <xtensor-fftw/helper.hpp>  // rfftscale
 #include <xtensor/xarray.hpp>
-#include <xtensor/xbuilder.hpp> // xt::arange
+#include <xtensor/xbuilder.hpp>  // xt::arange
 #include <xtensor/xio.hpp>
-#include <xtensor/xmath.hpp> // xt::sin, cos
+#include <xtensor/xmath.hpp>  // xt::sin, cos
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
@@ -28,8 +28,7 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
  *
  * @return auto
  */
-auto spectral_fact(const Arr& r) -> Arr
-{
+auto spectral_fact(const Arr& r) -> Arr {
     // length of the impulse response sequence
     const auto n = r.size();
 
@@ -83,8 +82,7 @@ auto spectral_fact(const Arr& r) -> Arr
     return r;
 }
 
-auto inverse_spectral_fact(const Arr& h) -> Arr
-{
+auto inverse_spectral_fact(const Arr& h) -> Arr {
     auto n = h.size();
     auto r = Arr{xt::zeros<double>({n})};
     for (auto t = 0U; t != n; ++t) {
