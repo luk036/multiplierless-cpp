@@ -50,4 +50,4 @@ jobs:
         run: cmake --build build -j4
 
       - name: run
-        run: ./build/standalone/NetOptim
+        run: ./build/standalone/Multiplierless
