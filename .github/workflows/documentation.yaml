@@ -27,7 +27,7 @@ jobs:
 
       - name: Install project dependencies
         run: |
-          brew install boost fftw
+          brew install boost fftw openblas
 
       - name: Build
         run: |
