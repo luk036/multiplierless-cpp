@@ -39,7 +39,7 @@ jobs:
           conda install -c conda-forge cmake boost=1.74 fftw openblas
 
       - name: configure
-        run: cmake -S. -Bbuild -D_USE_MATH_DEFINES
+        run: cmake -S. -Bbuild -D_USE_MATH_DEFINES=TRUE
 
       - name: build
         run: cmake --build build --config Debug -j4
