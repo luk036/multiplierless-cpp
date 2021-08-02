@@ -1,5 +1,5 @@
-#include <multiplierless/greeter.h>
 #include <fmt/format.h>
+#include <multiplierless/greeter.h>
 
 using namespace multiplierless;
 

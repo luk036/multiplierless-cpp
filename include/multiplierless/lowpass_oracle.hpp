@@ -15,15 +15,14 @@
  *        s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
  * [0, \pi] R(\omega) > 0, \forall \omega \in [0, \pi]
  */
-class lowpass_oracle
-{
+class lowpass_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using ParallelCut = std::tuple<Arr, Arr>;
 
   private:
-    mutable size_t _i_Anr {};
-    mutable size_t _i_As {};
-    mutable size_t _i_Ap {};
+    mutable size_t _i_Anr{};
+    mutable size_t _i_As{};
+    mutable size_t _i_Ap{};
     // mutable unsigned int _count{};
 
     const Arr& _Ap;
@@ -33,6 +32,9 @@ class lowpass_oracle
     double _Upsq;
 
   public:
+    bool retry;
+    bool more_alt{false};
+
     /*!
      * @brief Construct a new lowpass oracle object
      *
@@ -42,15 +44,8 @@ class lowpass_oracle
      * @param[in] Lpsq
      * @param[in] Upsq
      */
-    lowpass_oracle(
-        const Arr& Ap, const Arr& As, const Arr& Anr, double Lpsq, double Upsq)
-        : _Ap {Ap}
-        , _As {As}
-        , _Anr {Anr}
-        , _Lpsq {Lpsq}
-        , _Upsq {Upsq}
-    {
-    }
+    lowpass_oracle(const Arr& Ap, const Arr& As, const Arr& Anr, double Lpsq, double Upsq)
+        : _Ap{Ap}, _As{As}, _Anr{Anr}, _Lpsq{Lpsq}, _Upsq{Upsq} {}
 
     /*!
      * @brief
@@ -59,6 +54,5 @@ class lowpass_oracle
      * @param[in] Spsq
      * @return auto
      */
-    auto operator()(const Arr& x, double& Spsq) const
-        -> std::tuple<ParallelCut, bool>;
+    auto operator()(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool>;
 };
