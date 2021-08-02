@@ -72,12 +72,11 @@ if(FFTW_FOUND)
   include_directories(${FFTW_INCLUDE_DIRS})
 endif(FFTW_FOUND)
 
-find_package(xtensor-fftw REQUIRED)
-if(xtensor-fftw_FOUND)
-  message(STATUS "Found xtensor-fftw: ${xtensor-fftw_INCLUDE_DIRS}")
+CPMAddPackage("gh:xtensor-stack/xtensor-fftw#0.2.5")
+if(xtensor-fftw_ADDED)
+  message(STATUS "Found xtensor-fftw: ${xtensor-fftw_SOURCE_DIR}")
   include_directories(${xtensor-fftw_SOURCE_DIR}/include)
-  # set(LIBS ${LIBS} ${xtensor-blas_LIBRARIES})
-endif(xtensor-fftw_FOUND)
+endif(xtensor-fftw_ADDED)
 
 set(SPECIFIC_LIBS
     EllAlgo::EllAlgo
