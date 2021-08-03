@@ -32,7 +32,7 @@ jobs:
 
       - name: Install project dependencies
         run: |
-          brew install boost fftw openblas
+          brew install fftw openblas
 
       - name: configure
         run: cmake -S. -Bbuild
