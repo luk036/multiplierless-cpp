@@ -62,7 +62,7 @@ if(MSVC)
   # "official" prebuilt long double library can only be used from MinGW
   find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB)
   add_definitions(-DFFTW_NO_LONGDOUBLE)
-  add_compile_definitions(_USE_MATH_DEFINES)
+  # add_compile_definitions(_USE_MATH_DEFINES)
 else()
   find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB LONGDOUBLE_LIB)
 endif(MSVC)

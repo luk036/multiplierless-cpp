@@ -1,5 +1,10 @@
 #include <cassert>
 #include <complex>
+
+#ifndef M_PI
+#    define M_PI 3.14159265358979323846264338327950288
+#endif
+
 #include <xtensor-blas/xlinalg.hpp>
 #include <xtensor-fftw/basic.hpp>   // rfft, irfft
 #include <xtensor-fftw/helper.hpp>  // rfftscale
