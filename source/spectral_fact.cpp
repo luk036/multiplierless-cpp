@@ -12,6 +12,7 @@
 #include <xtensor/xbuilder.hpp>  // xt::arange
 #include <xtensor/xio.hpp>
 #include <xtensor/xmath.hpp>  // xt::sin, cos
+#include <xtensor/xview.hpp>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
@@ -35,12 +36,12 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
  */
 auto spectral_fact(const Arr& r) -> Arr {
     // length of the impulse response sequence
-    const auto n = r.size();
+    const auto n = int(r.shape()[0]);
 
     // over-sampling factor
     const auto mult_factor = 100;  // should have mult_factor*(n) >> n
     const auto m = mult_factor * n;
-    const auto PI = std::acos(-1);
+    // const auto PI = std::acos(-1);
 
     // computation method:
     // H(exp(jTw)) = alpha(w) + j*phi(w)
@@ -48,50 +49,57 @@ auto spectral_fact(const Arr& r) -> Arr {
 
     // compute 1/2*ln(R(w))
     // w = 2*pi*[0:m-1]/m
-    Arr w = xt::linspace<double>(0, 2 * PI, m);
+    Arr w = xt::linspace<double>(0, 2 * M_PI, m);
 
     // R = [ones(m, 1) 2*cos(kron(w', [1:n-1]))]*r
-
     // Arr Bn = xt::linalg::outer(w, xt::arange(1, n));
     // Arr An = 2 * xt::cos(Bn);
     // // Arr R = np.hstack((np.ones((m, 1)), An)).dot(r)
     // Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
-    // Arr R = A.dot(r);
+    auto An = Arr(xt::zeros<double>({m, n - 1}));
+    for (auto i = 0; i != m; ++i) {
+        for (auto j = 0; j != n - 1; ++j) {
+            An(i, j) = 2. * std::cos(w(i) * (j + 1));
+        }
+    }
+    Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
+    Arr R = xt::linalg::dot(A, r); // NOQA
 
-    // auto alpha = 0.5 * xt::log(xt::abs(R));
+    Arr alpha = 0.5 * xt::log(xt::abs(R));
 
-    // // find the Hilbert transform
-    // auto alphatmp = xt::fftw::rfft(alpha);
-    // // alphatmp(floor(m/2)+1: m) = -alphatmp(floor(m/2)+1: m)
-    // auto ind = m / 2;
-    // auto alphatmp[ind:m] = -alphatmp[ind:m];
-    // auto alphatmp[0] = 0;
-    // auto alphatmp[ind] = 0;
+    // find the Hilbert transform
+    auto alphatmp = xt::fftw::rfft(alpha);
+    // alphatmp(floor(m/2)+1: m) = -alphatmp(floor(m/2)+1: m)
+    auto ind = m / 2;
 
-    // // multiply by i*k
-    // std::complex<double> i {0, 1};
-    // // auto k = xt::fftw::rfftscale<double>(sin.shape()[0], dx);
-    // // xt::xarray<std::complex<double>> temp= xt::eval(i * alphatmp);
-    // auto phi = xt::fftw::irfft(xt::eval(i * alphatmp)));
+    //??? alphatmp[ind:m] = -alphatmp[ind:m];
+    xt::view(alphatmp, xt::range(ind, m)) = -xt::view(alphatmp, xt::range(ind, m));
+    alphatmp[0] = 0.;
+    alphatmp[ind] = 0.;
 
-    // // now retrieve the original sampling
-    // // index = find(np.reminder([0:m-1], mult_factor) == 0)
-    // auto index = xt::arange(m, step=mult_factor); // ???
-    // auto alpha1 = alpha[index];
-    // auto phi1 = phi[index];
+    // multiply by i*k
+    const std::complex<double> j_ {0, 1};
+    // auto k = xt::fftw::rfftscale<double>(sin.shape()[0], dx);
+    // xt::xarray<std::complex<double>> temp= xt::eval(i * alphatmp);
+    auto phi = xt::fftw::irfft(xt::eval(j_ * alphatmp));
 
-    // // compute the impulse response (inverse Fourier transform)
-    // Arr h = xt::real(xt::fft::ifft(xt::exp(alpha1 + 1j * phi1), n));
-    // return h;
+    // now retrieve the original sampling
+    // index = find(np.reminder([0:m-1], mult_factor) == 0)
+    // auto index = xt::arange(0, m, mult_factor);
+    auto alpha1 = xt::view(alpha, xt::range(0, m, mult_factor));
+    auto phi1 = xt::view(phi, xt::range(0, m, mult_factor));
 
-    return r;
+    // compute the impulse response (inverse Fourier transform)
+    Arr h = xt::fftw::irfft(xt::eval(xt::exp(alpha1 + j_ * phi1)));
+    return h;
 }
 
 auto inverse_spectral_fact(const Arr& h) -> Arr {
-    auto n = h.size();
+    auto n = h.shape()[0];
     auto r = Arr{xt::zeros<double>({n})};
+    using xt::placeholders::_;
     for (auto t = 0U; t != n; ++t) {
-        // r[t] = xt::sum(h[t:] * h[:n - t])();
+        r(t) = xt::sum(xt::view(h, xt::range(t, _)) * xt::view(h, xt::range(_, n - t)))();
     }
     return r;
 }

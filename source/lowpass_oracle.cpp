@@ -12,6 +12,8 @@ using ParallelCut = std::tuple<Arr, Arr>;
  * @return auto
  */
 auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool> {
+    this->more_alt = true;
+
     // 1. nonnegative-real constraint
     // case 1,
     if (x[0] < 0) {
@@ -49,8 +51,6 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
             return {{std::move(g), std::move(f)}, false};
         }
     }
-
-    this->retry = true;  // ???
 
     // case 3,
     // 3. stopband constraint
@@ -102,6 +102,8 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
             return {{std::move(g), std::move(f)}, false};
         }
     }
+
+    this->more_alt = false;
 
     // Begin objective function
     // Spsq, imax = w.max(), w.argmax(); // update best so far Spsq

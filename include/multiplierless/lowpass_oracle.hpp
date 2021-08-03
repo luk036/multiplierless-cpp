@@ -33,7 +33,7 @@ class lowpass_oracle {
 
   public:
     bool retry;
-    bool more_alt{false};
+    bool more_alt{true};
 
     /*!
      * @brief Construct a new lowpass oracle object
