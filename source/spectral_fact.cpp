@@ -1,4 +1,3 @@
-#define _USE_MATH_DEFINES 1
 #include <cassert>
 #include <complex>
 #include <xtensor-blas/xlinalg.hpp>
