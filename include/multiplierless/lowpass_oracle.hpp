@@ -32,7 +32,7 @@ class lowpass_oracle {
     double _Upsq;
 
   public:
-    bool retry;
+    bool retry{false}; // ???
     bool more_alt{true};
 
     /*!

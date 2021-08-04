@@ -63,7 +63,7 @@ auto spectral_fact(const Arr& r) -> Arr {
         }
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
-    Arr R = xt::linalg::dot(A, r); // NOQA
+    Arr R = xt::linalg::dot(A, r);  // NOQA
 
     Arr alpha = 0.5 * xt::log(xt::abs(R));
 
@@ -78,7 +78,7 @@ auto spectral_fact(const Arr& r) -> Arr {
     alphatmp[ind] = 0.;
 
     // multiply by i*k
-    const std::complex<double> j_ {0, 1};
+    const std::complex<double> j_{0, 1};
     // auto k = xt::fftw::rfftscale<double>(sin.shape()[0], dx);
     // xt::xarray<std::complex<double>> temp= xt::eval(i * alphatmp);
     auto phi = xt::fftw::irfft(xt::eval(j_ * alphatmp));
