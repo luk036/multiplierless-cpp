@@ -41,7 +41,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90 
 
       - name: Install dependencies
-        run: sudo apt-get install libboost-dev libfftw3-dev
+        run: sudo apt-get install libfftw3-dev
 
       - name: configure
         run: cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug

@@ -12,8 +12,12 @@
 // #include <xtensor-blas/xlinalg.hpp>
 #include <xtensor/xview.hpp>
 
+#ifndef M_PI
+#    define M_PI 3.14159265358979323846264338327950288
+#endif
+
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
-static const auto PI = std::acos(-1);
+// static const auto M_PI = std::acos(-1);
 
 // Modified from CVX code by Almir Mutapcic in 2006.
 // Adapted in 2010 for impulse response peak-minimization by convex iteration by
@@ -48,7 +52,7 @@ static const auto PI = std::acos(-1);
 // *********************************************************************
 // number of FIR coefficients (including zeroth)
 struct filter_design_construct {
-    const int N = 32;
+    int N;
     Arr Ap;
     Arr As;
     Arr Anr;
@@ -56,9 +60,9 @@ struct filter_design_construct {
     double Upsq;
     double Spsq;
 
-    filter_design_construct() {
-        const auto wpass = 0.12 * PI;  // end of passband
-        const auto wstop = 0.20 * PI;  // start of stopband
+    filter_design_construct(int argN = 32) : N(argN) {
+        const auto wpass = 0.12 * M_PI;  // end of passband
+        const auto wstop = 0.20 * M_PI;  // start of stopband
         const auto delta0_wpass = 0.125;
         const auto delta0_wstop = 0.125;
         // maximum passband ripple in dB (+/- around 0 dB)
@@ -70,34 +74,34 @@ struct filter_design_construct {
         // optimization parameters
         // *********************************************************************
         // rule-of-thumb discretization (from Cheney's Approximation Theory)
-        const auto m = 15 * N;
-        const auto w = Arr{xt::linspace<double>(0, PI, m)};  // omega
+        const auto m = 15 * this->N;
+        const auto w = Arr{xt::linspace<double>(0, M_PI, m)};  // omega
 
         // passband 0 <= w <= w_pass
         const auto Lp = std::pow(10, -delta / 20);
         const auto Up = std::pow(10, +delta / 20);
 
         // A is the matrix used to compute the power spectrum
-        // A(w,:) = [1 2*cos(w) 2*cos(2*w) ... 2*cos((N-1)*w)]
+        // A(w,:) = [1 2*cos(w) 2*cos(2*w) ... 2*cos((this->N-1)*w)]
 
-        // Arr An = 2 * xt::cos(xt::linalg::outer(w, xt::arange(1, N)));
-        auto An = Arr(xt::zeros<double>({m, N - 1}));
+        // Arr An = 2 * xt::cos(xt::linalg::outer(w, xt::arange(1, this->N)));
+        auto An = Arr(xt::zeros<double>({m, this->N - 1}));
         for (auto i = 0; i != m; ++i) {
-            for (auto j = 0; j != N - 1; ++j) {
+            for (auto j = 0; j != this->N - 1; ++j) {
                 An(i, j) = 2. * std::cos(w(i) * (j + 1));
             }
         }
         Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
 
         const auto ind_p = xt::where(w <= wpass)[0];  // passband
-        Ap = Arr{xt::view(A, xt::range(0, ind_p.size()), xt::all())};
+        this->Ap = Arr{xt::view(A, xt::range(0, ind_p.size()), xt::all())};
 
         // stopband (w_stop <= w)
         auto ind_s = xt::where(wstop <= w)[0];  // stopband
         const auto Sp = std::pow(10, delta2 / 20);
 
         using xt::placeholders::_;
-        As = xt::view(A, xt::range(ind_s[0], _), xt::all());
+        this->As = xt::view(A, xt::range(ind_s[0], _), xt::all());
 
         // remove redundant contraints
         // ind_nr = setdiff(1:m,ind_p)   // fullband less passband
@@ -106,31 +110,39 @@ struct filter_design_construct {
         // auto ind_nr = np.setdiff1d(ind_nr, ind_s);
         auto ind_beg = ind_p[ind_p.size() - 1];
         auto ind_end = ind_s[0];
-        Anr = xt::view(A, xt::range(ind_beg + 1, ind_end), xt::all());
+        this->Anr = xt::view(A, xt::range(ind_beg + 1, ind_end), xt::all());
 
-        Lpsq = Lp * Lp;
-        Upsq = Up * Up;
-        Spsq = Sp * Sp;
+        this->Lpsq = Lp * Lp;
+        this->Upsq = Up * Up;
+        this->Spsq = Sp * Sp;
     }
 };
 
-static filter_design_construct Fdc{};
+// static filter_design_construct Fdc{};
+template <int N = 32>
+auto create_lowpass_case() -> std::tuple<lowpass_oracle, double>
+{
+    static auto Fdc = filter_design_construct(N);
+    auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
+    return {std::move(P), Fdc.Spsq};
+}
 
 // ********************************************************************
 // optimization
 // ********************************************************************
 
 auto run_lowpass(bool use_parallel_cut) {
-    auto r0 = zeros({Fdc.N});  // initial x0
+    constexpr int N = 32;
+
+    auto r0 = zeros({N});  // initial x0
     auto E = ell(40., r0);
-    auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
+    // auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
+    auto [P, t] = create_lowpass_case<N>();
     auto options = Options();
 
     options.max_it = 50000;
     E.use_parallel_cut = use_parallel_cut;
     // options.tol = 1e-8;
-
-    auto t = Fdc.Spsq;
     const auto [r, ell_info] = cutting_plane_dc(P, E, t, options);
     // std::cout << "lowpass r: " << r << '\n';
     // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
