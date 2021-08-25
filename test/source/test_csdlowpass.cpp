@@ -14,11 +14,10 @@
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
-template<int N>
-extern auto create_lowpass_case() -> std::tuple<lowpass_oracle, double>;
+template <int N> extern auto create_lowpass_case() -> std::tuple<lowpass_oracle, double>;
 
-template <int N = 32>
-auto create_csdlowpass_case(int nnz = 8) -> std::tuple<csdlowpass_oracle, double> {
+template <int N = 32> auto create_csdlowpass_case(int nnz = 8)
+    -> std::tuple<csdlowpass_oracle, double> {
     auto [P, Spsq] = create_lowpass_case<N>();
     auto Pcsd = csdlowpass_oracle(nnz, std::move(P));
     return {Pcsd, Spsq};

@@ -119,9 +119,7 @@ struct filter_design_construct {
 };
 
 // static filter_design_construct Fdc{};
-template <int N = 32>
-auto create_lowpass_case() -> std::tuple<lowpass_oracle, double>
-{
+template <int N = 32> auto create_lowpass_case() -> std::tuple<lowpass_oracle, double> {
     static auto Fdc = filter_design_construct(N);
     auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     return {std::move(P), Fdc.Spsq};
