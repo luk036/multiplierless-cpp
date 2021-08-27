@@ -14,13 +14,12 @@
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
-template <int N> extern auto create_lowpass_case() -> std::tuple<lowpass_oracle, double>;
+extern auto create_lowpass_case(int N) -> std::tuple<lowpass_oracle, double>;
 
-template <int N = 32> auto create_csdlowpass_case(int nnz = 8)
-    -> std::tuple<csdlowpass_oracle, double> {
-    auto [P, Spsq] = create_lowpass_case<N>();
+auto create_csdlowpass_case(int N = 32, int nnz = 8) -> std::tuple<csdlowpass_oracle, double> {
+    auto [P, Spsq] = create_lowpass_case(N);
     auto Pcsd = csdlowpass_oracle(nnz, std::move(P));
-    return {Pcsd, Spsq};
+    return {std::move(Pcsd), Spsq};
 }
 
 // ********************************************************************
@@ -34,7 +33,7 @@ auto run_csdlowpass(bool use_parallel_cut) {
     auto r0 = zeros({N});  // initial x0
     auto E = ell(40., r0);
     // auto P = csdlowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
-    auto [P, t] = create_csdlowpass_case<N>(nnz);
+    auto [P, t] = create_csdlowpass_case(N, nnz);
     auto options = Options();
 
     options.max_it = 50000;

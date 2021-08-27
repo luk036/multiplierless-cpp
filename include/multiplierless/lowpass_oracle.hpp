@@ -4,6 +4,54 @@
 // #include <limits>
 #include <xtensor/xarray.hpp>
 
+// static const auto M_PI = std::acos(-1);
+
+// Modified from CVX code by Almir Mutapcic in 2006.
+// Adapted in 2010 for impulse response peak-minimization by convex iteration by
+// Christine Law.
+//
+// "FIR Filter Design via Spectral Factorization and Convex Optimization"
+// by S.-P. Wu, S. Boyd, and L. Vandenberghe
+//
+// Designs an FIR lowpass filter using spectral factorization method with
+// constraint on maximum passband ripple and stopband attenuation:
+//
+//   minimize   max |H(w)|                      for w in stopband
+//       s.t.   1/delta <= |H(w)| <= delta      for w in passband
+//
+// We change variables via spectral factorization method and get:
+//
+//   minimize   max R(w)                          for w in stopband
+//       s.t.   (1/delta)**2 <= R(w) <= delta**2  for w in passband
+//              R(w) >= 0                         for all w
+//
+// where R(w) is squared magnitude frequency response
+// (and Fourier transform of autocorrelation coefficients r).
+// Variables are coeffients r and G = hh' where h is impulse response.
+// delta is allowed passband ripple.
+// This is a convex problem (can be formulated as an SDP after sampling).
+
+// rand('twister',sum(100*clock))
+// randn('state',sum(100*clock))
+
+// *********************************************************************
+// filter specs (for a low-pass filter)
+// *********************************************************************
+// number of FIR coefficients (including zeroth)
+struct filter_design_construct {
+    using Arr = xt::xarray<double, xt::layout_type::row_major>;
+
+    int N;
+    Arr Ap;
+    Arr As;
+    Arr Anr;
+    double Lpsq;
+    double Upsq;
+    double Spsq;
+
+    filter_design_construct(int argN = 32);
+};
+
 // from itertools import chain
 
 /*!
@@ -25,11 +73,12 @@ class lowpass_oracle {
     mutable size_t _i_Ap{};
     // mutable unsigned int _count{};
 
-    const Arr& _Ap;
-    const Arr& _As;
-    const Arr& _Anr;
-    double _Lpsq;
-    double _Upsq;
+    filter_design_construct _Fdc;
+    // const Arr& _Ap;
+    // const Arr& _As;
+    // const Arr& _Anr;
+    // double _Lpsq;
+    // double _Upsq;
 
   public:
     bool retry{false};  // ???
@@ -44,8 +93,7 @@ class lowpass_oracle {
      * @param[in] Lpsq
      * @param[in] Upsq
      */
-    lowpass_oracle(const Arr& Ap, const Arr& As, const Arr& Anr, double Lpsq, double Upsq)
-        : _Ap{Ap}, _As{As}, _Anr{Anr}, _Lpsq{Lpsq}, _Upsq{Upsq} {}
+    lowpass_oracle(filter_design_construct&& Fdc) : _Fdc{std::move(Fdc)} {}
 
     /*!
      * @brief
