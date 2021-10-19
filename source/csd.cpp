@@ -94,7 +94,7 @@ auto to_csdfixed(double num, unsigned int nnz = 4) -> string {
     auto n = an < 1. ? 0 : int(ceil(log2(an * 1.5)));
     auto csd_str = string{an < 1. ? "0" : ""};
     auto limit = pow(2., n) / 3.;
-    while (n > 0 || (nnz > 0 && fabs(num) > 1e-100) {
+    while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
         if (n == 0) {
             csd_str += '.';
         }
