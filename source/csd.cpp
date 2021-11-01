@@ -76,8 +76,7 @@ auto to_decimal(std::string_view csd_str) -> double {
     for (auto c : csd_str) {
         if (c == '.') {
             loc = i + 1;
-        }
-        else {
+        } else {
             num *= 2;
             if (c != '0') {
                 if (c == '+')
