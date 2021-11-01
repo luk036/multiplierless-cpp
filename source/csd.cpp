@@ -1,4 +1,4 @@
-"""
+/**
  Canonical Signed Digit Functions
 
  Handles:
@@ -12,7 +12,7 @@
 
  Harnesser
  License: GPL2
-"""
+*/
 
 #include <cmath>  // ceil, fabs, log
 #include <string>
