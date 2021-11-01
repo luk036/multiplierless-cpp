@@ -1,3 +1,19 @@
+"""
+ Canonical Signed Digit Functions
+
+ Handles:
+  * Decimals
+  *
+  *
+
+ eg, +00-00+000.0 or 0.+0000-00+
+ Where: '+' is +1
+        '-' is -1
+
+ Harnesser
+ License: GPL2
+"""
+
 #include <cmath>  // ceil, fabs, log
 #include <string>
 #include <string_view>
@@ -11,33 +27,38 @@ using std::string;
 /**
  * @brief Convert to CSD (Canonical Signed Digit) string representation
  *
+ * Original author: Harnesser
+ * https://sourceforge.net/projects/pycsd/
+ * License: GPL2
+ *
  * @param num
  * @param places
  * @return string
  */
 auto to_csd(double num, int places = 0) -> string {
-    if (num == 0.) {
+    if (num == 0) {
         return "0";
     }
     auto absnum = fabs(num);
-    auto n = absnum < 1. ? 0 : int(ceil(log2(absnum * 1.5)));
-    auto csd_str = string{absnum < 1. ? "0" : ""};
-    auto limit = pow(2., n) / 3.;
+    auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
+    auto csd_str = string{absnum < 1 ? "0" : ""};
+    auto pow2n = pow(2., n - 1);
     while (n > -places) {
         if (n == 0) {
             csd_str += '.';
         }
         n -= 1;
-        if (num > limit) {
+        auto d = 1.5 * num;
+        if (d > pow2n) {
             csd_str += '+';
-            num -= 1.5 * limit;
-        } else if (num < -limit) {
+            num -= pow2n;
+        } else if (d < -pow2n) {
             csd_str += '-';
-            num += 1.5 * limit;
+            num += pow2n;
         } else {
             csd_str += '0';
         }
-        limit /= 2.;
+        pow2n /= 2.0;
     }
     return csd_str;
 }
@@ -53,28 +74,23 @@ auto to_decimal(std::string_view csd_str) -> double {
     auto loc = 0U;
     auto i = 0U;
     for (auto c : csd_str) {
-        switch (c) {
-            case '0':
-                num *= 2.;
-                break;
-            case '+':
-                num *= 2.;
-                num += 1.;
-                break;
-            case '-':
-                num *= 2.;
-                num -= 1.;
-                break;
-            case '.':
-                loc = i + 1;
-                break;
-            default:
-                break;  // ignore
+        if (c == '.') {
+            loc = i + 1;
+        }
+        else {
+            num *= 2;
+            if (c != '0') {
+                if (c == '+')
+                    num += 1;
+                else if (c == '-')
+                    num -= 1;
+                // else unknown character
+            }
         }
         ++i;
     }
-    if (loc != 0) {
-        num /= std::pow(2, csd_str.size() - loc);
+    if (loc != 0U) {
+        num /= pow(2.0, csd_str.size() - loc);
     }
     return num;
 }
@@ -87,30 +103,31 @@ auto to_decimal(std::string_view csd_str) -> double {
  * @return string
  */
 auto to_csdfixed(double num, unsigned int nnz = 4) -> string {
-    if (num == 0.) {
+    if (num == 0) {
         return "0";
     }
-    auto an = fabs(num);
-    auto n = an < 1. ? 0 : int(ceil(log2(an * 1.5)));
-    auto csd_str = string{an < 1. ? "0" : ""};
-    auto limit = pow(2., n) / 3.;
+    auto absnum = fabs(num);
+    auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
+    auto csd_str = string{absnum < 1 ? "0" : ""};
+    auto pow2n = pow(2., n - 1);
     while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
         if (n == 0) {
             csd_str += '.';
         }
         n -= 1;
-        if (num > limit) {
+        auto d = 1.5 * num;
+        if (d > pow2n) {
             csd_str += '+';
-            num -= 1.5 * limit;
+            num -= pow2n;
             nnz -= 1;
-        } else if (num < -limit) {
+        } else if (d < -pow2n) {
             csd_str += '-';
-            num += 1.5 * limit;
+            num += pow2n;
             nnz -= 1;
         } else {
             csd_str += '0';
         }
-        limit /= 2.;
+        pow2n /= 2.0;
         if (nnz == 0) {
             num = 0;
         }
