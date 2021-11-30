@@ -87,10 +87,5 @@ if(xtensor-fftw_ADDED)
   include_directories(${xtensor-fftw_SOURCE_DIR}/include)
 endif(xtensor-fftw_ADDED)
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo
-    ${OpenBLAS_LIBRARIES}
-    ${LAPACK_LIBRARIES}
-    ${BLAS_LIBRARIES}
-    ${FFTW_LIBRARIES}
-    fmt::fmt)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+                  ${BLAS_LIBRARIES} ${FFTW_LIBRARIES} fmt::fmt)

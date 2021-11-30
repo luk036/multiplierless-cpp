@@ -1,0 +1,7 @@
+name: multiplierless-cpp
+channels:
+  - conda-forge
+dependencies:
+  - cmake
+  - openblas
+  - doxygen

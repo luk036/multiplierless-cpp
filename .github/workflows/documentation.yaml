@@ -20,14 +20,27 @@ jobs:
           path: "**/cpm_modules"
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
+      - name: Add conda to system path
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          echo $CONDA/bin >> $GITHUB_PATH
+
+      - name: Install dependent software
+        run: |
+          conda info
+          conda env update --file document-dev.yml --name base
+
+      - name: Before Install
+        run: |
+          sudo apt-get install g++-10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90 
+
+      - name: Install dependencies
+        run: sudo apt-get install libfftw3-dev
+
       - name: Install dependencies
         run: |
-          brew install doxygen 
           pip3 install jinja2 Pygments
-
-      - name: Install project dependencies
-        run: |
-          brew install fftw openblas
 
       - name: Build
         run: |
