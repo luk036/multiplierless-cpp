@@ -1,5 +1,3 @@
-cpmaddpackage("gh:microsoft/GSL@3.1.0")
-
 cpmaddpackage(
   NAME
   fmt
@@ -9,6 +7,29 @@ cpmaddpackage(
   fmtlib/fmt
   OPTIONS
   "FMT_INSTALL YES" # create an installable target
+)
+
+cpmaddpackage("gh:xtensor-stack/xtl#0.6.23")
+if(xtl_ADDED)
+  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
+  include_directories(${xtl_SOURCE_DIR}/include)
+endif(xtl_ADDED)
+
+cpmaddpackage("gh:xtensor-stack/xtensor#0.22.0")
+if(xtensor_ADDED)
+  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
+  include_directories(${xtensor_SOURCE_DIR}/include)
+endif(xtensor_ADDED)
+
+cpmaddpackage(
+  NAME
+  EllAlgo
+  GIT_TAG
+  1.1
+  GITHUB_REPOSITORY
+  luk036/ellalgo-cpp
+  OPTIONS
+  "INSTALL_ONLY YES" # create an installable target
 )
 
 find_package(OpenBLAS QUIET)
@@ -30,29 +51,6 @@ if(BLAS_FOUND)
   message(STATUS "Found BLAS: ${BLAS_LIBRARIES}")
   include_directories(${BLAS_INCLUDE_DIRS})
 endif(BLAS_FOUND)
-
-cpmaddpackage("gh:xtensor-stack/xtl#0.6.23")
-if(xtl_ADDED)
-  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
-  include_directories(${xtl_SOURCE_DIR}/include)
-endif(xtl_ADDED)
-
-cpmaddpackage("gh:xtensor-stack/xtensor#0.22.0")
-if(xtensor_ADDED)
-  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
-  include_directories(${xtensor_SOURCE_DIR}/include)
-endif(xtensor_ADDED)
-
-cpmaddpackage(
-  NAME
-  EllAlgo
-  GIT_TAG
-  1.0.6
-  GITHUB_REPOSITORY
-  luk036/ellalgo-cpp
-  OPTIONS
-  "INSTALL_ONLY YES" # create an installable target
-)
 
 cpmaddpackage("gh:xtensor-stack/xtensor-blas#0.18.0")
 if(xtensor-blas_ADDED)
@@ -95,5 +93,4 @@ set(SPECIFIC_LIBS
     ${LAPACK_LIBRARIES}
     ${BLAS_LIBRARIES}
     ${FFTW_LIBRARIES}
-    fmt::fmt
-    GSL)
+    fmt::fmt)
