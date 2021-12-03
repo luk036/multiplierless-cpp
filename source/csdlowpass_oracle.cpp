@@ -7,10 +7,10 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using ParallelCut = std::tuple<Arr, Arr>;
 
 extern auto to_csdfixed(double num, unsigned int) -> std::string;
-extern auto to_decimal(std::string_view csd_str) -> double;
+extern auto to_decimal(const std::string& csd_str) -> double;
 
-extern auto to_csdfixed();
-extern auto to_decimal();
+// extern auto to_csdfixed();
+// extern auto to_decimal();
 extern auto inverse_spectral_fact(const Arr& r) -> Arr;
 extern auto spectral_fact(const Arr& r) -> Arr;
 
