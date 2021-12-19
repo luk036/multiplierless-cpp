@@ -20,15 +20,13 @@ auto makeadjoint(const vec2& vr, const vec2& vp) -> mat2 {
 void suppress(const vec2& vA, vec2& vA1, const vec2& vr, const vec2& vrj) {
     auto vp = vr - vrj;
     auto mp = makeadjoint(vrj, vp);  // 2 mul's
-    vA1 -= mp.mdot(vA) / mp.det();  // 6 mul's + 2 div's
-    return;
+    vA1 -= mp.mdot(vA) / mp.det();   // 6 mul's + 2 div's
 }
 
 auto check_newton(const vec2& vA, const vec2& vA1, const vec2& vr) -> vec2 {
-    auto mA1 = makeadjoint(vr, vA1); // 2 mul's
-    return mA1.mdot(vA) / mA1.det(); // 6 mul's + 2 div's
+    auto mA1 = makeadjoint(vr, vA1);  // 2 mul's
+    return mA1.mdot(vA) / mA1.det();  // 6 mul's + 2 div's
 }
-
 
 auto horner_eval(std::vector<double>& pb, size_t n, const double& r) -> double {
     for (auto i = 0U; i != n; ++i) {
@@ -52,11 +50,12 @@ auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
 
     auto N = pa.size() - 1;
     auto M = N / 2;
-    auto c = -pa[1]/(N*pa[0]);
+    auto Nf = double(N);
+    auto c = -pa[1] / (Nf * pa[0]);
     auto pb = pa;
-    auto Pc = horner_eval(pb, N, c); // ???
-    auto re = std::pow(std::abs(Pc), 1./N);
-    auto k = 2 * PI / N;
+    auto Pc = horner_eval(pb, N, c);  // ???
+    auto re = std::pow(std::abs(Pc), 1. / Nf);
+    auto k = 2 * PI / Nf;
     auto m = c * c + re * re;
     auto vr0s = std::vector<vec2>{};
     for (auto i = 1U; i != M + 1; ++i) {
@@ -67,8 +66,9 @@ auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
     return vr0s;
 }
 
-auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs, const Options& options = Options()) -> std::tuple<unsigned int, bool> {
-    auto N = pa.size() - 1; // degree, assume even
+auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
+                    const Options& options = Options()) -> std::tuple<unsigned int, bool> {
+    auto N = pa.size() - 1;  // degree, assume even
     auto M = N / 2;
     auto found = false;
     auto niter = 0U;
@@ -85,17 +85,17 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs, const
             }
             tol = std::max(tol, toli);
             auto vA1 = horner(pb, N - 2, vrs[i]);
-            for (auto j = 0U; j != M; ++j) { // exclude i
+            for (auto j = 0U; j != M; ++j) {  // exclude i
                 if (j == i) {
                     continue;
                 }
                 auto vp = vrs[i] - vrs[j];
                 auto mp = makeadjoint(vrs[j], vp);  // 2 mul's
-                vA1 -= mp.mdot(vA) / mp.det();  // 6 mul's + 2 div's
+                vA1 -= mp.mdot(vA) / mp.det();      // 6 mul's + 2 div's
                 // vA1 = suppress(vA, vA1, vrs[i], vrs[j]);
             }
-            auto mA1 = makeadjoint(vrs[i], vA1); // 2 mul's
-            vrs[i] -= mA1.mdot(vA) / mA1.det(); // Gauss-Seidel fashion
+            auto mA1 = makeadjoint(vrs[i], vA1);  // 2 mul's
+            vrs[i] -= mA1.mdot(vA) / mA1.det();   // Gauss-Seidel fashion
         }
         // fmt::print("tol: {}\n", tol);
         if (tol < options.tol) {
@@ -118,4 +118,3 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs, const
 //     auto x2 = c / x1;
 //     return x1, x2;
 // }
-

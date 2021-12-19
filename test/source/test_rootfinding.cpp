@@ -1,8 +1,9 @@
 // import numpy as np
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>
-#include <multiplierless/rootfinding.hpp>
 #include <fmt/ranges.h>
+
+#include <multiplierless/rootfinding.hpp>
 
 TEST_CASE("test root-finding") {
     // auto vA = vec2{0.1, 1.2};
@@ -29,4 +30,3 @@ TEST_CASE("test root-finding") {
     CHECK(niter == 7);
     // fmt::print([find_rootq(-r[0], -r[1]) for r : vrs]);
 }
-

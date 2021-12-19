@@ -323,4 +323,4 @@ namespace numeric {
             return out;
         }
     };
-}  // namespace numerical
+}  // namespace numeric

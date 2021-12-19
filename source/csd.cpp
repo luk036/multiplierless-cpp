@@ -79,10 +79,11 @@ auto to_decimal(const std::string& csd_str) -> double {
         } else {
             num *= 2;
             if (c != '0') {
-                if (c == '+')
+                if (c == '+') {
                     num += 1;
-                else if (c == '-')
+                } else if (c == '-') {
                     num -= 1;
+                }
                 // else unknown character
             }
         }

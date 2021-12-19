@@ -2,6 +2,7 @@
 
 #include <tuple>    // import std::tie()
 #include <utility>  // import std::move
+
 #include "vector2.hpp"
 
 namespace numeric {
@@ -27,7 +28,6 @@ namespace numeric {
          * @param y
          */
         constexpr matrix2(const T1& x, const T2& y) : vector2<T1, T2>{x, y} {}
-
 
         /** @name Arithmetic operators
          *  definie +, -, *, /, +=, -=, *=, /=, etc.
@@ -177,7 +177,6 @@ namespace numeric {
             return vector2<U1, U2>{this->_x.dot(other), this->_y.dot(other)};
         }
 
-
         /**
          * @brief
          *
@@ -200,11 +199,11 @@ namespace numeric {
          */
         template <typename U1, typename U2>  //
         [[nodiscard]] constexpr auto solve(const vector2<U1, U2>& v) {
-            auto adjoint = matrix2{vector2{this->y().y(), -this->x().y()}, vector2{-this->y().x(), this->x().x()}};
+            auto adjoint = matrix2{vector2{this->y().y(), -this->x().y()},
+                                   vector2{-this->y().x(), this->x().x()}};
             return adjoint.mdot(v) / this->det();
         }
 
         ///@}
-
     };
 }  // namespace numeric

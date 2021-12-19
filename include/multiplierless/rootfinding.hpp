@@ -3,6 +3,7 @@
 // import numpy as np
 #include <tuple>
 #include <vector>
+
 #include "matrix2.hpp"
 #include "vector2.hpp"
 
@@ -23,4 +24,5 @@ class Options {
 };
 
 extern auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2>;
-extern auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs, const Options& options) -> std::tuple<unsigned int, bool>;
+extern auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
+                           const Options& options) -> std::tuple<unsigned int, bool>;
