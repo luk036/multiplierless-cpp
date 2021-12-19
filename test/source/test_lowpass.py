@@ -4,7 +4,6 @@ from __future__ import print_function
 import time
 
 import numpy as np
-
 from ellpy.cutting_plane import Options, cutting_plane_dc, cutting_plane_q
 from ellpy.ell import ell
 from ellpy.oracles.csdlowpass_oracle import csdlowpass_oracle
@@ -80,13 +79,13 @@ def create_lowpass_case(N=48):
 
     # passband 0 <= w <= w_pass
     ind_p = np.where(w <= wpass)[0]  # passband
-    Lp = 10**(-delta / 20)
-    Up = 10**(+delta / 20)
+    Lp = 10 ** (-delta / 20)
+    Up = 10 ** (+delta / 20)
     Ap = A[ind_p, :]
 
     # stopband (w_stop <= w)
     ind_s = np.where(wstop <= w)[0]  # stopband
-    Sp = 10**(delta2 / 20)
+    Sp = 10 ** (delta2 / 20)
     As = A[ind_s, :]
 
     # remove redundant contraints
@@ -99,9 +98,9 @@ def create_lowpass_case(N=48):
     ind_end = ind_s[0]
     Anr = A[range(ind_beg + 1, ind_end), :]
 
-    Lpsq = Lp**2
-    Upsq = Up**2
-    Spsq = Sp**2
+    Lpsq = Lp ** 2
+    Upsq = Up ** 2
+    Spsq = Sp ** 2
 
     P = lowpass_oracle(Ap, As, Anr, Lpsq, Upsq)
     return P, Spsq
@@ -138,7 +137,7 @@ def run_lowpass(use_parallel_cut, duration=0.000001):
 
     r0 = np.zeros(N)  # initial x0
     r0[0] = 0
-    E = ell(4., r0)
+    E = ell(4.0, r0)
     E.use_parallel_cut = use_parallel_cut
     P, Spsq = create_lowpass_case(N)
     options = Options()
@@ -162,8 +161,7 @@ def run_lowpass(use_parallel_cut, duration=0.000001):
 
 
 def test_lowpass():
-    """[summary]
-    """
+    """[summary]"""
     result, feasible = run_lowpass(True)
     assert feasible
     assert result >= 1089
@@ -187,7 +185,7 @@ def run_csdlowpass(use_parallel_cut, duration=0.000001):
 
     r0 = np.zeros(N)  # initial x0
     r0[0] = 0
-    E = ell(4., r0)
+    E = ell(4.0, r0)
     E.use_parallel_cut = use_parallel_cut
     Pcsd, Spsq = create_csdlowpass_case(N, nnz)
     options = Options()
@@ -201,8 +199,7 @@ def run_csdlowpass(use_parallel_cut, duration=0.000001):
 
 
 def test_csdlowpass():
-    """[summary]
-    """
+    """[summary]"""
     result, feasible = run_csdlowpass(True)
     assert feasible
     assert result >= 1000
