@@ -1,3 +1,6 @@
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 cpmaddpackage(
   NAME
   fmt
@@ -88,4 +91,5 @@ if(xtensor-fftw_ADDED)
 endif(xtensor-fftw_ADDED)
 
 set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-                  ${BLAS_LIBRARIES} ${FFTW_LIBRARIES} fmt::fmt)
+                  ${BLAS_LIBRARIES} ${FFTW_LIBRARIES} Threads::Threads
+                  fmt::fmt)

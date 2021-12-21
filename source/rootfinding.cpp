@@ -1,4 +1,5 @@
-// import numpy as np
+#include <ThreadPool.h>
+
 #include <cmath>  // import pow, cos, sqrt
 #include <multiplierless/rootfinding.hpp>
 
@@ -66,6 +67,14 @@ auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
     return vr0s;
 }
 
+/**
+ * @brief Multi-threading Bairstow's method (even degree only)
+ *
+ * @param pa polynomial
+ * @param vrs vector of iterates
+ * @param options maximum iterations and tolorance
+ * @return std::tuple<unsigned int, bool>
+ */
 auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
                     const Options& options = Options()) -> std::tuple<unsigned int, bool> {
     auto N = pa.size() - 1;  // degree, assume even
@@ -73,29 +82,42 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
     auto found = false;
     auto converged = std::vector<bool>(M, false);
     auto niter = 0U;
+    ThreadPool pool(std::thread::hardware_concurrency());
+
     for (; niter != options.max_iter; ++niter) {
-        auto tol = 0.;
+        auto tol = 0.0;
+        std::vector<std::future<double>> results;
+
         for (auto i = 0U; i != M && !converged[i]; ++i) {
-            auto pb = pa;
-            // auto n = pa.size() - 1;
-            auto vA = horner(pb, N, vrs[i]);
-            const auto& [A, B] = vA;
-            auto toli = std::abs(A) + std::abs(B);
-            if (toli < options.tol) {
-                converged[i] = true;
-                continue;
-            }
-            tol = std::max(tol, toli);
-            auto vA1 = horner(pb, N - 2, vrs[i]);
-            for (auto j = 0U; j != M && j != i; ++j) {  // exclude i
-                auto vp = vrs[i] - vrs[j];
-                auto mp = makeadjoint(vrs[j], vp);  // 2 mul's
-                vA1 -= mp.mdot(vA) / mp.det();      // 6 mul's + 2 div's
-                // vA1 = suppress(vA, vA1, vrs[i], vrs[j]);
-            }
-            auto mA1 = makeadjoint(vrs[i], vA1);  // 2 mul's
-            vrs[i] -= mA1.mdot(vA) / mA1.det();   // Gauss-Seidel fashion
+            results.emplace_back(pool.enqueue([&, i]() {
+                auto pb = pa;
+                // auto n = pa.size() - 1;
+                auto vA = horner(pb, N, vrs[i]);
+                const auto& [A, B] = vA;
+                auto toli = std::abs(A) + std::abs(B);
+                if (toli < options.tol) {
+                    converged[i] = true;
+                    // continue;
+                    return toli;
+                }
+                // tol = std::max(tol, toli);
+                auto vA1 = horner(pb, N - 2, vrs[i]);
+                for (auto j = 0U; j != M && j != i; ++j) {  // exclude i
+                    auto vrj = vrs[j];
+                    auto vp = vrs[i] - vrj;
+                    auto mp = makeadjoint(vrj, vp);  // 2 mul's
+                    vA1 -= mp.mdot(vA) / mp.det();   // 6 mul's + 2 div's
+                    // vA1 = suppress(vA, vA1, vrs[i], vrs[j]);
+                }
+                auto mA1 = makeadjoint(vrs[i], vA1);  // 2 mul's
+                vrs[i] -= mA1.mdot(vA) / mA1.det();   // Gauss-Seidel fashion
+                return toli;
+            }));
         }
+        for (auto&& result : results) {
+            tol = std::max(tol, result.get());
+        }
+
         // fmt::print("tol: {}\n", tol);
         if (tol < options.tol) {
             found = true;
