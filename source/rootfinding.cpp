@@ -71,24 +71,23 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
     auto N = pa.size() - 1;  // degree, assume even
     auto M = N / 2;
     auto found = false;
+    auto converged = std::vector<bool>(M, false);
     auto niter = 0U;
     for (; niter != options.max_iter; ++niter) {
         auto tol = 0.;
-        for (auto i = 0U; i != M; ++i) {
+        for (auto i = 0U; i != M && !converged[i]; ++i) {
             auto pb = pa;
             // auto n = pa.size() - 1;
             auto vA = horner(pb, N, vrs[i]);
             const auto& [A, B] = vA;
             auto toli = std::abs(A) + std::abs(B);
             if (toli < options.tol) {
+		converged[i] = true;
                 continue;
             }
             tol = std::max(tol, toli);
             auto vA1 = horner(pb, N - 2, vrs[i]);
-            for (auto j = 0U; j != M; ++j) {  // exclude i
-                if (j == i) {
-                    continue;
-                }
+            for (auto j = 0U; j != M && j != i; ++j) {  // exclude i
                 auto vp = vrs[i] - vrs[j];
                 auto mp = makeadjoint(vrs[j], vp);  // 2 mul's
                 vA1 -= mp.mdot(vA) / mp.det();      // 6 mul's + 2 div's

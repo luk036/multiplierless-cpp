@@ -20,7 +20,7 @@ extern auto horner(std::vector<double>& pb, std::size_t n, const vec2& vr) -> ve
 class Options {
   public:
     unsigned int max_iter = 2000U;
-    double tol = 1e-8;
+    double tol = 1e-14;
 };
 
 extern auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2>;
