@@ -82,7 +82,7 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
             const auto& [A, B] = vA;
             auto toli = std::abs(A) + std::abs(B);
             if (toli < options.tol) {
-		converged[i] = true;
+                converged[i] = true;
                 continue;
             }
             tol = std::max(tol, toli);
