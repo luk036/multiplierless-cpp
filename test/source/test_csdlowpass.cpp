@@ -1,16 +1,15 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <ellalgo/cut_config.hpp>                // for Options
+#include <ellalgo/cutting_plane.hpp>             // for cutting_plane_q
+#include <ellalgo/ell.hpp>                       // for ell
+#include <ellalgo/utility.hpp>                   // for zeros
+#include <multiplierless/csdlowpass_oracle.hpp>  // for csdlowpass_oracle
+#include <tuple>                                 // for make_tuple, tuple
+#include <type_traits>                           // for move, add_const<>::type
+#include <xtensor/xlayout.hpp>                   // for layout_type, layout_...
+#include <xtensor/xtensor_forward.hpp>           // for xarray
 
-#include <cmath>
-#include <complex>
-#include <ellalgo/cutting_plane.hpp>
-#include <ellalgo/ell.hpp>
-#include <ellalgo/utility.hpp>
-#include <limits>
-#include <multiplierless/csdlowpass_oracle.hpp>
-#include <tuple>
-// #include <xtensor-blas/xlinalg.hpp>
-#include <xtensor/xview.hpp>
+class lowpass_oracle;
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 

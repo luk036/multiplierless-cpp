@@ -1,11 +1,13 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <ellalgo/cutting_plane.hpp>
-#include <ellalgo/ell.hpp>
-#include <ellalgo/utility.hpp>
-#include <multiplierless/lowpass_oracle.hpp>
-#include <tuple>
+#include <ellalgo/cut_config.hpp>             // for Options
+#include <ellalgo/cutting_plane.hpp>          // for cutting_plane_dc
+#include <ellalgo/ell.hpp>                    // for ell
+#include <ellalgo/utility.hpp>                // for zeros
+#include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
+#include <tuple>                              // for make_tuple, tuple
+#include <type_traits>                        // for move, add_const<>::type
 // #include <xtensor-blas/xlinalg.hpp>
 
 // static filter_design_construct Fdc{};

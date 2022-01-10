@@ -1,7 +1,25 @@
-#include <cmath>
-#include <complex>
-#include <multiplierless/lowpass_oracle.hpp>
-#include <xtensor/xview.hpp>
+#include <stddef.h>  // for size_t
+
+#include <cmath>                              // for pow, log10, M_PI, cos
+#include <multiplierless/lowpass_oracle.hpp>  // for lowpass_oracle, filter_...
+#include <tuple>                              // for tuple
+#include <type_traits>                        // for move
+#include <vector>                             // for vector, vector<>::size_...
+#include <xtensor/xaccessible.hpp>            // for xconst_accessible, xacc...
+#include <xtensor/xarray.hpp>                 // for xarray_container
+#include <xtensor/xbroadcast.hpp>             // for xbroadcast
+#include <xtensor/xbuilder.hpp>               // for zeros, concatenate, lin...
+#include <xtensor/xcontainer.hpp>             // for xcontainer<>::inner_sha...
+#include <xtensor/xexception.hpp>             // for throw_concatenate_error
+#include <xtensor/xgenerator.hpp>             // for xgenerator
+#include <xtensor/xlayout.hpp>                // for layout_type, layout_typ...
+#include <xtensor/xmath.hpp>                  // for sum
+#include <xtensor/xoperation.hpp>             // for xfunction_type_t, opera...
+#include <xtensor/xreducer.hpp>               // for xreducer
+#include <xtensor/xslice.hpp>                 // for all, range, xtuph, _
+#include <xtensor/xtensor_forward.hpp>        // for xarray
+#include <xtensor/xutils.hpp>                 // for accumulate
+#include <xtensor/xview.hpp>                  // for xview, view
 // #include <limits>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;

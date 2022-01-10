@@ -1,9 +1,12 @@
 // import numpy as np
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
-#include <fmt/ranges.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK, TEST...
+#include <fmt/format.h>       // for print
 
-#include <multiplierless/rootfinding.hpp>
+#include <multiplierless/rootfinding.hpp>  // for horner, initial_guess, pba...
+#include <vector>                          // for vector
+
+#include "multiplierless/vector2.hpp"  // for vector2
 
 TEST_CASE("test root-finding") {
     // auto vA = vec2{0.1, 1.2};

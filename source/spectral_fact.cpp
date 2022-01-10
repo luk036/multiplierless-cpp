@@ -1,18 +1,30 @@
-#include <cassert>
-#include <complex>
+#include <cmath>    // for cos, M_PI
+#include <complex>  // for complex, operator*, operator-
+#include <tuple>    // for tuple
 
 #ifndef M_PI
 #    define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#include <xtensor-blas/xlinalg.hpp>
-#include <xtensor-fftw/basic.hpp>   // rfft, irfft
-#include <xtensor-fftw/helper.hpp>  // rfftscale
-#include <xtensor/xarray.hpp>
-#include <xtensor/xbuilder.hpp>  // xt::arange
-#include <xtensor/xio.hpp>
-#include <xtensor/xmath.hpp>  // xt::sin, cos
-#include <xtensor/xview.hpp>
+#include <xtensor-blas/xlinalg.hpp>  // for dot
+#include <xtensor-fftw/basic.hpp>    // for irfft, rfft
+#include <xtensor/xaccessible.hpp>   // for xaccessible
+#include <xtensor/xarray.hpp>        // for xarray_container
+#include <xtensor/xbroadcast.hpp>    // for xbroadcast
+#include <xtensor/xbuilder.hpp>      // for zeros, concatenate, linspace
+#include <xtensor/xcontainer.hpp>    // for xcontainer, xcontainer<>::...
+#include <xtensor/xeval.hpp>         // for eval
+#include <xtensor/xexception.hpp>    // for throw_concatenate_error
+#include <xtensor/xfunction.hpp>     // for xfunction
+#include <xtensor/xgenerator.hpp>    // for xgenerator
+#include <xtensor/xiterator.hpp>     // for linear_begin
+#include <xtensor/xlayout.hpp>       // for layout_type, layout_type::...
+#include <xtensor/xmath.hpp>         // for abs, exp, log, sum, abs_fun
+#include <xtensor/xoperation.hpp>    // for xfunction_type_t, operator*
+#include <xtensor/xreducer.hpp>      // for xreducer
+#include <xtensor/xslice.hpp>        // for range, xtuph, _
+#include <xtensor/xutils.hpp>        // for accumulate
+#include <xtensor/xview.hpp>         // for xview, view
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 

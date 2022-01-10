@@ -1,7 +1,18 @@
-#include <ThreadPool.h>
+#include <ThreadPool.h>  // for ThreadPool
+#include <stddef.h>      // for size_t
 
-#include <cmath>  // import pow, cos, sqrt
-#include <multiplierless/rootfinding.hpp>
+// #include <__bit_reference>                 // for __bit_reference
+#include <algorithm>                       // for max
+#include <cmath>                           // for abs, acos, cos, pow
+#include <functional>                      // for __base
+#include <future>                          // for future
+#include <multiplierless/rootfinding.hpp>  // for vec2, Options, mat2, check...
+#include <thread>                          // for thread
+#include <tuple>                           // for tuple
+#include <vector>                          // for vector, vector<>::reference
+
+#include "multiplierless/matrix2.hpp"  // for matrix2
+#include "multiplierless/vector2.hpp"  // for vector2, operator/, operator-
 
 // using vec2 = numeric::vector2<double>;
 // using mat2 = numeric::matrix2<vec2>;

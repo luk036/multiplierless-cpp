@@ -1,5 +1,8 @@
-#include <fmt/format.h>
-#include <multiplierless/greeter.h>
+#include <multiplierless/greeter.h>  // for Multiplierless, multiplierless
+
+#include <iosfwd>       // for string
+#include <string>       // for basic_string
+#include <type_traits>  // for move
 
 using namespace multiplierless;
 
