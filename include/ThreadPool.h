@@ -1,6 +1,8 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
+#define _SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING
+
 #include <condition_variable>
 #include <functional>
 #include <future>
