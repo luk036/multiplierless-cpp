@@ -4,7 +4,6 @@
 #include <ellalgo/cut_config.hpp>             // for Options
 #include <ellalgo/cutting_plane.hpp>          // for cutting_plane_dc
 #include <ellalgo/ell.hpp>                    // for ell
-#include <ellalgo/utility.hpp>                // for zeros
 #include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
 #include <tuple>                              // for make_tuple, tuple
 #include <type_traits>                        // for move, add_const<>::type
@@ -25,7 +24,7 @@ auto create_lowpass_case(int N = 32) -> std::tuple<lowpass_oracle, double> {
 auto run_lowpass(bool use_parallel_cut) {
     constexpr int N = 32;
 
-    auto r0 = zeros({N});  // initial x0
+    auto r0 = xt::zeros<double>({N});  // initial x0
     auto E = ell(40., r0);
     // auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     auto [P, t] = create_lowpass_case(N);
