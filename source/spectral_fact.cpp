@@ -71,7 +71,7 @@ auto spectral_fact(const Arr& r) -> Arr {
     auto An = Arr(xt::zeros<double>({m, n - 1}));
     for (auto i = 0; i != m; ++i) {
         for (auto j = 0; j != n - 1; ++j) {
-            An(i, j) = 2. * std::cos(w(i) * (j + 1));
+            An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
         }
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);

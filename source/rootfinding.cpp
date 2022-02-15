@@ -59,7 +59,7 @@ auto horner(std::vector<double>& pb, size_t n, const vec2& vr) -> vec2 {
 }
 
 auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
-    static const auto PI = std::acos(-1.);
+    static const auto PI = std::acos(-1.0);
 
     auto N = pa.size() - 1;
     auto M = N / 2;
@@ -67,7 +67,7 @@ auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
     auto c = -pa[1] / (Nf * pa[0]);
     auto pb = pa;
     auto Pc = horner_eval(pb, N, c);  // ???
-    auto re = std::pow(std::abs(Pc), 1. / Nf);
+    auto re = std::pow(std::abs(Pc), 1.0 / Nf);
     auto k = 2 * PI / Nf;
     auto m = c * c + re * re;
     auto vr0s = std::vector<vec2>{};
@@ -142,11 +142,11 @@ auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
 // auto find_rootq(const vec2& r) {
 //     auto hb = b / 2.;
 //     auto d = hb * hb - c;
-//     if (d < 0.) {
-//         auto x1 = -hb + (sqrt(-d) if (hb < 0. else -sqrt(-d))*1j;
+//     if (d < 0.0) {
+//         auto x1 = -hb + (sqrt(-d) if (hb < 0.0 else -sqrt(-d))*1j;
 //     }
 //     else {
-//         auto x1 = -hb + (sqrt(d) if (hb < 0. else -sqrt(d));
+//         auto x1 = -hb + (sqrt(d) if (hb < 0.0 else -sqrt(d));
 //     }
 //     auto x2 = c / x1;
 //     return x1, x2;

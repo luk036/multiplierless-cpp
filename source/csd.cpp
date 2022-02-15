@@ -43,7 +43,7 @@ auto to_csd(double num, int places = 0) -> string {
     auto absnum = fabs(num);
     auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
     auto csd_str = string{absnum < 1 ? "0" : ""};
-    auto pow2n = pow(2., n - 1);
+    auto pow2n = pow(2.0, n - 1);
     while (n > -places) {
         if (n == 0) {
             csd_str += '.';
@@ -110,7 +110,7 @@ auto to_csdfixed(double num, unsigned int nnz = 4) -> string {
     auto absnum = fabs(num);
     auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
     auto csd_str = string{absnum < 1 ? "0" : ""};
-    auto pow2n = pow(2., n - 1);
+    auto pow2n = pow(2.0, n - 1);
     while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
         if (n == 0) {
             csd_str += '.';

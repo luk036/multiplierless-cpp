@@ -25,7 +25,7 @@ auto run_lowpass(bool use_parallel_cut) {
     constexpr int N = 32;
 
     auto r0 = xt::zeros<double>({N});  // initial x0
-    auto E = ell(40., r0);
+    auto E = ell(40.0, r0);
     // auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     auto [P, t] = create_lowpass_case(N);
     auto options = Options();
@@ -37,7 +37,7 @@ auto run_lowpass(bool use_parallel_cut) {
     // std::cout << "lowpass r: " << r << '\n';
     // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
     // std::cout << "Min attenuation in the stopband is " << Ustop << " dB.\n";
-    // CHECK(r[0] >= 0.);
+    // CHECK(r[0] >= 0.0);
     return std::make_tuple(ell_info.feasible, ell_info.num_iters);
 }
 

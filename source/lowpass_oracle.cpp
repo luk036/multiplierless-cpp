@@ -53,7 +53,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     auto An = Arr(xt::zeros<double>({m, this->N - 1}));
     for (auto i = 0; i != m; ++i) {
         for (auto j = 0; j != this->N - 1; ++j) {
-            An(i, j) = 2. * std::cos(w(i) * (j + 1));
+            An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
         }
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
@@ -87,7 +87,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
 auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool> {
     this->more_alt = true;
 
-    // 1. nonnegative-real constraint
+    // 1.0 nonnegative-real constraint
     // case 1,
     if (x[0] < 0) {
         auto g = Arr{xt::zeros<double>(x.shape())};
@@ -97,7 +97,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
     }
 
     // case 2,
-    // 2. passband constraints
+    // 2.0 passband constraints
     auto N = this->_Fdc.Ap.shape()[0];
     // for (k in chain(range(i_As, N), range(i_As))) {
 
@@ -126,7 +126,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
     }
 
     // case 3,
-    // 3. stopband constraint
+    // 3.0 stopband constraint
     N = this->_Fdc.As.shape()[0];
     // Arr w = xt::zeros<double>({N});
     auto fmax = -1.e100;  // std::numeric_limits<double>::min()
@@ -160,7 +160,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
     }
 
     // case 4,
-    // 1. nonnegative-real constraint
+    // 1.0 nonnegative-real constraint
     N = this->_Fdc.Anr.shape()[0];
     k = this->_i_Anr;
     for (auto i = 0U; i != N; ++i, ++k) {
@@ -168,7 +168,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
             k = 0;  // round robin
         }
         auto v = xt::sum(xt::view(this->_Fdc.Anr, k, xt::all()) * x)();
-        if (v < 0.) {
+        if (v < 0.0) {
             Arr f{-v};
             Arr g = -xt::view(this->_Fdc.Anr, k, xt::all());
             this->_i_Anr = k + 1;
@@ -181,7 +181,7 @@ auto lowpass_oracle::operator()(const Arr& x, double& Spsq) -> std::tuple<Parall
     // Begin objective function
     // Spsq, imax = w.max(), w.argmax(); // update best so far Spsq
     Spsq = fmax;
-    Arr f{0., fmax};  // ???
+    Arr f{0.0, fmax};  // ???
     // f = 0
     Arr g = xt::view(this->_Fdc.As, imax, xt::all());
     return {{std::move(g), std::move(f)}, true};

@@ -15,7 +15,7 @@ TEST_CASE("test root-finding") {
     // auto vrj = vec2{6.7, 7.8};
     // auto vA1 = suppress(vA, vA1, vr, vrj);
     // fmt::print(check_newton(vA, vA1, vr));
-    auto h = std::vector<double>{5., 2., 9., 6., 2.};
+    auto h = std::vector<double>{5.0, 2.0, 9.0, 6.0, 2.0};
     auto vrs = initial_guess(h);
     // fmt::print(vrs);
     fmt::print("vrs[1]: {}, {}\n", vrs[1].x(), vrs[1].y());
