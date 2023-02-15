@@ -35,7 +35,7 @@ auto run_csdlowpass(bool use_parallel_cut) {
     auto options = Options();
 
     options.max_it = 50000;
-    E.use_parallel_cut = use_parallel_cut;
+    E.set_use_parallel_cut(use_parallel_cut);
     // options.tol = 1e-8;
 
     // auto t = Fdc.Spsq;

@@ -13,22 +13,22 @@ jobs:
     name: Build and publish documentation
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: "**/cpm_modules"
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
-      - name: Add conda to system path
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          echo $CONDA/bin >> $GITHUB_PATH
-
-      - name: Install dependent software
-        run: |
-          conda info
-          conda env update --file document-dev.yml --name base
+      # - name: Add conda to system path
+      #   run: |
+      #     # $CONDA is an environment variable pointing to the root of the miniconda directory
+      #     echo $CONDA/bin >> $GITHUB_PATH
+      #
+      # - name: Install dependent software
+      #   run: |
+      #     conda info
+      #     conda env update --file document-dev.yml --name base
 
       - name: Before Install
         run: |
@@ -36,10 +36,11 @@ jobs:
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90
 
       - name: Install dependencies
-        run: sudo apt-get install libfftw3-dev
+        run: sudo apt-get install libopenblas-dev libfftw3-dev
 
       - name: Install dependencies
         run: |
+          sudo apt-get install doxygen
           pip3 install jinja2 Pygments
 
       - name: Build

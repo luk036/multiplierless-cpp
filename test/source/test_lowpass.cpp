@@ -31,7 +31,7 @@ auto run_lowpass(bool use_parallel_cut) {
     auto options = Options();
 
     options.max_it = 50000;
-    E.use_parallel_cut = use_parallel_cut;
+    E.set_use_parallel_cut(use_parallel_cut);
     // options.tol = 1e-8;
     const auto [r, ell_info] = cutting_plane_dc(P, E, t, options);
     // std::cout << "lowpass r: " << r << '\n';

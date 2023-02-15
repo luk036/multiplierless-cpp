@@ -28,7 +28,7 @@ cpmaddpackage(
   NAME
   EllAlgo
   GIT_TAG
-  1.1
+  1.2
   GITHUB_REPOSITORY
   luk036/ellalgo-cpp
   OPTIONS
