@@ -1,35 +1,30 @@
 # * Find the FFTW library
 #
-# Original version of this file: Copyright (c) 2015, Wenzel Jakob (under BSD
-# 2-clause license, see LICENSE.txt file in this directory)
+# Original version of this file: Copyright (c) 2015, Wenzel Jakob (under BSD 2-clause license, see
+# LICENSE.txt file in this directory)
 # https://github.com/wjakob/layerlab/blob/master/cmake/FindFFTW.cmake, commit
-# 4d58bfdc28891b4f9373dfe46239dda5a0b561c6 Modifications: Copyright (c) 2017,
-# Patrick Bos (under BSD 3-clause license, see LICENSE file distributed with
-# this software)
+# 4d58bfdc28891b4f9373dfe46239dda5a0b561c6 Modifications: Copyright (c) 2017, Patrick Bos (under BSD
+# 3-clause license, see LICENSE file distributed with this software)
 #
-# Usage: find_package(FFTW [REQUIRED] [QUIET] [COMPONENTS component1 ...
-# componentX] )
+# Usage: find_package(FFTW [REQUIRED] [QUIET] [COMPONENTS component1 ... componentX] )
 #
-# It sets the following variables: FFTW_FOUND                  ... true if fftw
-# is found on the system FFTW_[component]_LIB_FOUND  ... true if the component
-# is found on the system (see components below) FFTW_LIBRARIES              ...
-# full paths to all found fftw libraries FFTW_[component]_LIB        ... full
-# path to one of the components (see below) FFTW_INCLUDE_DIRS ... fftw include
-# directory paths
+# It sets the following variables: FFTW_FOUND                  ... true if fftw is found on the
+# system FFTW_[component]_LIB_FOUND  ... true if the component is found on the system (see
+# components below) FFTW_LIBRARIES              ... full paths to all found fftw libraries
+# FFTW_[component]_LIB        ... full path to one of the components (see below) FFTW_INCLUDE_DIRS
+# ... fftw include directory paths
 #
-# The following variables will be checked by the function FFTW_USE_STATIC_LIBS
-# ... if true, only static libraries are found, otherwise both static and
-# shared. FFTW_ROOT                   ... if set, the libraries are exclusively
-# searched under this path
+# The following variables will be checked by the function FFTW_USE_STATIC_LIBS ... if true, only
+# static libraries are found, otherwise both static and shared. FFTW_ROOT                   ... if
+# set, the libraries are exclusively searched under this path
 #
-# This package supports the following components: FLOAT_LIB DOUBLE_LIB
-# LONGDOUBLE_LIB FLOAT_THREADS_LIB DOUBLE_THREADS_LIB LONGDOUBLE_THREADS_LIB
-# FLOAT_OPENMP_LIB DOUBLE_OPENMP_LIB LONGDOUBLE_OPENMP_LIB
+# This package supports the following components: FLOAT_LIB DOUBLE_LIB LONGDOUBLE_LIB
+# FLOAT_THREADS_LIB DOUBLE_THREADS_LIB LONGDOUBLE_THREADS_LIB FLOAT_OPENMP_LIB DOUBLE_OPENMP_LIB
+# LONGDOUBLE_OPENMP_LIB
 #
 
-# TODO (maybe): extend with ExternalProject download + build option TODO: turn
-# into independent project on github (perhaps also on conda so it can be used as
-# dependency for xtensor-fftw)
+# TODO (maybe): extend with ExternalProject download + build option TODO: turn into independent
+# project on github (perhaps also on conda so it can be used as dependency for xtensor-fftw)
 
 # If environment variable FFTWDIR is specified, it has same effect as FFTW_ROOT
 if(NOT FFTW_ROOT AND ENV{FFTWDIR})
@@ -61,63 +56,72 @@ if(FFTW_ROOT)
     NAMES "fftw3" libfftw3-3
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_DOUBLE_THREADS_LIB
     NAMES "fftw3_threads"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_DOUBLE_OPENMP_LIB
     NAMES "fftw3_omp"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_FLOAT_LIB
     NAMES "fftw3f" libfftw3f-3
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_FLOAT_THREADS_LIB
     NAMES "fftw3f_threads"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_FLOAT_OPENMP_LIB
     NAMES "fftw3f_omp"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_LONGDOUBLE_LIB
     NAMES "fftw3l" libfftw3l-3
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_LONGDOUBLE_THREADS_LIB
     NAMES "fftw3l_threads"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   find_library(
     FFTW_LONGDOUBLE_OPENMP_LIB
     NAMES "fftw3l_omp"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
   # find includes
   find_path(
@@ -125,59 +129,70 @@ if(FFTW_ROOT)
     NAMES "fftw3.h"
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "include"
-    NO_DEFAULT_PATH)
+    NO_DEFAULT_PATH
+  )
 
 else()
 
   find_library(
     FFTW_DOUBLE_LIB
     NAMES "fftw3"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_DOUBLE_THREADS_LIB
     NAMES "fftw3_threads"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_DOUBLE_OPENMP_LIB
     NAMES "fftw3_omp"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_FLOAT_LIB
     NAMES "fftw3f"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_FLOAT_THREADS_LIB
     NAMES "fftw3f_threads"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_FLOAT_OPENMP_LIB
     NAMES "fftw3f_omp"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_LONGDOUBLE_LIB
     NAMES "fftw3l"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_LONGDOUBLE_THREADS_LIB
     NAMES "fftw3l_threads"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_library(
     FFTW_LONGDOUBLE_OPENMP_LIB
     NAMES "fftw3l_omp"
-    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR})
+    PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+  )
 
   find_path(
     FFTW_INCLUDE_DIRS
     NAMES "fftw3.h"
-    PATHS ${PKG_FFTW_INCLUDE_DIRS} ${INCLUDE_INSTALL_DIR})
+    PATHS ${PKG_FFTW_INCLUDE_DIRS} ${INCLUDE_INSTALL_DIR}
+  )
 
 endif(FFTW_ROOT)
 
@@ -255,7 +270,8 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
   FFTW
   REQUIRED_VARS FFTW_INCLUDE_DIRS
-  HANDLE_COMPONENTS)
+  HANDLE_COMPONENTS
+)
 
 mark_as_advanced(
   FFTW_INCLUDE_DIRS
@@ -268,4 +284,5 @@ mark_as_advanced(
   FFTW_LONGDOUBLE_THREADS_LIB
   FFTW_FLOAT_OPENMP_LIB
   FFTW_DOUBLE_OPENMP_LIB
-  FFTW_LONGDOUBLE_OPENMP_LIB)
+  FFTW_LONGDOUBLE_OPENMP_LIB
+)
