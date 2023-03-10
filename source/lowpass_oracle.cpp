@@ -23,7 +23,7 @@
 // #include <limits>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
-using ParallelCut = std::tuple<Arr, Arr>;
+using ParallelCut = std::pair<Arr, Arr>;
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846264338327950288

@@ -30,7 +30,7 @@ auto run_lowpass(bool use_parallel_cut) {
   auto [P, t] = create_lowpass_case(N);
   auto options = Options();
 
-  options.max_it = 50000;
+  options.max_iter = 50000;
   E.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
   const auto [r, ell_info] = cutting_plane_dc(P, E, t, options);
