@@ -84,7 +84,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * @param[in] Spsq
  * @return auto
  */
-auto lowpass_oracle::operator()(const Arr &x, double &Spsq)
+auto lowpass_oracle::assess_optim(const Arr &x, double &Spsq)
     -> std::tuple<ParallelCut, bool> {
   this->more_alt = true;
 

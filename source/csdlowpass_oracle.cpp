@@ -22,7 +22,7 @@ extern auto to_decimal(const std::string &csd_str) -> double;
 extern auto inverse_spectral_fact(const Arr &r) -> Arr;
 extern auto spectral_fact(const Arr &r) -> Arr;
 
-auto csdlowpass_oracle::operator()(const Arr &r, double &Spsq, bool retry)
+auto csdlowpass_oracle::assess_q(const Arr &r, double &Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
   if (!retry) { // retry due to no effect in the previous cut
     this->_lowpass.retry = false;

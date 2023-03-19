@@ -20,6 +20,11 @@ public:
   csdlowpass_oracle(unsigned int nnz, lowpass_oracle &&lowpass)
       : _nnz(nnz), _lowpass(std::move(lowpass)) {}
 
-  auto operator()(const Arr &r, double &Spsq, bool retry)
+  auto assess_q(const Arr &r, double &Spsq, bool retry)
       -> std::tuple<ParallelCut, bool, Arr, bool>;
+
+  auto operator()(const Arr &r, double &Spsq, bool retry)
+      -> std::tuple<ParallelCut, bool, Arr, bool> {
+    return this->assess_q(r, Spsq, retry);
+  }
 };

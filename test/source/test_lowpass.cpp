@@ -1,7 +1,6 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h> // for ResultBuilder, CHECK
 
-#include <ellalgo/cut_config.hpp>            // for Options
 #include <ellalgo/cutting_plane.hpp>         // for cutting_plane_optim
 #include <ellalgo/ell.hpp>                   // for Ell
 #include <multiplierless/lowpass_oracle.hpp> // for filter_design_construct

@@ -1,5 +1,4 @@
 // -*- coding: utf-8 -*-
-#include <ellalgo/cut_config.hpp>               // for Options
 #include <ellalgo/cutting_plane.hpp>            // for cutting_plane_q
 #include <ellalgo/ell.hpp>                      // for Ell
 #include <multiplierless/csdlowpass_oracle.hpp> // for csdlowpass_oracle
