@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 #include <ellalgo/cut_config.hpp>               // for Options
 #include <ellalgo/cutting_plane.hpp>            // for cutting_plane_q
-#include <ellalgo/ell.hpp>                      // for ell
+#include <ellalgo/ell.hpp>                      // for Ell
 #include <multiplierless/csdlowpass_oracle.hpp> // for csdlowpass_oracle
 #include <tuple>                                // for make_tuple, tuple
 #include <type_traits>                          // for move, add_const<>::type
@@ -30,7 +30,7 @@ auto run_csdlowpass(bool use_parallel_cut) {
   const int nnz = 7;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto E = ell(40.0, r0);
+  auto E = Ell(40.0, r0);
   // auto P = csdlowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
   auto [P, t] = create_csdlowpass_case(N, nnz);
   auto options = Options();
