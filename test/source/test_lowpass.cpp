@@ -8,6 +8,8 @@
 #include <type_traits>                       // for move, add_const<>::type
 // #include <xtensor-blas/xlinalg.hpp>
 
+using Arr = xt::xarray<double, xt::layout_type::row_major>;
+
 // static filter_design_construct Fdc{};
 auto create_lowpass_case(int N = 32) -> std::tuple<lowpass_oracle, double> {
   auto Fdc = filter_design_construct(N);
@@ -24,7 +26,7 @@ auto run_lowpass(bool use_parallel_cut) {
   constexpr int N = 32;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto E = Ell(40.0, r0);
+  auto E = Ell<Arr>(40.0, r0);
   // auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
   auto [P, t] = create_lowpass_case(N);
   auto options = Options();

@@ -2,6 +2,7 @@
 #pragma once
 
 // #include <limits>
+#include <valarray>
 #include <xtensor/xarray.hpp>
 
 // static const auto M_PI = std::acos(-1);
@@ -65,7 +66,8 @@ struct filter_design_construct {
  */
 class lowpass_oracle {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
-  using ParallelCut = std::pair<Arr, Arr>;
+  using Vec = std::valarray<double>;
+  using ParallelCut = std::pair<Arr, Vec>;
 
 private:
   mutable size_t _i_Anr{};

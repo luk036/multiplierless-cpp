@@ -29,7 +29,7 @@ auto run_csdlowpass(bool use_parallel_cut) {
   const int nnz = 7;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto E = Ell(40.0, r0);
+  auto E = Ell<Arr>(40.0, r0);
   // auto P = csdlowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
   auto [P, t] = create_csdlowpass_case(N, nnz);
   auto options = Options();

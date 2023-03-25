@@ -9,7 +9,8 @@
 
 class csdlowpass_oracle {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
-  using ParallelCut = std::pair<Arr, Arr>;
+  using Vec = std::valarray<double>;
+  using ParallelCut = std::pair<Arr, Vec>;
 
 private:
   Arr rcsd{};

@@ -12,7 +12,8 @@
 #include "multiplierless/lowpass_oracle.hpp" // for lowpass_oracle
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
-using ParallelCut = std::pair<Arr, Arr>;
+using Vec = std::valarray<double>;
+using ParallelCut = std::pair<Arr, Vec>;
 
 extern auto to_csdfixed(double num, unsigned int) -> std::string;
 extern auto to_decimal(const std::string &csd_str) -> double;
