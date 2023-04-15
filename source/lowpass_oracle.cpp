@@ -1,7 +1,7 @@
 #include <stddef.h> // for size_t
 
 #include <cmath>                             // for pow, log10, M_PI, cos
-#include <multiplierless/lowpass_oracle.hpp> // for lowpass_oracle, filter_...
+#include <multiplierless/lowpass_oracle.hpp> // for LowpassOracle, filter_...
 #include <tuple>                             // for tuple
 #include <type_traits>                       // for move
 #include <vector>                            // for vector, vector<>::size_...
@@ -86,7 +86,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * @param[in] Spsq
  * @return auto
  */
-auto lowpass_oracle::assess_optim(const Arr &x, double &Spsq)
+auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
     -> std::tuple<ParallelCut, bool> {
   this->more_alt = true;
 

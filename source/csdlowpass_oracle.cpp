@@ -9,7 +9,7 @@
 #include <xtensor/xreducer.hpp>   // for xreducer, xreducer<>::c...
 #include <xtensor/xsemantic.hpp>  // for xsemantic_base
 
-#include "multiplierless/lowpass_oracle.hpp" // for lowpass_oracle
+#include "multiplierless/lowpass_oracle.hpp" // for LowpassOracle
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using Vec = std::valarray<double>;

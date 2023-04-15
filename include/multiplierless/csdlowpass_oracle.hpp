@@ -5,7 +5,7 @@
 #include <xtensor/xlayout.hpp>         // for layout_type, layout_type::row...
 #include <xtensor/xtensor_forward.hpp> // for xarray
 
-#include "lowpass_oracle.hpp" // for lowpass_oracle
+#include "lowpass_oracle.hpp" // for LowpassOracle
 
 class csdlowpass_oracle {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
@@ -15,10 +15,10 @@ class csdlowpass_oracle {
 private:
   Arr rcsd{};
   unsigned int _nnz;
-  lowpass_oracle _lowpass;
+  LowpassOracle _lowpass;
 
 public:
-  csdlowpass_oracle(unsigned int nnz, lowpass_oracle &&lowpass)
+  csdlowpass_oracle(unsigned int nnz, LowpassOracle &&lowpass)
       : _nnz(nnz), _lowpass(std::move(lowpass)) {}
 
   auto assess_q(const Arr &r, double &Spsq, bool retry)

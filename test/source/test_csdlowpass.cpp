@@ -7,7 +7,7 @@
 #include <xtensor/xlayout.hpp>                  // for layout_type, layout_...
 #include <xtensor/xtensor_forward.hpp>          // for xarray
 
-class lowpass_oracle;
+class LowpassOracle;
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
@@ -15,8 +15,8 @@ extern auto create_lowpass_case(int N) -> std::tuple<lowpass_oracle, double>;
 
 auto create_csdlowpass_case(int N = 32, int nnz = 8)
     -> std::tuple<csdlowpass_oracle, double> {
-  auto [P, Spsq] = create_lowpass_case(N);
-  auto Pcsd = csdlowpass_oracle(nnz, std::move(P));
+  auto [omega, Spsq] = create_lowpass_case(N);
+  auto Pcsd = csdlowpass_oracle(nnz, std::move(omega));
   return {std::move(Pcsd), Spsq};
 }
 
@@ -29,17 +29,17 @@ auto run_csdlowpass(bool use_parallel_cut) {
   const int nnz = 7;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto E = Ell<Arr>(40.0, r0);
-  // auto P = csdlowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
-  auto [P, t] = create_csdlowpass_case(N, nnz);
+  auto ellip = Ell<Arr>(40.0, r0);
+  // auto omega = csdlowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
+  auto [omega, t] = create_csdlowpass_case(N, nnz);
   auto options = Options();
 
   options.max_iter = 50000;
-  E.set_use_parallel_cut(use_parallel_cut);
+  ellip.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
 
   // auto t = Fdc.Spsq;
-  const auto [r, ell_info] = cutting_plane_q(P, E, t, options);
+  const auto [r, ell_info] = cutting_plane_q(omega, ellip, t, options);
   // std::cout << "lowpass r: " << r << '\n';
   // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
   // std::cout << "Min attenuation in the stopband is " << Ustop << " dB.\n";

@@ -7,7 +7,7 @@ import numpy as np
 from ellpy.cutting_plane import Options, cutting_plane_optim, cutting_plane_q
 from ellpy.Ell import Ell
 from ellpy.oracles.csdlowpass_oracle import csdlowpass_oracle
-from ellpy.oracles.lowpass_oracle import lowpass_oracle
+from ellpy.oracles.lowpass_oracle import LowpassOracle
 
 # Modified from CVX code by Almir Mutapcic in 2006.
 # Adapted in 2010 for impulse response peak-minimization by convex iteration
@@ -102,8 +102,8 @@ def create_lowpass_case(N=48):
     Upsq = Up ** 2
     Spsq = Sp ** 2
 
-    P = lowpass_oracle(Ap, As, Anr, Lpsq, Upsq)
-    return P, Spsq
+    omega = LowpassOracle(Ap, As, Anr, Lpsq, Upsq)
+    return omega, Spsq
 
 
 def create_csdlowpass_case(N=48, nnz=8):
@@ -116,8 +116,8 @@ def create_csdlowpass_case(N=48, nnz=8):
     Returns:
         [type]: [description]
     """
-    P, Spsq = create_lowpass_case(N)
-    Pcsd = csdlowpass_oracle(nnz, P)
+    omega, Spsq = create_lowpass_case(N)
+    Pcsd = csdlowpass_oracle(nnz, omega)
     return Pcsd, Spsq
 
 
@@ -138,12 +138,12 @@ def run_lowpass(use_parallel_cut, duration=0.000001):
     r0 = np.zeros(N)  # initial x0
     r0[0] = 0
     E = Ell(4.0, r0)
-    E.use_parallel_cut = use_parallel_cut
-    P, Spsq = create_lowpass_case(N)
+    ellip.use_parallel_cut = use_parallel_cut
+    omega, Spsq = create_lowpass_case(N)
     options = Options()
     options.max_it = 20000
     options.tol = 1e-8
-    _, _, ell_info = cutting_plane_optim(P, E, Spsq, options)
+    _, _, ell_info = cutting_plane_optim(omega, ellip, Spsq, options)
     time.sleep(duration)
     # h = spectral_fact(r)
     return ell_info.num_iters, ell_info.feasible
@@ -186,7 +186,7 @@ def run_csdlowpass(use_parallel_cut, duration=0.000001):
     r0 = np.zeros(N)  # initial x0
     r0[0] = 0
     E = Ell(4.0, r0)
-    E.use_parallel_cut = use_parallel_cut
+    ellip.use_parallel_cut = use_parallel_cut
     Pcsd, Spsq = create_csdlowpass_case(N, nnz)
     options = Options()
     options.max_it = 20000

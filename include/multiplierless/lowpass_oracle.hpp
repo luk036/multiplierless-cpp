@@ -64,7 +64,7 @@ struct filter_design_construct {
  *        s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
  * [0, \pi] R(\omega) > 0, \forall \omega \in [0, \pi]
  */
-class lowpass_oracle {
+class LowpassOracle {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
   using Vec = std::valarray<double>;
   using ParallelCut = std::pair<Arr, Vec>;
@@ -95,7 +95,7 @@ public:
    * @param[in] Lpsq
    * @param[in] Upsq
    */
-  lowpass_oracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
+  LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
 
   /*!
    * @brief

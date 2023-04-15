@@ -14,8 +14,8 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
 auto create_lowpass_case(int N = 32) -> std::tuple<lowpass_oracle, double> {
   auto Fdc = filter_design_construct(N);
   auto t = Fdc.Spsq;
-  auto P = lowpass_oracle(std::move(Fdc));
-  return {std::move(P), t};
+  auto omega = LowpassOracle(std::move(Fdc));
+  return {std::move(omega), t};
 }
 
 // ********************************************************************
@@ -26,15 +26,15 @@ auto run_lowpass(bool use_parallel_cut) {
   constexpr int N = 32;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto E = Ell<Arr>(40.0, r0);
-  // auto P = lowpass_oracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
-  auto [P, t] = create_lowpass_case(N);
+  auto ellip = Ell<Arr>(40.0, r0);
+  // auto omega = LowpassOracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
+  auto [omega, t] = create_lowpass_case(N);
   auto options = Options();
 
   options.max_iter = 50000;
-  E.set_use_parallel_cut(use_parallel_cut);
+  ellip.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
-  const auto [r, ell_info] = cutting_plane_optim(P, E, t, options);
+  const auto [r, ell_info] = cutting_plane_optim(omega, ellip, t, options);
   // std::cout << "lowpass r: " << r << '\n';
   // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
   // std::cout << "Min attenuation in the stopband is " << Ustop << " dB.\n";
