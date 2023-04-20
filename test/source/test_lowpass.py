@@ -6,7 +6,7 @@ import time
 import numpy as np
 from ellpy.cutting_plane import Options, cutting_plane_optim, cutting_plane_q
 from ellpy.Ell import Ell
-from ellpy.oracles.csdlowpass_oracle import csdlowpass_oracle
+from ellpy.oracles.csdlowpass_oracle import LowpassOracleQ
 from ellpy.oracles.lowpass_oracle import LowpassOracle
 
 # Modified from CVX code by Almir Mutapcic in 2006.
@@ -117,7 +117,7 @@ def create_csdlowpass_case(N=48, nnz=8):
         [type]: [description]
     """
     omega, Spsq = create_lowpass_case(N)
-    Pcsd = csdlowpass_oracle(nnz, omega)
+    Pcsd = LowpassOracleQ(nnz, omega)
     return Pcsd, Spsq
 
 
@@ -146,7 +146,7 @@ def run_lowpass(use_parallel_cut, duration=0.000001):
     _, _, ell_info = cutting_plane_optim(omega, ellip, Spsq, options)
     time.sleep(duration)
     # h = spectral_fact(r)
-    return ell_info.num_iters, ell_info.feasible
+    return num_iters, ell_info.feasible
 
 
 # def test_no_parallel_cut(benchmark):
@@ -195,7 +195,7 @@ def run_csdlowpass(use_parallel_cut, duration=0.000001):
     _, _, ell_info = cutting_plane_q(Pcsd, E, Spsq, options)
     time.sleep(duration)
     # h = spectral_fact(r)
-    return ell_info.num_iters, ell_info.feasible
+    return num_iters, ell_info.feasible
 
 
 def test_csdlowpass():

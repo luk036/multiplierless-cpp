@@ -11,7 +11,7 @@
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
 // static filter_design_construct Fdc{};
-auto create_lowpass_case(int N = 32) -> std::tuple<lowpass_oracle, double> {
+auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
   auto Fdc = filter_design_construct(N);
   auto t = Fdc.Spsq;
   auto omega = LowpassOracle(std::move(Fdc));
@@ -34,12 +34,12 @@ auto run_lowpass(bool use_parallel_cut) {
   options.max_iter = 50000;
   ellip.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
-  const auto [r, ell_info] = cutting_plane_optim(omega, ellip, t, options);
+  const auto [r, num_iters] = cutting_plane_optim(omega, ellip, t, options);
   // std::cout << "lowpass r: " << r << '\n';
   // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
   // std::cout << "Min attenuation in the stopband is " << Ustop << " dB.\n";
   // CHECK(r[0] >= 0.0);
-  return std::make_tuple(ell_info.feasible, ell_info.num_iters);
+  return std::make_tuple(r.size() != 0U, num_iters);
 }
 
 TEST_CASE("Lowpass Filter (w/ parallel cut)") {

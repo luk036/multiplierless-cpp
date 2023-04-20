@@ -7,7 +7,7 @@
 
 #include "lowpass_oracle.hpp" // for LowpassOracle
 
-class csdlowpass_oracle {
+class LowpassOracleQ {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
   using Vec = std::valarray<double>;
   using ParallelCut = std::pair<Arr, Vec>;
@@ -18,7 +18,7 @@ private:
   LowpassOracle _lowpass;
 
 public:
-  csdlowpass_oracle(unsigned int nnz, LowpassOracle &&lowpass)
+  LowpassOracleQ(unsigned int nnz, LowpassOracle &&lowpass)
       : _nnz(nnz), _lowpass(std::move(lowpass)) {}
 
   auto assess_q(const Arr &r, double &Spsq, bool retry)
