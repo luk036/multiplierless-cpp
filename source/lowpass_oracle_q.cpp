@@ -1,5 +1,5 @@
 #include <iosfwd> // for string
-#include <multiplierless/csdlowpass_oracle.hpp>
+#include <multiplierless/lowpass_oracle_q.hpp>
 #include <tuple>                  // for tuple_element<>::type
 #include <xtensor/xarray.hpp>     // for xarray_container
 #include <xtensor/xcontainer.hpp> // for xcontainer

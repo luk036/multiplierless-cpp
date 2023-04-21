@@ -1,11 +1,11 @@
 // -*- coding: utf-8 -*-
-#include <ellalgo/cutting_plane.hpp>            // for cutting_plane_q
-#include <ellalgo/ell.hpp>                      // for Ell
-#include <multiplierless/csdlowpass_oracle.hpp> // for LowpassOracleQ
-#include <tuple>                                // for make_tuple, tuple
-#include <type_traits>                          // for move, add_const<>::type
-#include <xtensor/xlayout.hpp>                  // for layout_type, layout_...
-#include <xtensor/xtensor_forward.hpp>          // for xarray
+#include <ellalgo/cutting_plane.hpp>           // for cutting_plane_q
+#include <ellalgo/ell.hpp>                     // for Ell
+#include <multiplierless/lowpass_oracle_q.hpp> // for LowpassOracleQ
+#include <tuple>                               // for make_tuple, tuple
+#include <type_traits>                         // for move, add_const<>::type
+#include <xtensor/xlayout.hpp>                 // for layout_type, layout_...
+#include <xtensor/xtensor_forward.hpp>         // for xarray
 
 class LowpassOracle;
 
