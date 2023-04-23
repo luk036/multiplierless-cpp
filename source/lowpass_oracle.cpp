@@ -45,7 +45,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
   // *********************************************************************
   // rule-of-thumb discretization (from Cheney's Approximation Theory)
   const auto m = 15 * this->N;
-  const auto w = Arr{xt::linspace<double>(0, M_PI, m)}; // omega
+  const auto w = Arr{xt::linspace<double>(0, M_PI, size_t(m))}; // omega
   // passband 0 <= w <= w_pass
   const auto Lp = std::pow(10, -delta / 20);
   const auto Up = std::pow(10, +delta / 20);

@@ -70,9 +70,9 @@ class LowpassOracle {
   using ParallelCut = std::pair<Arr, Vec>;
 
 private:
-  mutable size_t _i_Anr{};
-  mutable size_t _i_As{};
-  mutable size_t _i_Ap{};
+  size_t _i_Anr{};
+  size_t _i_As{};
+  size_t _i_Ap{};
   // mutable unsigned int _count{};
 
   filter_design_construct _Fdc;
