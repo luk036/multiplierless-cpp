@@ -23,7 +23,10 @@ set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 17)
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wpedantic -Wextra -Werror)
-  target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wextra)
+  target_compile_options(
+    ${PROJECT_NAME} PUBLIC -Wall -Wextra -Wconversion -Wno-parentheses
+                           -Wno-unused-but-set-parameter
+  )
 elseif(MSVC)
   target_compile_options(
     ${PROJECT_NAME}

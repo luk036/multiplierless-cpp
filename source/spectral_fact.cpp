@@ -61,7 +61,7 @@ auto spectral_fact(const Arr &r) -> Arr {
 
   // compute 1/2*ln(R(w))
   // w = 2*pi*[0:m-1]/m
-  Arr w = xt::linspace<double>(0, 2 * M_PI, m);
+  Arr w = xt::linspace<double>(0, 2 * M_PI, size_t(m));
 
   // R = [ones(m, 1) 2*cos(kron(w', [1:n-1]))]*r
   // Arr Bn = xt::linalg::outer(w, xt::arange(1, n));
@@ -82,7 +82,7 @@ auto spectral_fact(const Arr &r) -> Arr {
   // find the Hilbert transform
   auto alphatmp = xt::fftw::rfft(alpha);
   // alphatmp(floor(m/2)+1: m) = -alphatmp(floor(m/2)+1: m)
-  auto ind = m / 2;
+  auto ind = size_t(m) / 2;
 
   //??? alphatmp[ind:m] = -alphatmp[ind:m];
   xt::view(alphatmp, xt::range(ind, m)) =
