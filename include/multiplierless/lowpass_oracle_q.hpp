@@ -21,11 +21,11 @@ public:
   LowpassOracleQ(unsigned int nnz, LowpassOracle &&lowpass)
       : _nnz(nnz), _lowpass(std::move(lowpass)) {}
 
-  auto assess_q(const Arr &r, double &Spsq, bool retry)
+  auto assess_optim_q(const Arr &r, double &Spsq, bool retry)
       -> std::tuple<ParallelCut, bool, Arr, bool>;
 
   auto operator()(const Arr &r, double &Spsq, bool retry)
       -> std::tuple<ParallelCut, bool, Arr, bool> {
-    return this->assess_q(r, Spsq, retry);
+    return this->assess_optim_q(r, Spsq, retry);
   }
 };

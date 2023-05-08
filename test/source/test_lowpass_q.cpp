@@ -29,12 +29,12 @@ auto run_csdlowpass(bool use_parallel_cut) {
   const int nnz = 7;
 
   auto r0 = xt::zeros<double>({N}); // initial x0
-  auto ellip = Ell<Arr>(40.0, r0);
+  auto ellip = Ell<Arr, EllCalcQ>(40.0, r0);
   // auto omega = LowpassOracleQ(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
   auto [omega, t] = create_csdlowpass_case(N, nnz);
   auto options = Options();
 
-  options.max_iter = 50000;
+  options.max_iters = 50000;
   ellip.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
 
