@@ -28,6 +28,12 @@
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
+/* The `spectral_fact` function is performing spectral factorization using the
+Kolmogorov 1939 approach. It takes an input vector `r` which represents the
+top-half of the auto-correlation coefficients. It computes the minimum-phase
+impulse response `h` that satisfies the given auto-correlation. The function
+returns the impulse response `h` as an `Arr` object. */
+
 /**
  * @brief Spectral factorization
  *
@@ -107,6 +113,17 @@ auto spectral_fact(const Arr &r) -> Arr {
   return h;
 }
 
+/**
+ * @brief
+ *
+ * The `inverse_spectral_fact` function takes an impulse response `h` as input and
+ * computes the auto-correlation coefficients `r` that correspond to the given
+ * impulse response. It returns the auto-correlation coefficients `r` as an `Arr`
+ * object.
+ *
+ * @param h
+ * @return Arr
+ */
 auto inverse_spectral_fact(const Arr &h) -> Arr {
   auto n = h.shape()[0];
   auto r = Arr{xt::zeros<double>({n})};
