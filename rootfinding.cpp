@@ -86,7 +86,7 @@ auto pbairstow_even(const std::vector<double> &pa, std::vector<vec2> &vrs,
   auto niter = 0U;
   ThreadPool pool(std::thread::hardware_concurrency());
 
-  for (; niter != options.max_iter; ++niter) {
+  for (; niter != options.max_iters; ++niter) {
     auto tol = 0.0;
     std::vector<std::future<double>> results;
 

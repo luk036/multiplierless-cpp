@@ -45,14 +45,14 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
   // *********************************************************************
   // rule-of-thumb discretization (from Cheney's Approximation Theory)
   const auto m = 15 * this->N;
-  const auto w = Arr{xt::linspace<double>(0, M_PI, m)}; // omega
+  const auto w = Arr{xt::linspace<double>(0, M_PI, size_t(m))}; // omega
   // passband 0 <= w <= w_pass
   const auto Lp = std::pow(10, -delta / 20);
   const auto Up = std::pow(10, +delta / 20);
   // A is the matrix used to compute the power spectrum
   // A(w,:) = [1 2*cos(w) 2*cos(2*w) ... 2*cos((this->N-1)*w)]
   // Arr An = 2 * xt::cos(xt::linalg::outer(w, xt::arange(1, this->N)));
-  auto An = Arr(xt::zeros<double>({m, this->N - 1}));
+  Arr An = xt::zeros<double>({m, this->N - 1});
   for (auto i = 0; i != m; ++i) {
     for (auto j = 0; j != this->N - 1; ++j) {
       An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
@@ -60,7 +60,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
   }
   Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
   const auto ind_p = xt::where(w <= wpass)[0]; // passband
-  this->Ap = Arr{xt::view(A, xt::range(0, ind_p.size()), xt::all())};
+  this->Ap = xt::view(A, xt::range(0, ind_p.size()), xt::all());
   // stopband (w_stop <= w)
   auto ind_s = xt::where(wstop <= w)[0]; // stopband
   const auto Sp = std::pow(10, delta2 / 20);
@@ -93,7 +93,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
   // 1.0 nonnegative-real constraint
   // case 1,
   if (x[0] < 0) {
-    auto g = Arr{xt::zeros<double>(x.shape())};
+    Arr g = xt::zeros<double>(x.shape());
     g[0] = -1.;
     auto f = Vec{-x[0]};
     return {{std::move(g), std::move(f)}, false};
@@ -133,7 +133,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
   N = this->_Fdc.As.shape()[0];
   // Arr w = xt::zeros<double>({N});
   auto fmax = -1.e100; // std::numeric_limits<double>::min()
-  size_t imax{0};
+  size_t imax = 0U;
   // for (k in chain(range(i_As, N), range(i_As))) {
   k = this->_i_As;
   for (auto i = 0U; i != N; ++i, ++k) {

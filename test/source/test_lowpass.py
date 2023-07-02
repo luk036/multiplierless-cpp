@@ -4,7 +4,7 @@ from __future__ import print_function
 import time
 
 import numpy as np
-from ellpy.cutting_plane import Options, cutting_plane_optim, cutting_plane_q
+from ellpy.cutting_plane import Options, cutting_plane_optim, cutting_plane_optim_q
 from ellpy.Ell import Ell
 from ellpy.oracles.csdlowpass_oracle import LowpassOracleQ
 from ellpy.oracles.lowpass_oracle import LowpassOracle
@@ -192,7 +192,7 @@ def run_csdlowpass(use_parallel_cut, duration=0.000001):
     options.max_it = 20000
     options.tol = 1e-8
 
-    _, _, ell_info = cutting_plane_q(Pcsd, E, Spsq, options)
+    _, _, ell_info = cutting_plane_optim_q(Pcsd, E, Spsq, options)
     time.sleep(duration)
     # h = spectral_fact(r)
     return num_iters, ell_info.feasible

@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-#include <ellalgo/cutting_plane.hpp>           // for cutting_plane_q
+#include <ellalgo/cutting_plane.hpp>           // for cutting_plane_optim_q
 #include <ellalgo/ell.hpp>                     // for Ell
 #include <multiplierless/lowpass_oracle_q.hpp> // for LowpassOracleQ
 #include <tuple>                               // for make_tuple, tuple
@@ -34,12 +34,12 @@ auto run_csdlowpass(bool use_parallel_cut) {
   auto [omega, t] = create_csdlowpass_case(N, nnz);
   auto options = Options();
 
-  options.max_iter = 50000;
+  options.max_iters = 50000;
   ellip.set_use_parallel_cut(use_parallel_cut);
   // options.tol = 1e-8;
 
   // auto t = Fdc.Spsq;
-  const auto [r, num_iters] = cutting_plane_q(omega, ellip, t, options);
+  const auto [r, num_iters] = cutting_plane_optim_q(omega, ellip, t, options);
   // std::cout << "lowpass r: " << r << '\n';
   // auto Ustop = 20 * std::log10(std::sqrt(Spsq_new));
   // std::cout << "Min attenuation in the stopband is " << Ustop << " dB.\n";
