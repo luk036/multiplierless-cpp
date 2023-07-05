@@ -11,6 +11,8 @@
 
 # Multiplierless FIR Filter optimization (using Ellipsoid Method)
 
+A multiplierless FIR filter is a type of finite impulse response (FIR) filter that does not use a general-purpose multiplier to implement the filter taps. Instead, each filter tap is implemented using dedicated arithmetic elements that realize a fixed filter coefficient. Multiplications by powers-of-two can be obtained for free in dedicated-hardware structure by simply shifting the data bus to the left or right by an appropriate number of bits, therefore a fairly broad set of filter coefficients can be realized by incorporating a small number of adders/subtracters in each filter tap along with appropriate shifting operations. The resulting hardware complexity is a small fraction of the complexity of a general-purpose multiplier and thus a significantly larger number of taps can be integrated onto a single chip. 
+
 ## Features
 
 - [Modern CMake practices](https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right/)
