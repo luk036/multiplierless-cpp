@@ -40,17 +40,17 @@
 // *********************************************************************
 // number of FIR coefficients (including zeroth)
 struct filter_design_construct {
-  using Arr = xt::xarray<double, xt::layout_type::row_major>;
+    using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
-  int N;
-  Arr Ap;
-  Arr As;
-  Arr Anr;
-  double Lpsq;
-  double Upsq;
-  double Spsq;
+    int N;
+    Arr Ap;
+    Arr As;
+    Arr Anr;
+    double Lpsq;
+    double Upsq;
+    double Spsq;
 
-  filter_design_construct(int argN = 32);
+    filter_design_construct(int argN = 32);
 };
 
 // from itertools import chain
@@ -65,56 +65,57 @@ struct filter_design_construct {
  * [0, \pi] R(\omega) > 0, \forall \omega \in [0, \pi]
  */
 class LowpassOracle {
-  using Arr = xt::xarray<double, xt::layout_type::row_major>;
-  using Vec = std::valarray<double>;
-  using ParallelCut = std::pair<Arr, Vec>;
+    using Arr = xt::xarray<double, xt::layout_type::row_major>;
+    using Vec = std::valarray<double>;
+    using ParallelCut = std::pair<Arr, Vec>;
 
-private:
-  size_t _i_Anr{};
-  size_t _i_As{};
-  size_t _i_Ap{};
-  // mutable unsigned int _count{};
+  private:
+    size_t _i_Anr{};
+    size_t _i_As{};
+    size_t _i_Ap{};
+    // mutable unsigned int _count{};
 
-  filter_design_construct _Fdc;
-  // const Arr& _Ap;
-  // const Arr& _As;
-  // const Arr& _Anr;
-  // double _Lpsq;
-  // double _Upsq;
+    filter_design_construct _Fdc;
+    // const Arr& _Ap;
+    // const Arr& _As;
+    // const Arr& _Anr;
+    // double _Lpsq;
+    // double _Upsq;
 
-public:
-  bool retry{false}; // ???
-  bool more_alt{true};
+  public:
+    bool retry{false}; // ???
+    bool more_alt{true};
 
-  /*!
-   * @brief Construct a new lowpass oracle object
-   *
-   * @param[in] Ap
-   * @param[in] As
-   * @param[in] Anr
-   * @param[in] Lpsq
-   * @param[in] Upsq
-   */
-  LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
+    /*!
+     * @brief Construct a new lowpass oracle object
+     *
+     * @param[in] Ap
+     * @param[in] As
+     * @param[in] Anr
+     * @param[in] Lpsq
+     * @param[in] Upsq
+     */
+    LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
 
-  /*!
-   * @brief
-   *
-   * @param[in] x
-   * @param[in] Spsq
-   * @return auto
-   */
-  auto assess_optim(const Arr &x, double &Spsq)
-      -> std::tuple<ParallelCut, bool>;
+    /*!
+     * @brief
+     *
+     * @param[in] x
+     * @param[in] Spsq
+     * @return auto
+     */
+    auto assess_optim(const Arr &x, double &Spsq)
+        -> std::tuple<ParallelCut, bool>;
 
-  /*!
-   * @brief
-   *
-   * @param[in] x
-   * @param[in] Spsq
-   * @return auto
-   */
-  auto operator()(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
-    return this->assess_optim(x, Spsq);
-  }
+    /*!
+     * @brief
+     *
+     * @param[in] x
+     * @param[in] Spsq
+     * @return auto
+     */
+    auto operator()(const Arr &x, double &Spsq)
+        -> std::tuple<ParallelCut, bool> {
+        return this->assess_optim(x, Spsq);
+    }
 };

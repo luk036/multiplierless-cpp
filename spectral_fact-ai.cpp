@@ -1,6 +1,6 @@
+#include <cmath>
 #include <complex>
 #include <iostream>
-#include <cmath>
 #include <vector>
 
 std::vector<double> spectral_fact(std::vector<double> r) {
@@ -96,7 +96,7 @@ std::vector<double> inverse_spectral_fact(std::vector<double> h) {
 int main() {
     std::vector<double> r(20);
     for (size_t i = 0; i < 20; i++) {
-        r[i] = (double) rand() / RAND_MAX;
+        r[i] = (double)rand() / RAND_MAX;
     }
     std::vector<double> h = spectral_fact(r);
     std::vector<double> r2 = inverse_spectral_fact(h);
