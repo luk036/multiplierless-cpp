@@ -7,7 +7,7 @@ std::vector<double> spectral_fact(std::vector<double> r) {
     int nr = r.size();
     int n = (nr + 1) / 2;
     // over-sampling factor
-    int mult_factor = 30; // should have mult_factor*(n) >> n
+    int mult_factor = 30;  // should have mult_factor*(n) >> n
     int m = mult_factor * n;
     // computation method:
     // H(exp(jTw)) = alpha(w) + j*phi(w)
@@ -59,8 +59,7 @@ std::vector<double> spectral_fact(std::vector<double> r) {
         ifft_input[i] = std::exp(std::complex<double>(alpha1[i], phi1[i]));
     }
     for (int i = n + 1; i < m; i++) {
-        ifft_input[i] =
-            std::exp(std::complex<double>(alpha1[m - i], -phi1[m - i]));
+        ifft_input[i] = std::exp(std::complex<double>(alpha1[m - i], -phi1[m - i]));
     }
     for (int i = 0; i < m; i++) {
         ifft_output[i] = ifft_input[i];

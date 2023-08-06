@@ -1,20 +1,19 @@
-#include <multiplierless/greeter.h> // for LanguageCode, LanguageCode::DE
-#include <multiplierless/version.h> // for MULTIPLIERLESS_VERSION
+#include <multiplierless/greeter.h>  // for LanguageCode, LanguageCode::DE
+#include <multiplierless/version.h>  // for MULTIPLIERLESS_VERSION
 
-#include <cxxopts.hpp>   // for value, OptionAdder, Options, Opt...
-#include <iostream>      // for string, operator<<, endl, basic_...
-#include <memory>        // for shared_ptr
-#include <string>        // for char_traits, hash, operator==
-#include <unordered_map> // for operator==, unordered_map, __has...
+#include <cxxopts.hpp>    // for value, OptionAdder, Options, Opt...
+#include <iostream>       // for string, operator<<, endl, basic_...
+#include <memory>         // for shared_ptr
+#include <string>         // for char_traits, hash, operator==
+#include <unordered_map>  // for operator==, unordered_map, __has...
 
 auto main(int argc, char **argv) -> int {
-    const std::unordered_map<std::string, multiplierless::LanguageCode>
-        languages{
-            {"en", multiplierless::LanguageCode::EN},
-            {"de", multiplierless::LanguageCode::DE},
-            {"es", multiplierless::LanguageCode::ES},
-            {"fr", multiplierless::LanguageCode::FR},
-        };
+    const std::unordered_map<std::string, multiplierless::LanguageCode> languages{
+        {"en", multiplierless::LanguageCode::EN},
+        {"de", multiplierless::LanguageCode::DE},
+        {"es", multiplierless::LanguageCode::ES},
+        {"fr", multiplierless::LanguageCode::FR},
+    };
 
     cxxopts::Options options(*argv, "A program to welcome the world!");
 
@@ -38,8 +37,7 @@ auto main(int argc, char **argv) -> int {
     }
 
     if (result["version"].as<bool>()) {
-        std::cout << "Multiplierless, version " << MULTIPLIERLESS_VERSION
-                  << std::endl;
+        std::cout << "Multiplierless, version " << MULTIPLIERLESS_VERSION << std::endl;
         return 0;
     }
 

@@ -1,11 +1,11 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h> // for ResultBuilder, CHECK
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <ellalgo/cutting_plane.hpp>         // for cutting_plane_optim
-#include <ellalgo/ell.hpp>                   // for Ell
-#include <multiplierless/lowpass_oracle.hpp> // for filter_design_construct
-#include <tuple>                             // for make_tuple, tuple
-#include <type_traits>                       // for move, add_const<>::type
+#include <ellalgo/cutting_plane.hpp>          // for cutting_plane_optim
+#include <ellalgo/ell.hpp>                    // for Ell
+#include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
+#include <tuple>                              // for make_tuple, tuple
+#include <type_traits>                        // for move, add_const<>::type
 // #include <xtensor-blas/xlinalg.hpp>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
@@ -25,7 +25,7 @@ auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
 auto run_lowpass(bool use_parallel_cut) {
     constexpr int N = 32;
 
-    auto r0 = xt::zeros<double>({N}); // initial x0
+    auto r0 = xt::zeros<double>({N});  // initial x0
     auto ellip = Ell<Arr>(40.0, r0);
     // auto omega = LowpassOracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     auto [omega, t] = create_lowpass_case(N);

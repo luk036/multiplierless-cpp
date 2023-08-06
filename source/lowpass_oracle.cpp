@@ -1,26 +1,26 @@
-#include <stddef.h> // for size_t
+#include <stddef.h>  // for size_t
 
-#include <cmath>                             // for pow, log10, M_PI, cos
-#include <multiplierless/lowpass_oracle.hpp> // for LowpassOracle, filter_...
-#include <tuple>                             // for tuple
-#include <type_traits>                       // for move
-#include <vector>                            // for vector, vector<>::size_...
-#include <xtensor/xaccessible.hpp>           // for xconst_accessible, xacc...
-#include <xtensor/xarray.hpp>                // for xarray_container
-#include <xtensor/xbroadcast.hpp>            // for xbroadcast
-#include <xtensor/xbuilder.hpp>              // for zeros, concatenate, lin...
-#include <xtensor/xcontainer.hpp>            // for xcontainer<>::inner_sha...
-#include <xtensor/xexception.hpp>            // for throw_concatenate_error
-#include <xtensor/xgenerator.hpp>            // for xgenerator
-#include <xtensor/xlayout.hpp>               // for layout_type, layout_typ...
-#include <xtensor/xmath.hpp>                 // for sum
-#include <xtensor/xoperation.hpp>            // for xfunction_type_t, opera...
-#include <xtensor/xreducer.hpp>              // for xreducer
-#include <xtensor/xslice.hpp>                // for all, range, xtuph, _
-#include <xtensor/xtensor_forward.hpp>       // for xarray
-#include <xtensor/xutils.hpp>                // for accumulate
-#include <xtensor/xview.hpp>                 // for xview, view
-                                             //
+#include <cmath>                              // for pow, log10, M_PI, cos
+#include <multiplierless/lowpass_oracle.hpp>  // for LowpassOracle, filter_...
+#include <tuple>                              // for tuple
+#include <type_traits>                        // for move
+#include <vector>                             // for vector, vector<>::size_...
+#include <xtensor/xaccessible.hpp>            // for xconst_accessible, xacc...
+#include <xtensor/xarray.hpp>                 // for xarray_container
+#include <xtensor/xbroadcast.hpp>             // for xbroadcast
+#include <xtensor/xbuilder.hpp>               // for zeros, concatenate, lin...
+#include <xtensor/xcontainer.hpp>             // for xcontainer<>::inner_sha...
+#include <xtensor/xexception.hpp>             // for throw_concatenate_error
+#include <xtensor/xgenerator.hpp>             // for xgenerator
+#include <xtensor/xlayout.hpp>                // for layout_type, layout_typ...
+#include <xtensor/xmath.hpp>                  // for sum
+#include <xtensor/xoperation.hpp>             // for xfunction_type_t, opera...
+#include <xtensor/xreducer.hpp>               // for xreducer
+#include <xtensor/xslice.hpp>                 // for all, range, xtuph, _
+#include <xtensor/xtensor_forward.hpp>        // for xarray
+#include <xtensor/xutils.hpp>                 // for accumulate
+#include <xtensor/xview.hpp>                  // for xview, view
+                                              //
 // #include <limits>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
@@ -28,12 +28,12 @@ using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
 #ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
+#    define M_PI 3.14159265358979323846264338327950288
 #endif
 
 filter_design_construct::filter_design_construct(int argN) : N(argN) {
-    const auto wpass = 0.12 * M_PI; // end of passband
-    const auto wstop = 0.20 * M_PI; // start of stopband
+    const auto wpass = 0.12 * M_PI;  // end of passband
+    const auto wstop = 0.20 * M_PI;  // start of stopband
     const auto delta0_wpass = 0.125;
     const auto delta0_wstop = 0.125;
     // maximum passband ripple in dB (+/- around 0 dB)
@@ -45,7 +45,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     // *********************************************************************
     // rule-of-thumb discretization (from Cheney's Approximation Theory)
     const auto m = 15 * this->N;
-    const auto w = Arr{xt::linspace<double>(0, M_PI, size_t(m))}; // omega
+    const auto w = Arr{xt::linspace<double>(0, M_PI, size_t(m))};  // omega
     // passband 0 <= w <= w_pass
     const auto Lp = std::pow(10, -delta / 20);
     const auto Up = std::pow(10, +delta / 20);
@@ -59,10 +59,10 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
         }
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
-    const auto ind_p = xt::where(w <= wpass)[0]; // passband
+    const auto ind_p = xt::where(w <= wpass)[0];  // passband
     this->Ap = xt::view(A, xt::range(0, ind_p.size()), xt::all());
     // stopband (w_stop <= w)
-    auto ind_s = xt::where(wstop <= w)[0]; // stopband
+    auto ind_s = xt::where(wstop <= w)[0];  // stopband
     const auto Sp = std::pow(10, delta2 / 20);
     using xt::placeholders::_;
     this->As = xt::view(A, xt::range(ind_s[0], _), xt::all());
@@ -86,8 +86,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * @param[in] Spsq
  * @return auto
  */
-auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
-    -> std::tuple<ParallelCut, bool> {
+auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
     this->more_alt = true;
 
     // 1.0 nonnegative-real constraint
@@ -104,12 +103,12 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
     auto N = this->_Fdc.Ap.shape()[0];
     // for (k in chain(range(i_As, N), range(i_As))) {
 
-    this->retry = false; // ???
+    this->retry = false;  // ???
 
     auto k = this->_i_Ap;
     for (auto i = 0U; i != N; ++i, ++k) {
         if (k == N) {
-            k = 0; // round robin
+            k = 0;  // round robin
         }
         auto v = xt::sum(xt::view(this->_Fdc.Ap, k, xt::all()) * x)();
         if (v > this->_Fdc.Upsq) {
@@ -132,13 +131,13 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
     // 3.0 stopband constraint
     N = this->_Fdc.As.shape()[0];
     // Arr w = xt::zeros<double>({N});
-    auto fmax = -1.e100; // std::numeric_limits<double>::min()
+    auto fmax = -1.e100;  // std::numeric_limits<double>::min()
     size_t imax = 0U;
     // for (k in chain(range(i_As, N), range(i_As))) {
     k = this->_i_As;
     for (auto i = 0U; i != N; ++i, ++k) {
         if (k == N) {
-            k = 0; // round robin
+            k = 0;  // round robin
         }
         auto v = xt::sum(xt::view(this->_Fdc.As, k, xt::all()) * x)();
         if (v > Spsq) {
@@ -146,7 +145,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
             Arr g = xt::view(this->_Fdc.As, k, xt::all());
             // f = (v - Spsq, v);
             Vec f{v - Spsq, v};
-            this->_i_As = k + 1; // k or k+1
+            this->_i_As = k + 1;  // k or k+1
             return {{std::move(g), std::move(f)}, false};
         }
         if (v < 0) {
@@ -168,7 +167,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
     k = this->_i_Anr;
     for (auto i = 0U; i != N; ++i, ++k) {
         if (k == N) {
-            k = 0; // round robin
+            k = 0;  // round robin
         }
         auto v = xt::sum(xt::view(this->_Fdc.Anr, k, xt::all()) * x)();
         if (v < 0.0) {
@@ -184,7 +183,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq)
     // Begin objective function
     // Spsq, imax = w.max(), w.argmax(); // update best so far Spsq
     Spsq = fmax;
-    Vec f{0.0, fmax}; // ???
+    Vec f{0.0, fmax};  // ???
     // f = 0
     Arr g = xt::view(this->_Fdc.As, imax, xt::all());
     return {{std::move(g), std::move(f)}, true};

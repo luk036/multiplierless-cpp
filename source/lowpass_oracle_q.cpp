@@ -1,15 +1,15 @@
-#include <iosfwd> // for string
+#include <iosfwd>  // for string
 #include <multiplierless/lowpass_oracle_q.hpp>
-#include <tuple>                  // for tuple_element<>::type
-#include <xtensor/xarray.hpp>     // for xarray_container
-#include <xtensor/xcontainer.hpp> // for xcontainer
-#include <xtensor/xfunction.hpp>  // for xfunction
-#include <xtensor/xmath.hpp>      // for sum
-#include <xtensor/xoperation.hpp> // for xfunction_type_t, opera...
-#include <xtensor/xreducer.hpp>   // for xreducer, xreducer<>::c...
-#include <xtensor/xsemantic.hpp>  // for xsemantic_base
+#include <tuple>                   // for tuple_element<>::type
+#include <xtensor/xarray.hpp>      // for xarray_container
+#include <xtensor/xcontainer.hpp>  // for xcontainer
+#include <xtensor/xfunction.hpp>   // for xfunction
+#include <xtensor/xmath.hpp>       // for sum
+#include <xtensor/xoperation.hpp>  // for xfunction_type_t, opera...
+#include <xtensor/xreducer.hpp>    // for xreducer, xreducer<>::c...
+#include <xtensor/xsemantic.hpp>   // for xsemantic_base
 
-#include "multiplierless/lowpass_oracle.hpp" // for LowpassOracle
+#include "multiplierless/lowpass_oracle.hpp"  // for LowpassOracle
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using Vec = std::valarray<double>;
@@ -25,7 +25,7 @@ extern auto spectral_fact(const Arr &r) -> Arr;
 
 auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
-    if (!retry) { // retry due to no effect in the previous cut
+    if (!retry) {  // retry due to no effect in the previous cut
         this->_lowpass.retry = false;
         auto [cut, shrunk] = this->_lowpass(r, Spsq);
         if (!shrunk) {

@@ -1,30 +1,30 @@
-#include <cmath>   // for cos, M_PI
-#include <complex> // for complex, operator*, operator-
-#include <tuple>   // for tuple
+#include <cmath>    // for cos, M_PI
+#include <complex>  // for complex, operator*, operator-
+#include <tuple>    // for tuple
 
 #ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
+#    define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#include <xtensor-blas/xlinalg.hpp> // for dot
-#include <xtensor-fftw/basic.hpp>   // for irfft, rfft
-#include <xtensor/xaccessible.hpp>  // for xaccessible
-#include <xtensor/xarray.hpp>       // for xarray_container
-#include <xtensor/xbroadcast.hpp>   // for xbroadcast
-#include <xtensor/xbuilder.hpp>     // for zeros, concatenate, linspace
-#include <xtensor/xcontainer.hpp>   // for xcontainer, xcontainer<>::...
-#include <xtensor/xeval.hpp>        // for eval
-#include <xtensor/xexception.hpp>   // for throw_concatenate_error
-#include <xtensor/xfunction.hpp>    // for xfunction
-#include <xtensor/xgenerator.hpp>   // for xgenerator
-#include <xtensor/xiterator.hpp>    // for linear_begin
-#include <xtensor/xlayout.hpp>      // for layout_type, layout_type::...
-#include <xtensor/xmath.hpp>        // for abs, exp, log, sum, abs_fun
-#include <xtensor/xoperation.hpp>   // for xfunction_type_t, operator*
-#include <xtensor/xreducer.hpp>     // for xreducer
-#include <xtensor/xslice.hpp>       // for range, xtuph, _
-#include <xtensor/xutils.hpp>       // for accumulate
-#include <xtensor/xview.hpp>        // for xview, view
+#include <xtensor-blas/xlinalg.hpp>  // for dot
+#include <xtensor-fftw/basic.hpp>    // for irfft, rfft
+#include <xtensor/xaccessible.hpp>   // for xaccessible
+#include <xtensor/xarray.hpp>        // for xarray_container
+#include <xtensor/xbroadcast.hpp>    // for xbroadcast
+#include <xtensor/xbuilder.hpp>      // for zeros, concatenate, linspace
+#include <xtensor/xcontainer.hpp>    // for xcontainer, xcontainer<>::...
+#include <xtensor/xeval.hpp>         // for eval
+#include <xtensor/xexception.hpp>    // for throw_concatenate_error
+#include <xtensor/xfunction.hpp>     // for xfunction
+#include <xtensor/xgenerator.hpp>    // for xgenerator
+#include <xtensor/xiterator.hpp>     // for linear_begin
+#include <xtensor/xlayout.hpp>       // for layout_type, layout_type::...
+#include <xtensor/xmath.hpp>         // for abs, exp, log, sum, abs_fun
+#include <xtensor/xoperation.hpp>    // for xfunction_type_t, operator*
+#include <xtensor/xreducer.hpp>      // for xreducer
+#include <xtensor/xslice.hpp>        // for range, xtuph, _
+#include <xtensor/xutils.hpp>        // for accumulate
+#include <xtensor/xview.hpp>         // for xview, view
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
@@ -57,7 +57,7 @@ auto spectral_fact(const Arr &r) -> Arr {
     const auto n = int(r.shape()[0]);
 
     // over-sampling factor
-    const auto mult_factor = 100; // should have mult_factor*(n) >> n
+    const auto mult_factor = 100;  // should have mult_factor*(n) >> n
     const auto m = mult_factor * n;
     // const auto PI = std::acos(-1);
 
@@ -81,7 +81,7 @@ auto spectral_fact(const Arr &r) -> Arr {
         }
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
-    Arr R = xt::linalg::dot(A, r); // NOQA
+    Arr R = xt::linalg::dot(A, r);  // NOQA
 
     Arr alpha = 0.5 * xt::log(xt::abs(R));
 
@@ -91,8 +91,7 @@ auto spectral_fact(const Arr &r) -> Arr {
     auto ind = size_t(m) / 2;
 
     //??? alphatmp[ind:m] = -alphatmp[ind:m];
-    xt::view(alphatmp, xt::range(ind, m)) =
-        -xt::view(alphatmp, xt::range(ind, m));
+    xt::view(alphatmp, xt::range(ind, m)) = -xt::view(alphatmp, xt::range(ind, m));
     alphatmp[0] = 0.;
     alphatmp[ind] = 0.;
 
@@ -129,8 +128,7 @@ auto inverse_spectral_fact(const Arr &h) -> Arr {
     auto r = Arr{xt::zeros<double>({n})};
     using xt::placeholders::_;
     for (auto t = 0U; t != n; ++t) {
-        r(t) = xt::sum(xt::view(h, xt::range(t, _)) *
-                       xt::view(h, xt::range(_, n - t)))();
+        r(t) = xt::sum(xt::view(h, xt::range(t, _)) * xt::view(h, xt::range(_, n - t)))();
     }
     return r;
 }

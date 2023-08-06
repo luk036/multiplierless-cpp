@@ -1,11 +1,11 @@
 #pragma once
 
-#include <tuple>                       // for tuple
-#include <type_traits>                 // for move
-#include <xtensor/xlayout.hpp>         // for layout_type, layout_type::row...
-#include <xtensor/xtensor_forward.hpp> // for xarray
+#include <tuple>                        // for tuple
+#include <type_traits>                  // for move
+#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
+#include <xtensor/xtensor_forward.hpp>  // for xarray
 
-#include "lowpass_oracle.hpp" // for LowpassOracle
+#include "lowpass_oracle.hpp"  // for LowpassOracle
 
 class LowpassOracleQ {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
