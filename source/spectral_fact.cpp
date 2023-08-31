@@ -37,20 +37,15 @@ returns the impulse response `h` as an `Arr` object. */
 /**
  * @brief Spectral factorization
  *
- *    Spectral factorization using Kolmogorov 1939 approach.
- *      (code follows pp. 232-233, Signal Analysis, by A. Papoulis)
+ * The spectral_fact function performs spectral factorization using the Kolmogorov 1939 approach to
+ * compute the minimum-phase impulse response that satisfies a given auto-correlation.
+ * (code follows pp. 232-233, Signal Analysis, by A. Papoulis)
  *
- *      Computes the minimum-phase impulse response which satisfies
- *      given auto-correlation.
- *
- *      Input:
- *        r: top-half of the auto-correlation coefficients
- *           starts from 0th element to end of the auto-corelation
- *           should be passed in as a column vector
- *      Output
- *        h: impulse response that gives the desired auto-correlation
- *
- * @return auto
+ * @param r The parameter `r` is the top-half of the auto-correlation coefficients. It represents the
+ * desired auto-correlation of the impulse response. It should be passed in as a column vector.
+ * 
+ * @return The function `spectral_fact` returns the impulse response `h` that gives the desired
+ * auto-correlation.
  */
 auto spectral_fact(const Arr &r) -> Arr {
     // length of the impulse response sequence
@@ -59,21 +54,16 @@ auto spectral_fact(const Arr &r) -> Arr {
     // over-sampling factor
     const auto mult_factor = 100;  // should have mult_factor*(n) >> n
     const auto m = mult_factor * n;
-    // const auto PI = std::acos(-1);
 
-    // computation method:
-    // H(exp(jTw)) = alpha(w) + j*phi(w)
-    // where alpha(w) = 1/2*ln(R(w)) and phi(w) = Hilbert_trans(alpha(w))
+    // Computation method:
+    //     H(exp(jTw)) = alpha(w) + j*phi(w),
+    // where
+    //     alpha(w) = 1/2*ln(R(w)) and phi(w) = Hilbert_trans(alpha(w)).
 
     // compute 1/2*ln(R(w))
     // w = 2*pi*[0:m-1]/m
     Arr w = xt::linspace<double>(0, 2 * M_PI, size_t(m));
 
-    // R = [ones(m, 1) 2*cos(kron(w', [1:n-1]))]*r
-    // Arr Bn = xt::linalg::outer(w, xt::arange(1, n));
-    // Arr An = 2 * xt::cos(Bn);
-    // // Arr R = np.hstack((np.ones((m, 1)), An)).dot(r)
-    // Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
     auto An = Arr(xt::zeros<double>({m, n - 1}));
     for (auto i = 0; i != m; ++i) {
         for (auto j = 0; j != n - 1; ++j) {
@@ -113,15 +103,16 @@ auto spectral_fact(const Arr &r) -> Arr {
 }
 
 /**
- * @brief
- *
  * The `inverse_spectral_fact` function takes an impulse response `h` as input
  * and computes the auto-correlation coefficients `r` that correspond to the
  * given impulse response. It returns the auto-correlation coefficients `r` as
  * an `Arr` object.
  *
- * @param h
- * @return Arr
+ * @param[in] h The parameter `h` is the impulse response, which is a one-dimensional array or vector
+ * representing the response of a system to an impulse input.
+ * 
+ * @return The function `inverse_spectral_fact` returns the auto-correlation coefficients `r` as an
+ * `Arr` object.
  */
 auto inverse_spectral_fact(const Arr &h) -> Arr {
     auto n = h.shape()[0];
@@ -132,8 +123,3 @@ auto inverse_spectral_fact(const Arr &h) -> Arr {
     }
     return r;
 }
-
-// if __name__ == "__main__":
-//     r = np.random.rand(20)
-//     h = spectral_fact(r)
-//     print(h)

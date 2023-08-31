@@ -5,8 +5,6 @@
 #include <valarray>
 #include <xtensor/xarray.hpp>
 
-// static const auto M_PI = std::acos(-1);
-
 // Modified from CVX code by Almir Mutapcic in 2006.
 // Adapted in 2010 for impulse response peak-minimization by convex iteration by
 // Christine Law.
@@ -50,7 +48,7 @@ struct filter_design_construct {
     double Upsq;
     double Spsq;
 
-    filter_design_construct(int argN = 32);
+    explicit filter_design_construct(int argN = 32);
 };
 
 // from itertools import chain
@@ -69,18 +67,11 @@ class LowpassOracle {
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 
-  private:
     size_t _i_Anr{};
     size_t _i_As{};
     size_t _i_Ap{};
-    // mutable unsigned int _count{};
 
     filter_design_construct _Fdc;
-    // const Arr& _Ap;
-    // const Arr& _As;
-    // const Arr& _Anr;
-    // double _Lpsq;
-    // double _Upsq;
 
   public:
     bool retry{false};  // ???
@@ -95,7 +86,7 @@ class LowpassOracle {
      * @param[in] Lpsq
      * @param[in] Upsq
      */
-    LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
+    explicit LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
 
     /*!
      * @brief

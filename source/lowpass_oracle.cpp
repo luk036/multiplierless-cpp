@@ -20,8 +20,6 @@
 #include <xtensor/xtensor_forward.hpp>        // for xarray
 #include <xtensor/xutils.hpp>                 // for accumulate
 #include <xtensor/xview.hpp>                  // for xview, view
-                                              //
-// #include <limits>
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 using Vec = std::valarray<double>;
@@ -31,6 +29,13 @@ using ParallelCut = std::pair<Arr, Vec>;
 #    define M_PI 3.14159265358979323846264338327950288
 #endif
 
+/**
+ * The above function is a constructor for a filter design class that initializes various parameters
+ * and matrices used in the filter design process.
+ * 
+ * @param argN The parameter `argN` represents the value of N, which is the order of the filter. It
+ * determines the number of filter coefficients and the complexity of the filter design.
+ */
 filter_design_construct::filter_design_construct(int argN) : N(argN) {
     const auto wpass = 0.12 * M_PI;  // end of passband
     const auto wstop = 0.20 * M_PI;  // start of stopband
@@ -66,11 +71,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     const auto Sp = std::pow(10, delta2 / 20);
     using xt::placeholders::_;
     this->As = xt::view(A, xt::range(ind_s[0], _), xt::all());
-    // remove redundant contraints
-    // ind_nr = setdiff(1:m,ind_p)   // fullband less passband
-    // ind_nr = setdiff(ind_nr, ind_s) // luk: for making parallel cut
-    // auto ind_nr = np.setdiff1d(xt::arange(m), ind_p);
-    // auto ind_nr = np.setdiff1d(ind_nr, ind_s);
+    // Remove redundant contraints
     auto ind_beg = ind_p[ind_p.size() - 1];
     auto ind_end = ind_s[0];
     this->Anr = xt::view(A, xt::range(ind_beg + 1, ind_end), xt::all());
@@ -79,12 +80,17 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     this->Spsq = Sp * Sp;
 }
 
-/*!
- * @brief
- *
- * @param[in] x
- * @param[in] Spsq
- * @return auto
+/**
+ * The function assess_optim in the LowpassOracle class assesses the optimization of a given input
+ * vector x based on various constraints and returns a tuple containing the gradient and objective
+ * function values, along with a boolean indicating whether the optimization is complete.
+ * 
+ * @param x A 1-dimensional array representing the optimization variables.
+ * @param Spsq Spsq is a reference to a double variable. It is used to store the maximum value of the
+ * stopband constraint.
+ * 
+ * @return The function `assess_optim` returns a tuple containing a `ParallelCut` object and a boolean
+ * value.
  */
 auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
     this->more_alt = true;
@@ -101,7 +107,6 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
     // case 2,
     // 2.0 passband constraints
     auto N = this->_Fdc.Ap.shape()[0];
-    // for (k in chain(range(i_As, N), range(i_As))) {
 
     this->retry = false;  // ???
 
@@ -112,14 +117,14 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
         }
         auto v = xt::sum(xt::view(this->_Fdc.Ap, k, xt::all()) * x)();
         if (v > this->_Fdc.Upsq) {
-            // f = v - Upsq;
+            // Calculate: f = v - Upsq;
             Arr g = xt::view(this->_Fdc.Ap, k, xt::all());
             Vec f{v - this->_Fdc.Upsq, v - this->_Fdc.Lpsq};
             this->_i_Ap = k + 1;
             return {{std::move(g), std::move(f)}, false};
         }
         if (v < this->_Fdc.Lpsq) {
-            // f = Lpsq - v;
+            // Calculate: f = Lpsq - v;
             Arr g = -xt::view(this->_Fdc.Ap, k, xt::all());
             Vec f{-v + this->_Fdc.Lpsq, -v + this->_Fdc.Upsq};
             this->_i_Ap = k + 1;
@@ -130,10 +135,8 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
     // case 3,
     // 3.0 stopband constraint
     N = this->_Fdc.As.shape()[0];
-    // Arr w = xt::zeros<double>({N});
     auto fmax = -1.e100;  // std::numeric_limits<double>::min()
     size_t imax = 0U;
-    // for (k in chain(range(i_As, N), range(i_As))) {
     k = this->_i_As;
     for (auto i = 0U; i != N; ++i, ++k) {
         if (k == N) {
@@ -141,15 +144,15 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
         }
         auto v = xt::sum(xt::view(this->_Fdc.As, k, xt::all()) * x)();
         if (v > Spsq) {
-            // f = v - Spsq;
+            // Calculate: f = v - Spsq
             Arr g = xt::view(this->_Fdc.As, k, xt::all());
-            // f = (v - Spsq, v);
+            // Calculate: f = (v - Spsq, v)
             Vec f{v - Spsq, v};
             this->_i_As = k + 1;  // k or k+1
             return {{std::move(g), std::move(f)}, false};
         }
         if (v < 0) {
-            // f = v - Spsq;
+            // Calculate: f = v - Spsq
             Arr g = -xt::view(this->_Fdc.As, k, xt::all());
             Vec f{-v, -v + Spsq};
             this->_i_As = k + 1;
@@ -181,7 +184,6 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
     this->more_alt = false;
 
     // Begin objective function
-    // Spsq, imax = w.max(), w.argmax(); // update best so far Spsq
     Spsq = fmax;
     Vec f{0.0, fmax};  // ???
     // f = 0

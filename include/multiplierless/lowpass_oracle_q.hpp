@@ -12,7 +12,6 @@ class LowpassOracleQ {
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 
-  private:
     Arr rcsd{};
     unsigned int _nnz;
     LowpassOracle _lowpass;
