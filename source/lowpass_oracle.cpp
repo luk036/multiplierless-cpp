@@ -33,8 +33,8 @@ using ParallelCut = std::pair<Arr, Vec>;
  * The above function is a constructor for a filter design class that initializes various parameters
  * and matrices used in the filter design process.
  *
- * @param[in] argN The parameter `argN` represents the value of N, which is the order of the filter. It
- * determines the number of filter coefficients and the complexity of the filter design.
+ * @param[in] argN The parameter `argN` represents the value of N, which is the order of the filter.
+ * It determines the number of filter coefficients and the complexity of the filter design.
  */
 filter_design_construct::filter_design_construct(int argN) : N(argN) {
     const auto wpass = 0.12 * M_PI;  // end of passband
@@ -86,8 +86,8 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * function values, along with a boolean indicating whether the optimization is complete.
  *
  * @param[in] x A 1-dimensional array representing the optimization variables.
- * @param[in] Spsq Spsq is a reference to a double variable. It is used to store the maximum value of
- * the stopband constraint.
+ * @param[in] Spsq Spsq is a reference to a double variable. It is used to store the maximum value
+ * of the stopband constraint.
  *
  * @return The function `assess_optim` returns a tuple containing a `ParallelCut` object and a
  * boolean value.
