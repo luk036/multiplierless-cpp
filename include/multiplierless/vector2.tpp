@@ -20,8 +20,8 @@ public:
   /**
    * @brief Construct a new vector2 object
    *
-   * @param x
-   * @param y
+   * @param[in] x
+   * @param[in] y
    */
   constexpr vector2(T1 &&x, T2 &&y) noexcept
       : _x{std::move(x)}, _y{std::move(y)} {}
@@ -29,8 +29,8 @@ public:
   /**
    * @brief Construct a new vector2 object
    *
-   * @param x
-   * @param y
+   * @param[in] x
+   * @param[in] y
    */
   constexpr vector2(const T1 &x, const T2 &y) : _x{x}, _y{y} {}
 

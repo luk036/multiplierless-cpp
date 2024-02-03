@@ -82,9 +82,9 @@ auto initial_guess(const std::vector<double> &pa) -> std::vector<vec2> {
 /**
  * @brief Multi-threading Bairstow's method (even degree only)
  *
- * @param pa polynomial
- * @param vrs vector of iterates
- * @param options maximum iterations and tolorance
+ * @param[in] pa polynomial
+ * @param[in] vrs vector of iterates
+ * @param[in] options maximum iterations and tolorance
  * @return std::tuple<unsigned int, bool>
  */
 auto pbairstow_even(const std::vector<double> &pa, std::vector<vec2> &vrs,

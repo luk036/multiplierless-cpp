@@ -25,11 +25,11 @@ extern auto spectral_fact(const Arr &r) -> Arr;
  * The function assess_optim_q assesses the optimal value of q for a lowpass filter based on the
  * input signal and previous cuts.
  *
- * @param r The parameter `r` is the top-half of the auto-correlation coefficients. It represents
+ * @param[in] r The parameter `r` is the top-half of the auto-correlation coefficients. It represents
  * the desired auto-correlation of the impulse response. It should be passed in as a column vector.
- * @param Spsq Spsq is a reference to a double variable. It is used to store the sum of squared
+ * @param[in] Spsq Spsq is a reference to a double variable. It is used to store the sum of squared
  * values of the input signal.
- * @param retry A boolean flag indicating whether the function is being retried due to no effect in
+ * @param[in] retry A boolean flag indicating whether the function is being retried due to no effect in
  * the previous cut.
  *
  * @return The function `assess_optim_q` returns a tuple containing the following elements:

@@ -41,7 +41,7 @@ returns the impulse response `h` as an `Arr` object. */
  * compute the minimum-phase impulse response that satisfies a given auto-correlation.
  * (code follows pp. 232-233, Signal Analysis, by A. Papoulis)
  *
- * @param r The parameter `r` is the top-half of the auto-correlation coefficients. It represents
+ * @param[in] r The parameter `r` is the top-half of the auto-correlation coefficients. It represents
  * the desired auto-correlation of the impulse response. It should be passed in as a column vector.
  *
  * @return The function `spectral_fact` returns the impulse response `h` that gives the desired

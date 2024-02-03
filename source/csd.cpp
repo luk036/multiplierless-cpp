@@ -32,8 +32,8 @@ using std::string;
  * https://sourceforge.net/projects/pycsd/
  * License: GPL2
  *
- * @param num
- * @param places
+ * @param[in] num
+ * @param[in] places
  * @return string
  */
 auto to_csd(double num, int places = 0) -> string {
@@ -67,7 +67,7 @@ auto to_csd(double num, int places = 0) -> string {
 /**
  * @brief Convert the CSD string to a decimal
  *
- * @param csd_str
+ * @param[in] csd_str
  * @return double
  */
 auto to_decimal(const std::string &csd_str) -> double {

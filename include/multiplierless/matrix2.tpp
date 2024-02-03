@@ -17,8 +17,8 @@ public:
   /**
    * @brief Construct a new matrix2 object
    *
-   * @param x
-   * @param y
+   * @param[in] x
+   * @param[in] y
    */
   constexpr matrix2(T1 &&x, T2 &&y) noexcept
       : vector2<T1, T2>{std::move(x), std::move(y)} {}
@@ -26,8 +26,8 @@ public:
   /**
    * @brief Construct a new matrix2 object
    *
-   * @param x
-   * @param y
+   * @param[in] x
+   * @param[in] y
    */
   constexpr matrix2(const T1 &x, const T2 &y) : vector2<T1, T2>{x, y} {}
 
