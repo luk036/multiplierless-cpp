@@ -34,8 +34,8 @@ auto run_csdlowpass(bool use_parallel_cut) {
     auto options = Options();
 
     options.max_iters = 50000;
+    options.tolerance = 1e-14;
     ellip.set_use_parallel_cut(use_parallel_cut);
-    // options.tol = 1e-8;
 
     // auto t = Fdc.Spsq;
     const auto [r, num_iters] = cutting_plane_optim_q(omega, ellip, t, options);
