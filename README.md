@@ -122,7 +122,7 @@ Additional arguments can be passed to the analyzers by setting the `CLANG_TIDY_A
 
 Ccache can be enabled by configuring with `-DUSE_CCACHE=<ON | OFF>`.
 
-## FAQ
+## ❓ FAQ
 
 > Can I use this for header-only libraries?
 
