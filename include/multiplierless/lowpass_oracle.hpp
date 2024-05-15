@@ -108,4 +108,3 @@ class LowpassOracle {
         return this->assess_optim(x, Spsq);
     }
 };
-w
