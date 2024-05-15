@@ -74,8 +74,8 @@ class LowpassOracle {
     filter_design_construct _Fdc;
 
   public:
-    bool retry{false};  // ???
-    bool more_alt{true};
+    // bool retry{false};  // ???
+    // bool more_alt{true};
 
     /*!
      * @brief Construct a new lowpass oracle object
@@ -108,3 +108,4 @@ class LowpassOracle {
         return this->assess_optim(x, Spsq);
     }
 };
+w

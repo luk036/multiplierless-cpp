@@ -18,6 +18,7 @@ class LowpassOracleQ {
     Arr rcsd{};
     unsigned int _nnz;
     LowpassOracle _lowpass;
+    unsigned int _num_retries = 0;
 
   public:
     /* The `LowpassOracleQ` constructor is initializing a `LowpassOracleQ` object. It takes two

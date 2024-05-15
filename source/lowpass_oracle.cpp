@@ -93,7 +93,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * boolean value.
  */
 auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
-    this->more_alt = true;
+    // this->more_alt = true;
 
     // 1.0 nonnegative-real constraint
     // case 1,
@@ -108,7 +108,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
     // 2.0 passband constraints
     auto N = this->_Fdc.Ap.shape()[0];
 
-    this->retry = false;  // ???
+    // this->retry = false;  // ???
 
     auto k = this->_i_Ap;
     for (auto i = 0U; i != N; ++i, ++k) {
@@ -181,7 +181,7 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
         }
     }
 
-    this->more_alt = false;
+    // this->more_alt = false;
 
     // Begin objective function
     Spsq = fmax;

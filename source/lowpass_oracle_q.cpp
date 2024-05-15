@@ -38,7 +38,7 @@ extern auto spectral_fact(const Arr &r) -> Arr;
 auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
     if (!retry) {  // retry due to no effect in the previous cut
-        this->_lowpass.retry = false;
+        // this->_lowpass.retry = false;
         auto [cut, shrunk] = this->_lowpass(r, Spsq);
         if (!shrunk) {
             return {cut, shrunk, r, true};
@@ -49,11 +49,13 @@ auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
             hcsd(i) = to_decimal(to_csdfixed(h(i), this->_nnz));
         }
         this->rcsd = inverse_spectral_fact(hcsd);
+        this->_num_retries = 0;  // reset to zero
+    } else {
+        this->_num_retries += 1;
     }
     auto [cut, shrunk] = this->_lowpass(this->rcsd, Spsq);
     auto &[gc, hc] = cut;
-    // no more alternative cuts?
     hc += xt::sum(gc * (this->rcsd - r))();
-    auto more_alt = this->_lowpass.more_alt && !retry;
-    return {cut, shrunk, this->rcsd, more_alt};
+    // auto more_alt = this->_lowpass.more_alt && !retry;
+    return {cut, shrunk, this->rcsd, this->_num_retries < this->_lowpass.N * 15};
 }
