@@ -57,5 +57,5 @@ auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
     auto &[gc, hc] = cut;
     hc += xt::sum(gc * (this->rcsd - r))();
     // auto more_alt = this->_lowpass.more_alt && !retry;
-    return {cut, shrunk, this->rcsd, this->_num_retries < this->_lowpass.N * 15};
+    return {cut, shrunk, this->rcsd, this->_num_retries < 15};
 }
