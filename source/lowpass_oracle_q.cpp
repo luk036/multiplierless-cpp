@@ -35,8 +35,8 @@ extern auto spectral_fact(const Arr &r) -> Arr;
  *
  * @return The function `assess_optim_q` returns a tuple containing the following elements:
  */
-auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq,
-                                    bool retry) -> std::tuple<ParallelCut, bool, Arr, bool> {
+auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
+    -> std::tuple<ParallelCut, bool, Arr, bool> {
     if (!retry) {  // retry due to no effect in the previous cut
         // this->_lowpass.retry = false;
         auto [cut, shrunk] = this->_lowpass(r, Spsq);
