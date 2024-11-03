@@ -30,11 +30,11 @@ class LowpassOracleQ {
     /* The `assess_optim_q` function is a member function of the `LowpassOracleQ` class. It takes
      * three parameters: `r` of type `const Arr&` (a reference to a constant `Arr` object), `Spsq`
      * of type `double&` (a reference to a `double`), and `retry` of type `bool`. */
-    auto assess_optim_q(const Arr &r, double &Spsq, bool retry)
-        -> std::tuple<ParallelCut, bool, Arr, bool>;
+    auto assess_optim_q(const Arr &r, double &Spsq,
+                        bool retry) -> std::tuple<ParallelCut, bool, Arr, bool>;
 
-    auto operator()(const Arr &r, double &Spsq, bool retry)
-        -> std::tuple<ParallelCut, bool, Arr, bool> {
+    auto operator()(const Arr &r, double &Spsq,
+                    bool retry) -> std::tuple<ParallelCut, bool, Arr, bool> {
         return this->assess_optim_q(r, Spsq, retry);
     }
 };
