@@ -103,7 +103,7 @@ auto to_decimal(const std::string &csd_str) -> double {
  * @param[in] nnz number of non-zero
  * @return string
  */
-auto to_csdfixed(double num, unsigned int nnz = 4) -> string {
+auto to_csdnnz(double num, unsigned int nnz = 4) -> string {
     if (num == 0) {
         return "0";
     }
