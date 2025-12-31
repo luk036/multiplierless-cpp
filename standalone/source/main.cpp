@@ -1,9 +1,7 @@
-#include <multiplierless/greeter.h>  // for LanguageCode, LanguageCode::DE
 #include <multiplierless/version.h>  // for MULTIPLIERLESS_VERSION
 
 #include <cxxopts.hpp>    // for value, OptionAdder, Options, Opt...
 #include <iostream>       // for string, operator<<, endl, basic_...
-#include <memory>         // for shared_ptr
 #include <string>         // for char_traits, hash, operator==
 #include <unordered_map>  // for operator==, unordered_map, __has...
 
