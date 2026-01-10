@@ -30,7 +30,7 @@ jobs:
         run: brew install fftw openblas
 
       - name: configure
-        run: cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=Debug
+        run: cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -DCMAKE_BUILD_TYPE=Debug
 
       - name: build
         run: cmake --build build -j4
