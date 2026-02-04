@@ -8,13 +8,13 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:xtensor-stack/xtl#0.7.4")
+CPMAddPackage("gh:xtensor-stack/xtl#0.7.5")
 if(xtl_ADDED)
   message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
   include_directories(${xtl_SOURCE_DIR}/include)
 endif(xtl_ADDED)
 
-CPMAddPackage("gh:xtensor-stack/xtensor#0.24.3")
+CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 if(xtensor_ADDED)
   message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
   include_directories(${xtensor_SOURCE_DIR}/include)

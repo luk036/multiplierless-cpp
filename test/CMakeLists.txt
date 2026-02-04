@@ -33,10 +33,10 @@ elseif(MSVC)
     PUBLIC /std:c++latest
            /await
            /W4
-           /WX
            /wd4819
            /wd4146
            /wd4127
+           /wd4244
   )
   target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
