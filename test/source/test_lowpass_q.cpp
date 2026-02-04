@@ -4,12 +4,11 @@
 #include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ
 #include <tuple>                                // for make_tuple, tuple
 #include <type_traits>                          // for move, add_const<>::type
-#include <xtensor/xlayout.hpp>                  // for layout_type, layout_...
 #include <xtensor/xtensor_forward.hpp>          // for xarray
 
 class LowpassOracle;
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
+using Arr = xt::xarray<double>;
 
 extern auto create_lowpass_case(int N) -> std::tuple<LowpassOracle, double>;
 

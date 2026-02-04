@@ -2,7 +2,6 @@
 
 #include <tuple>                        // for tuple
 #include <type_traits>                  // for move
-#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
 #include <xtensor/xtensor_forward.hpp>  // for xarray
 
 #include "lowpass_oracle.hpp"  // for LowpassOracle
@@ -11,7 +10,7 @@
  * filter. It takes an instance of the `LowpassOracle` class as a parameter and stores it as a
  * member variable `_lowpass`. */
 class LowpassOracleQ {
-    using Arr = xt::xarray<double, xt::layout_type::row_major>;
+    using Arr = xt::xarray<double>;
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 

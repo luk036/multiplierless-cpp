@@ -8,7 +8,7 @@
 #include <type_traits>                        // for move, add_const<>::type
 // #include <xtensor-blas/xlinalg.hpp>
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
+using Arr = xt::xarray<double>;
 
 // static filter_design_construct Fdc{};
 auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {

@@ -38,7 +38,7 @@
 // *********************************************************************
 // number of FIR coefficients (including zeroth)
 struct filter_design_construct {
-    using Arr = xt::xarray<double, xt::layout_type::row_major>;
+    using Arr = xt::xarray<double>;
 
     int N;
     Arr Ap;
@@ -63,7 +63,7 @@ struct filter_design_construct {
  * [0, \pi] R(\omega) > 0, \forall \omega \in [0, \pi]
  */
 class LowpassOracle {
-    using Arr = xt::xarray<double, xt::layout_type::row_major>;
+    using Arr = xt::xarray<double>;
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 
