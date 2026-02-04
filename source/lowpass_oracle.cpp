@@ -21,7 +21,7 @@
 #include <xtensor/xutils.hpp>                 // for accumulate
 #include <xtensor/xview.hpp>                  // for xview, view
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
+using Arr = xt::xarray<double>;
 using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
@@ -65,16 +65,18 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     }
     Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
     const auto ind_p = xt::where(w <= wpass)[0];  // passband
-    this->Ap = xt::view(A, xt::range(0, ind_p.size()), xt::all());
+    auto ind_p_size = ind_p.size();
+    this->Ap = xt::view(A, xt::range(0, ind_p_size), xt::all());
     // stopband (w_stop <= w)
-    auto ind_s = xt::where(wstop <= w)[0];  // stopband
+    const auto ind_s = xt::where(wstop <= w)[0];  // stopband
     const auto Sp = std::pow(10, delta2 / 20);
     using xt::placeholders::_;
-    this->As = xt::view(A, xt::range(ind_s[0], _), xt::all());
+    auto ind_s_0 = ind_s[0];
+    this->As = xt::view(A, xt::range(ind_s_0, _), xt::all());
     // Remove redundant contraints
-    auto ind_beg = ind_p[ind_p.size() - 1];
+    auto ind_p_last = ind_p[ind_p_size - 1];
     auto ind_end = ind_s[0];
-    this->Anr = xt::view(A, xt::range(ind_beg + 1, ind_end), xt::all());
+    this->Anr = xt::view(A, xt::range(ind_p_last + 1, ind_end), xt::all());
     this->Lpsq = Lp * Lp;
     this->Upsq = Up * Up;
     this->Spsq = Sp * Sp;
@@ -97,10 +99,10 @@ auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<Paral
 
     // 1.0 nonnegative-real constraint
     // case 1,
-    if (x[0] < 0) {
+    if (x(0) < 0) {
         Arr g = xt::zeros<double>(x.shape());
-        g[0] = -1.;
-        auto f = Vec{-x[0]};
+        g(0) = -1.;
+        auto f = Vec{-x(0)};
         return {{std::move(g), std::move(f)}, false};
     }
 

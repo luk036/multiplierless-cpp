@@ -11,7 +11,7 @@
 
 #include "multiplierless/lowpass_oracle.hpp"  // for LowpassOracle
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
+using Arr = xt::xarray<double>;
 using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 

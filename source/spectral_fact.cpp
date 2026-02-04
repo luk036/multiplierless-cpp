@@ -26,7 +26,7 @@
 #include <xtensor/xutils.hpp>        // for accumulate
 #include <xtensor/xview.hpp>         // for xview, view
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
+using Arr = xt::xarray<double>;
 
 /* The `spectral_fact` function is performing spectral factorization using the
 Kolmogorov 1939 approach. It takes an input vector `r` which represents the
@@ -99,7 +99,8 @@ auto spectral_fact(const Arr &r) -> Arr {
     auto phi1 = xt::view(phi, xt::range(0, m, mult_factor));
 
     // compute the impulse response (inverse Fourier transform)
-    Arr h = xt::fftw::irfft(xt::eval(xt::exp(alpha1 + j_ * phi1)));
+    auto h_tmp = xt::exp(alpha1 + j_ * phi1);
+    Arr h = xt::fftw::irfft(xt::eval(h_tmp));
     return h;
 }
 
