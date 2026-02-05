@@ -1,0 +1,808 @@
+build	build	﻿2026-02-05T13:06:51.2281780Z ##[group]Run cmake --build build -j4
+build	build	2026-02-05T13:06:51.2282210Z [36;1mcmake --build build -j4[0m
+build	build	2026-02-05T13:06:51.2341570Z shell: /bin/bash -e {0}
+build	build	2026-02-05T13:06:51.2341770Z env:
+build	build	2026-02-05T13:06:51.2341980Z   CTEST_OUTPUT_ON_FAILURE: 1
+build	build	2026-02-05T13:06:51.2342370Z   CPM_SOURCE_CACHE: /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules
+build	build	2026-02-05T13:06:51.2342730Z ##[endgroup]
+build	build	2026-02-05T13:06:51.4287160Z [  4%] Building CXX object _deps/fmt-build/CMakeFiles/fmt.dir/src/format.cc.o
+build	build	2026-02-05T13:06:51.4369700Z [  9%] Building CXX object _deps/fmt-build/CMakeFiles/fmt.dir/src/os.cc.o
+build	build	2026-02-05T13:06:53.2576290Z [ 13%] Linking CXX static library libfmtd.a
+build	build	2026-02-05T13:06:54.7704030Z [ 13%] Built target fmt
+build	build	2026-02-05T13:06:54.8136690Z [ 18%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/ell1d.cpp.o
+build	build	2026-02-05T13:06:54.8250880Z [ 22%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/ell_core.cpp.o
+build	build	2026-02-05T13:06:54.8381790Z [ 27%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/ell_calc.cpp.o
+build	build	2026-02-05T13:06:54.8483710Z [ 31%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/ell_calc_core.cpp.o
+build	build	2026-02-05T13:06:54.9518970Z [ 36%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/greeter.cpp.o
+build	build	2026-02-05T13:06:55.0598720Z [ 40%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/ldlt_mgr.cpp.o
+build	build	2026-02-05T13:06:55.1021320Z [ 45%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/lowpass_oracle.cpp.o
+build	build	2026-02-05T13:06:55.1539070Z [ 50%] Building CXX object _deps/ellalgo-build/CMakeFiles/EllAlgo.dir/source/profit_oracle.cpp.o
+build	build	2026-02-05T13:06:56.2931330Z [ 54%] Linking CXX static library libEllAlgo.a
+build	build	2026-02-05T13:06:56.3997470Z [ 54%] Built target EllAlgo
+build	build	2026-02-05T13:06:56.4425660Z [ 59%] Building CXX object CMakeFiles/Multiplierless.dir/source/csd.cpp.o
+build	build	2026-02-05T13:06:56.4556700Z [ 63%] Building CXX object CMakeFiles/Multiplierless.dir/source/lowpass_oracle.cpp.o
+build	build	2026-02-05T13:06:56.4659970Z [ 68%] Building CXX object CMakeFiles/Multiplierless.dir/source/lowpass_oracle_q.cpp.o
+build	build	2026-02-05T13:06:56.4777320Z [ 72%] Building CXX object CMakeFiles/Multiplierless.dir/source/spectral_fact.cpp.o
+build	build	2026-02-05T13:06:57.8144150Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:57.8244240Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:57.8344470Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:57.8446190Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:19:
+build	build	2026-02-05T13:06:57.8546720Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xbuffer_adaptor.hpp:21:
+build	build	2026-02-05T13:06:57.8649320Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:23:
+build	build	2026-02-05T13:06:57.8756450Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xtensor_simd.hpp:17:
+build	build	2026-02-05T13:06:57.8858140Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:896:31: error: ambiguous partial specializations of 'rebind_container<long, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:57.8960710Z   896 |         using type = typename rebind_container<std::ptrdiff_t, S>::type;
+build	build	2026-02-05T13:06:57.9061180Z       |                               ^
+build	build	2026-02-05T13:06:57.9162060Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:924:5: note: in instantiation of template class 'xt::get_strides_type<xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:57.9264370Z   924 |     using get_strides_t = typename get_strides_type<C>::type;
+build	build	2026-02-05T13:06:57.9372280Z       |     ^
+build	build	2026-02-05T13:06:57.9474350Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:53:30: note: in instantiation of template type alias 'get_strides_t' requested here
+build	build	2026-02-05T13:06:57.9576230Z    53 |         using strides_type = get_strides_t<shape_type>;
+build	build	2026-02-05T13:06:57.9677930Z       |                              ^
+build	build	2026-02-05T13:06:57.9818350Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:36:43: note: in instantiation of template class 'xt::xcontainer_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:57.9937390Z    36 |         using inner_shape_type = typename xcontainer_inner_types<D>::inner_shape_type;
+build	build	2026-02-05T13:06:58.0039730Z       |                                           ^
+build	build	2026-02-05T13:06:58.0112220Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:64:11: note: in instantiation of template class 'xt::xcontainer_iterable_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0117230Z    64 |         : xcontainer_iterable_types<xarray_container<EC, L, SC, Tag>>
+build	build	2026-02-05T13:06:58.0117700Z       |           ^
+build	build	2026-02-05T13:06:58.0121090Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:43:43: note: in instantiation of template class 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0122530Z    43 |         using inner_shape_type = typename iterable_types::inner_shape_type;
+build	build	2026-02-05T13:06:58.0123040Z       |                                           ^
+build	build	2026-02-05T13:06:58.0124020Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+build	build	2026-02-05T13:06:58.0125000Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.0125590Z       |                              ^
+build	build	2026-02-05T13:06:58.0127810Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0231860Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.0333370Z       |                                          ^
+build	build	2026-02-05T13:06:58.0369230Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0380190Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.0388670Z       |                               ^
+build	build	2026-02-05T13:06:58.0443730Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0447230Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.0449340Z       |                                       ^
+build	build	2026-02-05T13:06:58.0461750Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0514650Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.0522090Z       |                                     ^
+build	build	2026-02-05T13:06:58.0525900Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.0534570Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.0535210Z       |         ^
+build	build	2026-02-05T13:06:58.0537150Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:883:12: note: partial specialization matches [with X = long, C = xt::svector, T = unsigned long, N = 4]
+build	build	2026-02-05T13:06:58.0538770Z   883 |     struct rebind_container<X, C<T, N>>
+build	build	2026-02-05T13:06:58.0540740Z       |            ^
+build	build	2026-02-05T13:06:58.0544050Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1415:12: note: partial specialization matches [with X = long, T = unsigned long, N = 4, A = std::allocator<unsigned long>, B = true]
+build	build	2026-02-05T13:06:58.0545730Z  1415 |     struct rebind_container<X, svector<T, N, A, B>>
+build	build	2026-02-05T13:06:58.0547170Z       |            ^
+build	build	2026-02-05T13:06:58.0549290Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.0550300Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.0551830Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.0552860Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.0554540Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.0560060Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:45:50: error: no type named 'stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0563280Z    45 |         using stepper = typename iterable_types::stepper;
+build	build	2026-02-05T13:06:58.0564450Z       |                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+build	build	2026-02-05T13:06:58.0586460Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: in instantiation of template class 'xt::xconst_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0587860Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.0588290Z       |                              ^
+build	build	2026-02-05T13:06:58.0589830Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0595930Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.0630060Z       |                                          ^
+build	build	2026-02-05T13:06:58.0633180Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0637280Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.0639690Z       |                               ^
+build	build	2026-02-05T13:06:58.0647250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0669510Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.0670170Z       |                                       ^
+build	build	2026-02-05T13:06:58.0673190Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0674650Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.0675760Z       |                                     ^
+build	build	2026-02-05T13:06:58.0676790Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.0679470Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.0681270Z       |         ^
+build	build	2026-02-05T13:06:58.0682880Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.0683940Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.0685760Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.0688240Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.0691100Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.0694500Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:46:56: error: no type named 'const_stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0699900Z    46 |         using const_stepper = typename iterable_types::const_stepper;
+build	build	2026-02-05T13:06:58.0709630Z       |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.0712270Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.0713480Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.0716250Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.0717540Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.0720480Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:140:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0721760Z   140 |         using accessible_base::at;
+build	build	2026-02-05T13:06:58.0722130Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.0723800Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0726290Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.0726780Z       |                                       ^
+build	build	2026-02-05T13:06:58.0728020Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.0730910Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.0735670Z       |                                     ^
+build	build	2026-02-05T13:06:58.0739550Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.0741940Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.0743350Z       |         ^
+build	build	2026-02-05T13:06:58.0745030Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.0746660Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.0749040Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.0750030Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.0752230Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:141:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0857790Z   141 |         using accessible_base::shape;
+build	build	2026-02-05T13:06:58.0929420Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.0937130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:142:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0977720Z   142 |         using accessible_base::operator[];
+build	build	2026-02-05T13:06:58.0979480Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.0980750Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:143:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0988490Z   143 |         using accessible_base::back;
+build	build	2026-02-05T13:06:58.0990170Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.0994490Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:144:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.0998100Z   144 |         using accessible_base::front;
+build	build	2026-02-05T13:06:58.1013090Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1015280Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:145:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1016720Z   145 |         using accessible_base::in_bounds;
+build	build	2026-02-05T13:06:58.1017120Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1018650Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:146:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1020350Z   146 |         using accessible_base::periodic;
+build	build	2026-02-05T13:06:58.1025670Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1026960Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.1028530Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.1029670Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1031530Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:93:52: error: no type named 'allocator_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1068350Z    93 |         using allocator_type = typename base_type::allocator_type;
+build	build	2026-02-05T13:06:58.1068840Z       |                                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1070680Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1072530Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.1073710Z       |         ^
+build	build	2026-02-05T13:06:58.1075400Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:2:
+build	build	2026-02-05T13:06:58.1078500Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle_q.hpp:7:
+build	build	2026-02-05T13:06:58.1080790Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1106230Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:102:54: error: no type named 'backstrides_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1112740Z   102 |         using backstrides_type = typename base_type::backstrides_type;
+build	build	2026-02-05T13:06:58.1140750Z       |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1143930Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:47:27: error: no member named 'shape' in 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.1146320Z    47 |         auto hcsd = Arr(h.shape());
+build	build	2026-02-05T13:06:58.1147300Z       |                         ~ ^
+build	build	2026-02-05T13:06:58.1150090Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:48:34: error: no member named 'size' in 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.1155340Z    48 |         for (auto i = 0U; i != h.size(); ++i) {
+build	build	2026-02-05T13:06:58.1156780Z       |                                ~ ^
+build	build	2026-02-05T13:06:58.1159990Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle_q.cpp:49:44: error: type 'Arr' (aka 'xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') does not provide a call operator
+build	build	2026-02-05T13:06:58.1169170Z    49 |             hcsd(i) = to_decimal(to_csdnnz(h(i), this->_nnz));
+build	build	2026-02-05T13:06:58.1169860Z       |                                            ^
+build	build	2026-02-05T13:06:58.1171010Z 15 errors generated.
+build	build	2026-02-05T13:06:58.1171450Z make[2]: *** [CMakeFiles/Multiplierless.dir/source/lowpass_oracle_q.cpp.o] Error 1
+build	build	2026-02-05T13:06:58.1171970Z make[2]: *** Waiting for unfinished jobs....
+build	build	2026-02-05T13:06:58.1175620Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1176650Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1178030Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:19:
+build	build	2026-02-05T13:06:58.1179310Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xbuffer_adaptor.hpp:21:
+build	build	2026-02-05T13:06:58.1180460Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:23:
+build	build	2026-02-05T13:06:58.1181910Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xtensor_simd.hpp:17:
+build	build	2026-02-05T13:06:58.1183550Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:896:31: error: ambiguous partial specializations of 'rebind_container<long, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.1237950Z   896 |         using type = typename rebind_container<std::ptrdiff_t, S>::type;
+build	build	2026-02-05T13:06:58.1242180Z       |                               ^
+build	build	2026-02-05T13:06:58.1243520Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:924:5: note: in instantiation of template class 'xt::get_strides_type<xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1246100Z   924 |     using get_strides_t = typename get_strides_type<C>::type;
+build	build	2026-02-05T13:06:58.1248530Z       |     ^
+build	build	2026-02-05T13:06:58.1249630Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:53:30: note: in instantiation of template type alias 'get_strides_t' requested here
+build	build	2026-02-05T13:06:58.1268860Z    53 |         using strides_type = get_strides_t<shape_type>;
+build	build	2026-02-05T13:06:58.1278070Z       |                              ^
+build	build	2026-02-05T13:06:58.1282670Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:36:43: note: in instantiation of template class 'xt::xcontainer_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1293140Z    36 |         using inner_shape_type = typename xcontainer_inner_types<D>::inner_shape_type;
+build	build	2026-02-05T13:06:58.1294620Z       |                                           ^
+build	build	2026-02-05T13:06:58.1300840Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:64:11: note: in instantiation of template class 'xt::xcontainer_iterable_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1321320Z    64 |         : xcontainer_iterable_types<xarray_container<EC, L, SC, Tag>>
+build	build	2026-02-05T13:06:58.1324210Z       |           ^
+build	build	2026-02-05T13:06:58.1330360Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:43:43: note: in instantiation of template class 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1332440Z    43 |         using inner_shape_type = typename iterable_types::inner_shape_type;
+build	build	2026-02-05T13:06:58.1343820Z       |                                           ^
+build	build	2026-02-05T13:06:58.1346280Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+build	build	2026-02-05T13:06:58.1347610Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.1351980Z       |                              ^
+build	build	2026-02-05T13:06:58.1355420Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1356680Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.1358200Z       |                                          ^
+build	build	2026-02-05T13:06:58.1359570Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1362120Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.1363540Z       |                               ^
+build	build	2026-02-05T13:06:58.1371240Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1378470Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.1382060Z       |                                       ^
+build	build	2026-02-05T13:06:58.1386950Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1389100Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.1390340Z       |                                     ^
+build	build	2026-02-05T13:06:58.1393300Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1396460Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.1397310Z       |         ^
+build	build	2026-02-05T13:06:58.1398450Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:883:12: note: partial specialization matches [with X = long, C = xt::svector, T = unsigned long, N = 4]
+build	build	2026-02-05T13:06:58.1399880Z   883 |     struct rebind_container<X, C<T, N>>
+build	build	2026-02-05T13:06:58.1400260Z       |            ^
+build	build	2026-02-05T13:06:58.1401250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1415:12: note: partial specialization matches [with X = long, T = unsigned long, N = 4, A = std::allocator<unsigned long>, B = true]
+build	build	2026-02-05T13:06:58.1402420Z  1415 |     struct rebind_container<X, svector<T, N, A, B>>
+build	build	2026-02-05T13:06:58.1402860Z       |            ^
+build	build	2026-02-05T13:06:58.1403350Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1416850Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1417890Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.1419100Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.1421280Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:45:50: error: no type named 'stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1422520Z    45 |         using stepper = typename iterable_types::stepper;
+build	build	2026-02-05T13:06:58.1422850Z       |                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+build	build	2026-02-05T13:06:58.1423930Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: in instantiation of template class 'xt::xconst_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1425620Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.1425940Z       |                              ^
+build	build	2026-02-05T13:06:58.1426970Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1428310Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.1428610Z       |                                          ^
+build	build	2026-02-05T13:06:58.1429700Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1431260Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.1431590Z       |                               ^
+build	build	2026-02-05T13:06:58.1432640Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1433890Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.1434190Z       |                                       ^
+build	build	2026-02-05T13:06:58.1435280Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1477110Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.1477520Z       |                                     ^
+build	build	2026-02-05T13:06:58.1478560Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1479410Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.1479580Z       |         ^
+build	build	2026-02-05T13:06:58.1479960Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1480640Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1481560Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.1482540Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.1483930Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:46:56: error: no type named 'const_stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1485930Z    46 |         using const_stepper = typename iterable_types::const_stepper;
+build	build	2026-02-05T13:06:58.1486230Z       |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1486690Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1487730Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1488610Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.1490130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:140:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1491320Z   140 |         using accessible_base::at;
+build	build	2026-02-05T13:06:58.1492260Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1493330Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1494470Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.1494720Z       |                                       ^
+build	build	2026-02-05T13:06:58.1495790Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.1496890Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.1497220Z       |                                     ^
+build	build	2026-02-05T13:06:58.1498080Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1499310Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.1499430Z       |         ^
+build	build	2026-02-05T13:06:58.1499750Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1500460Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1501280Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.1502780Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:141:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1503970Z   141 |         using accessible_base::shape;
+build	build	2026-02-05T13:06:58.1504180Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1505300Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:142:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1506370Z   142 |         using accessible_base::operator[];
+build	build	2026-02-05T13:06:58.1506570Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1507600Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:143:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1508920Z   143 |         using accessible_base::back;
+build	build	2026-02-05T13:06:58.1509120Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1510200Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:144:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1511270Z   144 |         using accessible_base::front;
+build	build	2026-02-05T13:06:58.1511740Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1512770Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:145:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1513820Z   145 |         using accessible_base::in_bounds;
+build	build	2026-02-05T13:06:58.1514010Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1515460Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:146:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1516660Z   146 |         using accessible_base::periodic;
+build	build	2026-02-05T13:06:58.1516910Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1517330Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1518010Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1519250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:93:52: error: no type named 'allocator_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1520320Z    93 |         using allocator_type = typename base_type::allocator_type;
+build	build	2026-02-05T13:06:58.1520610Z       |                                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1521480Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:44:9: note: in instantiation of template class 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.1522340Z    44 |     Arr Ap;
+build	build	2026-02-05T13:06:58.1522470Z       |         ^
+build	build	2026-02-05T13:06:58.1522820Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:4:
+build	build	2026-02-05T13:06:58.1523500Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/include/multiplierless/lowpass_oracle.hpp:6:
+build	build	2026-02-05T13:06:58.1524750Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:102:54: error: no type named 'backstrides_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.1525800Z   102 |         using backstrides_type = typename base_type::backstrides_type;
+build	build	2026-02-05T13:06:58.1526190Z       |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1527320Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:63:13: error: type 'Arr' (aka 'xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') does not provide a call operator
+build	build	2026-02-05T13:06:58.1528200Z    63 |             An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
+build	build	2026-02-05T13:06:58.1528420Z       |             ^~
+build	build	2026-02-05T13:06:58.1529250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:63:39: error: type 'const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') does not provide a call operator
+build	build	2026-02-05T13:06:58.1530170Z    63 |             An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
+build	build	2026-02-05T13:06:58.1530630Z       |                                       ^
+build	build	2026-02-05T13:06:58.1531560Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:67:36: error: invalid operands to binary expression ('const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') and 'const double')
+build	build	2026-02-05T13:06:58.1532570Z    67 |     const auto ind_p = xt::where(w <= wpass)[0];  // passband
+build	build	2026-02-05T13:06:58.1532820Z       |                                  ~ ^  ~~~~~
+build	build	2026-02-05T13:06:58.1533980Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__variant/monostate.h:44:45: note: candidate function not viable: no known conversion from 'const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') to 'monostate' for 1st argument
+build	build	2026-02-05T13:06:58.1535710Z    44 | _LIBCPP_HIDE_FROM_ABI inline constexpr bool operator<=(monostate, monostate) noexcept { return true; }
+build	build	2026-02-05T13:06:58.1536120Z       |                                             ^          ~~~~~~~~~
+build	build	2026-02-05T13:06:58.1537270Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/id.h:95:35: note: candidate function not viable: no known conversion from 'const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') to '__thread_id' for 1st argument
+build	build	2026-02-05T13:06:58.1538910Z    95 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(__thread_id __x, __thread_id __y) _NOEXCEPT { return !(__y < __x); }
+build	build	2026-02-05T13:06:58.1539390Z       |                                   ^          ~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1540150Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/pair.h:536:1: note: candidate template ignored: could not match 'pair' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1540950Z   536 | operator<=(const pair<_T1, _T2>& __x, const pair<_U1, _U2>& __y) {
+build	build	2026-02-05T13:06:58.1541200Z       | ^
+build	build	2026-02-05T13:06:58.1541930Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/reverse_iterator.h:266:1: note: candidate template ignored: could not match 'reverse_iterator' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1542910Z   266 | operator<=(const reverse_iterator<_Iter1>& __x, const reverse_iterator<_Iter2>& __y)
+build	build	2026-02-05T13:06:58.1543230Z       | ^
+build	build	2026-02-05T13:06:58.1544530Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3110:1: note: candidate template ignored: requirement '__is_val_expr<xt::xarray_container<xt::uvector<double, std::allocator<double>>, xt::layout_type::row_major, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>::value' was not satisfied [with _Expr1 = Arr, _Expr2 = double]
+build	build	2026-02-05T13:06:58.1546540Z  3110 | operator<=(const _Expr1& __x, const _Expr2& __y) {
+build	build	2026-02-05T13:06:58.1546810Z       | ^
+build	build	2026-02-05T13:06:58.1548260Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3119:1: note: candidate template ignored: requirement '__is_val_expr<xt::xarray_container<xt::uvector<double, std::allocator<double>>, xt::layout_type::row_major, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>::value' was not satisfied [with _Expr = Arr]
+build	build	2026-02-05T13:06:58.1549790Z  3119 | operator<=(const _Expr& __x, const typename _Expr::value_type& __y) {
+build	build	2026-02-05T13:06:58.1550080Z       | ^
+build	build	2026-02-05T13:06:58.1550910Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3128:1: note: candidate template ignored: requirement '__is_val_expr<double>::value' was not satisfied [with _Expr = double]
+build	build	2026-02-05T13:06:58.1552520Z  3128 | operator<=(const typename _Expr::value_type& __x, const _Expr& __y) {
+build	build	2026-02-05T13:06:58.1552830Z       | ^
+build	build	2026-02-05T13:06:58.1553560Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1035:1: note: candidate template ignored: could not match 'optional' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1554380Z  1035 | operator<=(const optional<_Tp>& __x, const optional<_Up>& __y) {
+build	build	2026-02-05T13:06:58.1554640Z       | ^
+build	build	2026-02-05T13:06:58.1555340Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1101:38: note: candidate template ignored: could not match 'optional' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1556670Z  1101 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(const optional<_Tp>& __x, nullopt_t) noexcept {
+build	build	2026-02-05T13:06:58.1557040Z       |                                      ^
+build	build	2026-02-05T13:06:58.1557780Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1106:38: note: candidate template ignored: could not match 'const optional<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1558720Z  1106 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(nullopt_t, const optional<_Tp>&) noexcept {
+build	build	2026-02-05T13:06:58.1559480Z       |                                      ^
+build	build	2026-02-05T13:06:58.1560210Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1192:1: note: candidate template ignored: could not match 'optional' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1561060Z  1192 | operator<=(const optional<_Tp>& __x, const _Up& __v) {
+build	build	2026-02-05T13:06:58.1561310Z       | ^
+build	build	2026-02-05T13:06:58.1561950Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1200:1: note: candidate template ignored: could not match 'const optional<_Up>' against 'const double'
+build	build	2026-02-05T13:06:58.1562760Z  1200 | operator<=(const _Tp& __v, const optional<_Up>& __x) {
+build	build	2026-02-05T13:06:58.1562990Z       | ^
+build	build	2026-02-05T13:06:58.1564130Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/move_iterator.h:281:1: note: candidate template ignored: could not match 'move_iterator' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1566010Z   281 | operator<=(const move_iterator<_Iter1>& __x, const move_iterator<_Iter2>& __y) {
+build	build	2026-02-05T13:06:58.1566780Z       | ^
+build	build	2026-02-05T13:06:58.1567580Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/wrap_iter.h:178:1: note: candidate template ignored: could not match '__wrap_iter' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1568770Z   178 | operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1569070Z       | ^
+build	build	2026-02-05T13:06:58.1569850Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/wrap_iter.h:184:1: note: candidate template ignored: could not match '__wrap_iter' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1570740Z   184 | operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1571140Z       | ^
+build	build	2026-02-05T13:06:58.1571790Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/variant:1538:38: note: candidate template ignored: could not match 'variant' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1572810Z  1538 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(const variant<_Types...>& __lhs, const variant<_Types...>& __rhs) {
+build	build	2026-02-05T13:06:58.1573480Z       |                                      ^
+build	build	2026-02-05T13:06:58.1574290Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/tuple:1225:1: note: candidate template ignored: could not match 'tuple' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1575170Z  1225 | operator<=(const tuple<_Tp...>& __x, const tuple<_Up...>& __y) {
+build	build	2026-02-05T13:06:58.1575420Z       | ^
+build	build	2026-02-05T13:06:58.1576150Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:522:35: note: candidate template ignored: could not match 'unique_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1577090Z   522 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const unique_ptr<_T1, _D1>& __x, const unique_ptr<_T2, _D2>& __y) {
+build	build	2026-02-05T13:06:58.1577490Z       |                                   ^
+build	build	2026-02-05T13:06:58.1578320Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:587:65: note: candidate template ignored: could not match 'unique_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1579280Z   587 | inline _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX23 bool operator<=(const unique_ptr<_T1, _D1>& __x, nullptr_t) {
+build	build	2026-02-05T13:06:58.1579830Z       |                                                                 ^
+build	build	2026-02-05T13:06:58.1580630Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:592:65: note: candidate template ignored: could not match 'const unique_ptr<_T1, _D1>' against 'const double'
+build	build	2026-02-05T13:06:58.1581630Z   592 | inline _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX23 bool operator<=(nullptr_t, const unique_ptr<_T1, _D1>& __x) {
+build	build	2026-02-05T13:06:58.1582070Z       |                                                                 ^
+build	build	2026-02-05T13:06:58.1583180Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1152:35: note: candidate template ignored: could not match 'shared_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1584200Z  1152 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const shared_ptr<_Tp>& __x, const shared_ptr<_Up>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1584710Z       |                                   ^
+build	build	2026-02-05T13:06:58.1585480Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1213:35: note: candidate template ignored: could not match 'shared_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1586380Z  1213 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const shared_ptr<_Tp>& __x, nullptr_t) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1586750Z       |                                   ^
+build	build	2026-02-05T13:06:58.1587840Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1218:35: note: candidate template ignored: could not match 'const shared_ptr<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1589100Z  1218 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(nullptr_t, const shared_ptr<_Tp>& __x) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1589460Z       |                                   ^
+build	build	2026-02-05T13:06:58.1590170Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/array:411:35: note: candidate template ignored: could not match 'array' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1591070Z   411 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const array<_Tp, _Size>& __x, const array<_Tp, _Size>& __y) {
+build	build	2026-02-05T13:06:58.1591460Z       |                                   ^
+build	build	2026-02-05T13:06:58.1592540Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:831:1: note: candidate template ignored: could not match 'basic_string_view' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1593820Z   831 | operator<=(basic_string_view<_CharT, _Traits> __lhs, basic_string_view<_CharT, _Traits> __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1594190Z       | ^
+build	build	2026-02-05T13:06:58.1594960Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:837:1: note: candidate template ignored: could not match 'basic_string_view' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1595790Z   837 | operator<=(basic_string_view<_CharT, _Traits> __lhs,
+build	build	2026-02-05T13:06:58.1596000Z       | ^
+build	build	2026-02-05T13:06:58.1596670Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:844:1: note: candidate template ignored: could not match 'basic_string_view<_CharT, _Traits>' against 'double'
+build	build	2026-02-05T13:06:58.1597500Z   844 | operator<=(__type_identity_t<basic_string_view<_CharT, _Traits> > __lhs,
+build	build	2026-02-05T13:06:58.1597770Z       | ^
+build	build	2026-02-05T13:06:58.1598860Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3948:35: note: candidate template ignored: could not match 'basic_string' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1599730Z  3948 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const basic_string<_CharT, _Traits, _Allocator>& __lhs,
+build	build	2026-02-05T13:06:58.1600090Z       |                                   ^
+build	build	2026-02-05T13:06:58.1600790Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3955:1: note: candidate template ignored: could not match 'basic_string' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1601680Z  3955 | operator<=(const basic_string<_CharT, _Traits, _Allocator>& __lhs, const _CharT* __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1602100Z       | ^
+build	build	2026-02-05T13:06:58.1603100Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3961:1: note: candidate template ignored: could not match 'const _CharT *' against 'Arr' (aka 'xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>')
+build	build	2026-02-05T13:06:58.1604430Z  3961 | operator<=(const _CharT* __lhs, const basic_string<_CharT, _Traits, _Allocator>& __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1604790Z       | ^
+build	build	2026-02-05T13:06:58.1605430Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:2935:35: note: candidate template ignored: could not match 'vector' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1607070Z  2935 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const vector<_Tp, _Allocator>& __x, const vector<_Tp, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1607550Z       |                                   ^
+build	build	2026-02-05T13:06:58.1608460Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/deque:2550:35: note: candidate template ignored: could not match 'deque' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1609580Z  2550 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const deque<_Tp, _Allocator>& __x, const deque<_Tp, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1609970Z       |                                   ^
+build	build	2026-02-05T13:06:58.1610660Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/queue:488:35: note: candidate template ignored: could not match 'queue' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1611720Z   488 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const queue<_Tp, _Container>& __x, const queue<_Tp, _Container>& __y) {
+build	build	2026-02-05T13:06:58.1612110Z       |                                   ^
+build	build	2026-02-05T13:06:58.1613210Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stack:344:35: note: candidate template ignored: could not match 'stack' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1614100Z   344 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const stack<_Tp, _Container>& __x, const stack<_Tp, _Container>& __y) {
+build	build	2026-02-05T13:06:58.1614660Z       |                                   ^
+build	build	2026-02-05T13:06:58.1617120Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list:1513:1: note: candidate template ignored: could not match 'forward_list' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1618740Z  1513 | operator<=(const forward_list<_Tp, _Alloc>& __x, const forward_list<_Tp, _Alloc>& __y) {
+build	build	2026-02-05T13:06:58.1619060Z       | ^
+build	build	2026-02-05T13:06:58.1619820Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:598:17: note: candidate template ignored: could not match 'uvector' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1620990Z   598 |     inline bool operator<=(const uvector<T, A>& lhs, const uvector<T, A>& rhs)
+build	build	2026-02-05T13:06:58.1621370Z       |                 ^
+build	build	2026-02-05T13:06:58.1622130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1391:17: note: candidate template ignored: could not match 'svector' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1623140Z  1391 |     inline bool operator<=(const svector<T, N, A, Init>& lhs, const svector<T, N, A, Init>& rhs)
+build	build	2026-02-05T13:06:58.1623480Z       |                 ^
+build	build	2026-02-05T13:06:58.1624230Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1623:17: note: candidate template ignored: could not match 'const_array' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1625140Z  1623 |     inline bool operator<=(const const_array<T, N>& lhs, const const_array<T, N>& rhs)
+build	build	2026-02-05T13:06:58.1625450Z       |                 ^
+build	build	2026-02-05T13:06:58.1626250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xbuffer_adaptor.hpp:1019:17: note: candidate template ignored: could not match 'xbuffer_adaptor_base' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1627240Z  1019 |     inline bool operator<=(const xbuffer_adaptor_base<D>& lhs, const xbuffer_adaptor_base<D>& rhs)
+build	build	2026-02-05T13:06:58.1627570Z       |                 ^
+build	build	2026-02-05T13:06:58.1628220Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map:1611:1: note: candidate template ignored: could not match 'map' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1629100Z  1611 | operator<=(const map<_Key, _Tp, _Compare, _Allocator>& __x, const map<_Key, _Tp, _Compare, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1629670Z       | ^
+build	build	2026-02-05T13:06:58.1630280Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map:2124:1: note: candidate template ignored: could not match 'multimap' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1631180Z  2124 | operator<=(const multimap<_Key, _Tp, _Compare, _Allocator>& __x, const multimap<_Key, _Tp, _Compare, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1631570Z       | ^
+build	build	2026-02-05T13:06:58.1634120Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xoperation.hpp:579:17: note: candidate template ignored: requirement 'disjunction<xt::detail::is_crtp_base_of_impl<xt::xexpression, xt::xarray_container<xt::uvector<double, std::allocator<double>>, xt::layout_type::row_major, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>, xt::detail::is_crtp_base_of_impl<xt::xexpression, double>>::value' was not satisfied [with E1 = const Arr &, E2 = const double &]
+build	build	2026-02-05T13:06:58.1636340Z   579 |     inline auto operator<=(E1&& e1, E2&& e2) noexcept -> detail::xfunction_type_t<detail::less_equal, E1, E2>
+build	build	2026-02-05T13:06:58.1636690Z       |                 ^
+build	build	2026-02-05T13:06:58.1637600Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:71:40: error: invalid operands to binary expression ('const double' and 'const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>'))
+build	build	2026-02-05T13:06:58.1638620Z    71 |     const auto ind_s = xt::where(wstop <= w)[0];  // stopband
+build	build	2026-02-05T13:06:58.1638920Z       |                                  ~~~~~ ^  ~
+build	build	2026-02-05T13:06:58.1639710Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__variant/monostate.h:44:45: note: candidate function not viable: no known conversion from 'const double' to 'monostate' for 1st argument
+build	build	2026-02-05T13:06:58.1640700Z    44 | _LIBCPP_HIDE_FROM_ABI inline constexpr bool operator<=(monostate, monostate) noexcept { return true; }
+build	build	2026-02-05T13:06:58.1641100Z       |                                             ^          ~~~~~~~~~
+build	build	2026-02-05T13:06:58.1641900Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/id.h:95:35: note: candidate function not viable: no known conversion from 'const double' to '__thread_id' for 1st argument
+build	build	2026-02-05T13:06:58.1642860Z    95 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(__thread_id __x, __thread_id __y) _NOEXCEPT { return !(__y < __x); }
+build	build	2026-02-05T13:06:58.1643260Z       |                                   ^          ~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.1644010Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/pair.h:536:1: note: candidate template ignored: could not match 'const pair<_T1, _T2>' against 'const double'
+build	build	2026-02-05T13:06:58.1644810Z   536 | operator<=(const pair<_T1, _T2>& __x, const pair<_U1, _U2>& __y) {
+build	build	2026-02-05T13:06:58.1645080Z       | ^
+build	build	2026-02-05T13:06:58.1645780Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/reverse_iterator.h:266:1: note: candidate template ignored: could not match 'const reverse_iterator<_Iter1>' against 'const double'
+build	build	2026-02-05T13:06:58.1649150Z   266 | operator<=(const reverse_iterator<_Iter1>& __x, const reverse_iterator<_Iter2>& __y)
+build	build	2026-02-05T13:06:58.1650720Z       | ^
+build	build	2026-02-05T13:06:58.1653040Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3110:1: note: candidate template ignored: requirement '__is_val_expr<double>::value' was not satisfied [with _Expr1 = double, _Expr2 = Arr]
+build	build	2026-02-05T13:06:58.1654250Z  3110 | operator<=(const _Expr1& __x, const _Expr2& __y) {
+build	build	2026-02-05T13:06:58.1654470Z       | ^
+build	build	2026-02-05T13:06:58.1655190Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3119:1: note: candidate template ignored: requirement '__is_val_expr<double>::value' was not satisfied [with _Expr = double]
+build	build	2026-02-05T13:06:58.1656070Z  3119 | operator<=(const _Expr& __x, const typename _Expr::value_type& __y) {
+build	build	2026-02-05T13:06:58.1656330Z       | ^
+build	build	2026-02-05T13:06:58.1660170Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray:3128:1: note: candidate template ignored: requirement '__is_val_expr<xt::xarray_container<xt::uvector<double, std::allocator<double>>, xt::layout_type::row_major, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>::value' was not satisfied [with _Expr = Arr]
+build	build	2026-02-05T13:06:58.1666240Z  3128 | operator<=(const typename _Expr::value_type& __x, const _Expr& __y) {
+build	build	2026-02-05T13:06:58.1667180Z       | ^
+build	build	2026-02-05T13:06:58.1672790Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1035:1: note: candidate template ignored: could not match 'const optional<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1673690Z  1035 | operator<=(const optional<_Tp>& __x, const optional<_Up>& __y) {
+build	build	2026-02-05T13:06:58.1673950Z       | ^
+build	build	2026-02-05T13:06:58.1674650Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1101:38: note: candidate template ignored: could not match 'const optional<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1675540Z  1101 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(const optional<_Tp>& __x, nullopt_t) noexcept {
+build	build	2026-02-05T13:06:58.1675930Z       |                                      ^
+build	build	2026-02-05T13:06:58.1676720Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1106:38: note: candidate template ignored: could not match 'optional' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1677600Z  1106 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(nullopt_t, const optional<_Tp>&) noexcept {
+build	build	2026-02-05T13:06:58.1677950Z       |                                      ^
+build	build	2026-02-05T13:06:58.1678650Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1192:1: note: candidate template ignored: could not match 'const optional<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1679400Z  1192 | operator<=(const optional<_Tp>& __x, const _Up& __v) {
+build	build	2026-02-05T13:06:58.1679630Z       | ^
+build	build	2026-02-05T13:06:58.1680330Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/optional:1200:1: note: candidate template ignored: could not match 'optional' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1681100Z  1200 | operator<=(const _Tp& __v, const optional<_Up>& __x) {
+build	build	2026-02-05T13:06:58.1681320Z       | ^
+build	build	2026-02-05T13:06:58.1682000Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/move_iterator.h:281:1: note: candidate template ignored: could not match 'const move_iterator<_Iter1>' against 'const double'
+build	build	2026-02-05T13:06:58.1683070Z   281 | operator<=(const move_iterator<_Iter1>& __x, const move_iterator<_Iter2>& __y) {
+build	build	2026-02-05T13:06:58.1683370Z       | ^
+build	build	2026-02-05T13:06:58.1684070Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/wrap_iter.h:178:1: note: candidate template ignored: could not match 'const __wrap_iter<_Iter1>' against 'const double'
+build	build	2026-02-05T13:06:58.1684970Z   178 | operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1685590Z       | ^
+build	build	2026-02-05T13:06:58.1686270Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/wrap_iter.h:184:1: note: candidate template ignored: could not match 'const __wrap_iter<_Iter1>' against 'const double'
+build	build	2026-02-05T13:06:58.1687500Z   184 | operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1687840Z       | ^
+build	build	2026-02-05T13:06:58.1688500Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/variant:1538:38: note: candidate template ignored: could not match 'const variant<_Types...>' against 'const double'
+build	build	2026-02-05T13:06:58.1689510Z  1538 | _LIBCPP_HIDE_FROM_ABI constexpr bool operator<=(const variant<_Types...>& __lhs, const variant<_Types...>& __rhs) {
+build	build	2026-02-05T13:06:58.1690080Z       |                                      ^
+build	build	2026-02-05T13:06:58.1690830Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/tuple:1225:1: note: candidate template ignored: could not match 'const tuple<_Tp...>' against 'const double'
+build	build	2026-02-05T13:06:58.1691650Z  1225 | operator<=(const tuple<_Tp...>& __x, const tuple<_Up...>& __y) {
+build	build	2026-02-05T13:06:58.1691890Z       | ^
+build	build	2026-02-05T13:06:58.1692570Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:522:35: note: candidate template ignored: could not match 'const unique_ptr<_T1, _D1>' against 'const double'
+build	build	2026-02-05T13:06:58.1693520Z   522 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const unique_ptr<_T1, _D1>& __x, const unique_ptr<_T2, _D2>& __y) {
+build	build	2026-02-05T13:06:58.1693900Z       |                                   ^
+build	build	2026-02-05T13:06:58.1694870Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:587:65: note: candidate template ignored: could not match 'const unique_ptr<_T1, _D1>' against 'const double'
+build	build	2026-02-05T13:06:58.1695920Z   587 | inline _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX23 bool operator<=(const unique_ptr<_T1, _D1>& __x, nullptr_t) {
+build	build	2026-02-05T13:06:58.1696420Z       |                                                                 ^
+build	build	2026-02-05T13:06:58.1697200Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/unique_ptr.h:592:65: note: candidate template ignored: could not match 'unique_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1698520Z   592 | inline _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX23 bool operator<=(nullptr_t, const unique_ptr<_T1, _D1>& __x) {
+build	build	2026-02-05T13:06:58.1698960Z       |                                                                 ^
+build	build	2026-02-05T13:06:58.1699810Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1152:35: note: candidate template ignored: could not match 'const shared_ptr<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1704700Z  1152 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const shared_ptr<_Tp>& __x, const shared_ptr<_Up>& __y) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1705130Z       |                                   ^
+build	build	2026-02-05T13:06:58.1707150Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1213:35: note: candidate template ignored: could not match 'const shared_ptr<_Tp>' against 'const double'
+build	build	2026-02-05T13:06:58.1708100Z  1213 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const shared_ptr<_Tp>& __x, nullptr_t) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1708450Z       |                                   ^
+build	build	2026-02-05T13:06:58.1709180Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:1218:35: note: candidate template ignored: could not match 'shared_ptr' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1710300Z  1218 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(nullptr_t, const shared_ptr<_Tp>& __x) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1710640Z       |                                   ^
+build	build	2026-02-05T13:06:58.1711350Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/array:411:35: note: candidate template ignored: could not match 'const array<_Tp, _Size>' against 'const double'
+build	build	2026-02-05T13:06:58.1712270Z   411 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const array<_Tp, _Size>& __x, const array<_Tp, _Size>& __y) {
+build	build	2026-02-05T13:06:58.1712640Z       |                                   ^
+build	build	2026-02-05T13:06:58.1713350Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:831:1: note: candidate template ignored: could not match 'basic_string_view<_CharT, _Traits>' against 'double'
+build	build	2026-02-05T13:06:58.1714360Z   831 | operator<=(basic_string_view<_CharT, _Traits> __lhs, basic_string_view<_CharT, _Traits> __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1714710Z       | ^
+build	build	2026-02-05T13:06:58.1715360Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:837:1: note: candidate template ignored: could not match 'basic_string_view<_CharT, _Traits>' against 'double'
+build	build	2026-02-05T13:06:58.1716180Z   837 | operator<=(basic_string_view<_CharT, _Traits> __lhs,
+build	build	2026-02-05T13:06:58.1716560Z       | ^
+build	build	2026-02-05T13:06:58.1717320Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string_view:844:1: note: candidate template ignored: could not match 'basic_string_view' against 'xt::xarray_container'
+build	build	2026-02-05T13:06:58.1718300Z   844 | operator<=(__type_identity_t<basic_string_view<_CharT, _Traits> > __lhs,
+build	build	2026-02-05T13:06:58.1718640Z       | ^
+build	build	2026-02-05T13:06:58.1719400Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3948:35: note: candidate template ignored: could not match 'const basic_string<_CharT, _Traits, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1720530Z  3948 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const basic_string<_CharT, _Traits, _Allocator>& __lhs,
+build	build	2026-02-05T13:06:58.1720950Z       |                                   ^
+build	build	2026-02-05T13:06:58.1721830Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3955:1: note: candidate template ignored: could not match 'const basic_string<_CharT, _Traits, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1722830Z  3955 | operator<=(const basic_string<_CharT, _Traits, _Allocator>& __lhs, const _CharT* __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1723220Z       | ^
+build	build	2026-02-05T13:06:58.1724020Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/string:3961:1: note: candidate template ignored: could not match 'const _CharT *' against 'double'
+build	build	2026-02-05T13:06:58.1724980Z  3961 | operator<=(const _CharT* __lhs, const basic_string<_CharT, _Traits, _Allocator>& __rhs) _NOEXCEPT {
+build	build	2026-02-05T13:06:58.1725420Z       | ^
+build	build	2026-02-05T13:06:58.1726130Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:2935:35: note: candidate template ignored: could not match 'const vector<_Tp, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1727680Z  2935 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const vector<_Tp, _Allocator>& __x, const vector<_Tp, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1733260Z       |                                   ^
+build	build	2026-02-05T13:06:58.1734000Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/deque:2550:35: note: candidate template ignored: could not match 'const deque<_Tp, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1735300Z  2550 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const deque<_Tp, _Allocator>& __x, const deque<_Tp, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1735720Z       |                                   ^
+build	build	2026-02-05T13:06:58.1736440Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/queue:488:35: note: candidate template ignored: could not match 'const queue<_Tp, _Container>' against 'const double'
+build	build	2026-02-05T13:06:58.1737360Z   488 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const queue<_Tp, _Container>& __x, const queue<_Tp, _Container>& __y) {
+build	build	2026-02-05T13:06:58.1737750Z       |                                   ^
+build	build	2026-02-05T13:06:58.1738440Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stack:344:35: note: candidate template ignored: could not match 'const stack<_Tp, _Container>' against 'const double'
+build	build	2026-02-05T13:06:58.1739490Z   344 | inline _LIBCPP_HIDE_FROM_ABI bool operator<=(const stack<_Tp, _Container>& __x, const stack<_Tp, _Container>& __y) {
+build	build	2026-02-05T13:06:58.1739890Z       |                                   ^
+build	build	2026-02-05T13:06:58.1740620Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list:1513:1: note: candidate template ignored: could not match 'const forward_list<_Tp, _Alloc>' against 'const double'
+build	build	2026-02-05T13:06:58.1741510Z  1513 | operator<=(const forward_list<_Tp, _Alloc>& __x, const forward_list<_Tp, _Alloc>& __y) {
+build	build	2026-02-05T13:06:58.1741820Z       | ^
+build	build	2026-02-05T13:06:58.1742520Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:598:17: note: candidate template ignored: could not match 'const uvector<T, A>' against 'const double'
+build	build	2026-02-05T13:06:58.1743400Z   598 |     inline bool operator<=(const uvector<T, A>& lhs, const uvector<T, A>& rhs)
+build	build	2026-02-05T13:06:58.1743680Z       |                 ^
+build	build	2026-02-05T13:06:58.1744430Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1391:17: note: candidate template ignored: could not match 'const svector<T, N, A, Init>' against 'const double'
+build	build	2026-02-05T13:06:58.1745470Z  1391 |     inline bool operator<=(const svector<T, N, A, Init>& lhs, const svector<T, N, A, Init>& rhs)
+build	build	2026-02-05T13:06:58.1745810Z       |                 ^
+build	build	2026-02-05T13:06:58.1746550Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1623:17: note: candidate template ignored: could not match 'const const_array<T, N>' against 'const double'
+build	build	2026-02-05T13:06:58.1747460Z  1623 |     inline bool operator<=(const const_array<T, N>& lhs, const const_array<T, N>& rhs)
+build	build	2026-02-05T13:06:58.1747770Z       |                 ^
+build	build	2026-02-05T13:06:58.1750950Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xbuffer_adaptor.hpp:1019:17: note: candidate template ignored: could not match 'const xbuffer_adaptor_base<D>' against 'const double'
+build	build	2026-02-05T13:06:58.1752030Z  1019 |     inline bool operator<=(const xbuffer_adaptor_base<D>& lhs, const xbuffer_adaptor_base<D>& rhs)
+build	build	2026-02-05T13:06:58.1752380Z       |                 ^
+build	build	2026-02-05T13:06:58.1753090Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map:1611:1: note: candidate template ignored: could not match 'const map<_Key, _Tp, _Compare, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1754050Z  1611 | operator<=(const map<_Key, _Tp, _Compare, _Allocator>& __x, const map<_Key, _Tp, _Compare, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1754620Z       | ^
+build	build	2026-02-05T13:06:58.1755310Z /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map:2124:1: note: candidate template ignored: could not match 'const multimap<_Key, _Tp, _Compare, _Allocator>' against 'const double'
+build	build	2026-02-05T13:06:58.1756350Z  2124 | operator<=(const multimap<_Key, _Tp, _Compare, _Allocator>& __x, const multimap<_Key, _Tp, _Compare, _Allocator>& __y) {
+build	build	2026-02-05T13:06:58.1756740Z       | ^
+build	build	2026-02-05T13:06:58.1758360Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xoperation.hpp:579:17: note: candidate template ignored: requirement 'disjunction<xt::detail::is_crtp_base_of_impl<xt::xexpression, double>, xt::detail::is_crtp_base_of_impl<xt::xexpression, xt::xarray_container<xt::uvector<double, std::allocator<double>>, xt::layout_type::row_major, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>>::value' was not satisfied [with E1 = const double &, E2 = const Arr &]
+build	build	2026-02-05T13:06:58.1760510Z   579 |     inline auto operator<=(E1&& e1, E2&& e2) noexcept -> detail::xfunction_type_t<detail::less_equal, E1, E2>
+build	build	2026-02-05T13:06:58.1760880Z       |                 ^
+build	build	2026-02-05T13:06:58.1761740Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:102:9: error: type 'const Arr' (aka 'const xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') does not provide a call operator
+build	build	2026-02-05T13:06:58.1762620Z   102 |     if (x(0) < 0) {
+build	build	2026-02-05T13:06:58.1762760Z       |         ^
+build	build	2026-02-05T13:06:58.1763390Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:103:37: error: no member named 'shape' in 'xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.1764100Z   103 |         Arr g = xt::zeros<double>(x.shape());
+build	build	2026-02-05T13:06:58.1764310Z       |                                   ~ ^
+build	build	2026-02-05T13:06:58.1765150Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/lowpass_oracle.cpp:104:9: error: type 'Arr' (aka 'xarray_container<uvector<double, std::allocator<double>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>') does not provide a call operator
+build	build	2026-02-05T13:06:58.1766030Z   104 |         g(0) = -1.;
+build	build	2026-02-05T13:06:58.1766170Z       |         ^
+build	build	2026-02-05T13:06:58.1766370Z fatal error: too many errors emitted, stopping now [-ferror-limit=]
+build	build	2026-02-05T13:06:58.1766620Z 20 errors generated.
+build	build	2026-02-05T13:06:58.1766870Z make[2]: *** [CMakeFiles/Multiplierless.dir/source/lowpass_oracle.cpp.o] Error 1
+build	build	2026-02-05T13:06:58.5203100Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5204360Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5205560Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:19:
+build	build	2026-02-05T13:06:58.5206700Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xbuffer_adaptor.hpp:21:
+build	build	2026-02-05T13:06:58.5207880Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:23:
+build	build	2026-02-05T13:06:58.5209040Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xtensor_simd.hpp:17:
+build	build	2026-02-05T13:06:58.5210520Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:896:31: error: ambiguous partial specializations of 'rebind_container<long, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.5212030Z   896 |         using type = typename rebind_container<std::ptrdiff_t, S>::type;
+build	build	2026-02-05T13:06:58.5212350Z       |                               ^
+build	build	2026-02-05T13:06:58.5213170Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:924:5: note: in instantiation of template class 'xt::get_strides_type<xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.5214040Z   924 |     using get_strides_t = typename get_strides_type<C>::type;
+build	build	2026-02-05T13:06:58.5214280Z       |     ^
+build	build	2026-02-05T13:06:58.5214930Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:53:30: note: in instantiation of template type alias 'get_strides_t' requested here
+build	build	2026-02-05T13:06:58.5215820Z    53 |         using strides_type = get_strides_t<shape_type>;
+build	build	2026-02-05T13:06:58.5216040Z       |                              ^
+build	build	2026-02-05T13:06:58.5217050Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:36:43: note: in instantiation of template class 'xt::xcontainer_inner_types<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5218220Z    36 |         using inner_shape_type = typename xcontainer_inner_types<D>::inner_shape_type;
+build	build	2026-02-05T13:06:58.5218540Z       |                                           ^
+build	build	2026-02-05T13:06:58.5219580Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:64:11: note: in instantiation of template class 'xt::xcontainer_iterable_types<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5220680Z    64 |         : xcontainer_iterable_types<xarray_container<EC, L, SC, Tag>>
+build	build	2026-02-05T13:06:58.5220940Z       |           ^
+build	build	2026-02-05T13:06:58.5221900Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:43:43: note: in instantiation of template class 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5223020Z    43 |         using inner_shape_type = typename iterable_types::inner_shape_type;
+build	build	2026-02-05T13:06:58.5223300Z       |                                           ^
+build	build	2026-02-05T13:06:58.5224050Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: (skipping 1 context in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+build	build	2026-02-05T13:06:58.5224850Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.5225060Z       |                              ^
+build	build	2026-02-05T13:06:58.5226040Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5227060Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.5227380Z       |                                          ^
+build	build	2026-02-05T13:06:58.5228390Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5229560Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.5229790Z       |                               ^
+build	build	2026-02-05T13:06:58.5230780Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5231830Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.5232070Z       |                                       ^
+build	build	2026-02-05T13:06:58.5233070Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5234300Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.5234630Z       |                                     ^
+build	build	2026-02-05T13:06:58.5235650Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:511:45: note: in instantiation of template class 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.5237770Z   511 |     inline xt::xarray<std::complex<float> > fft (const xt::xarray<std::complex<float> > &input) {
+build	build	2026-02-05T13:06:58.5238250Z       |                                             ^
+build	build	2026-02-05T13:06:58.5239350Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xutils.hpp:883:12: note: partial specialization matches [with X = long, C = xt::svector, T = unsigned long, N = 4]
+build	build	2026-02-05T13:06:58.5240260Z   883 |     struct rebind_container<X, C<T, N>>
+build	build	2026-02-05T13:06:58.5240550Z       |            ^
+build	build	2026-02-05T13:06:58.5241490Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xstorage.hpp:1415:12: note: partial specialization matches [with X = long, T = unsigned long, N = 4, A = std::allocator<unsigned long>, B = true]
+build	build	2026-02-05T13:06:58.5242520Z  1415 |     struct rebind_container<X, svector<T, N, A, B>>
+build	build	2026-02-05T13:06:58.5242840Z       |            ^
+build	build	2026-02-05T13:06:58.5243280Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5244220Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5245340Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.5246390Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.5247850Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:45:50: error: no type named 'stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5249010Z    45 |         using stepper = typename iterable_types::stepper;
+build	build	2026-02-05T13:06:58.5249700Z       |                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+build	build	2026-02-05T13:06:58.5250840Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:151:30: note: in instantiation of template class 'xt::xconst_iterable<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5252050Z   151 |     class xiterable : public xconst_iterable<D>
+build	build	2026-02-05T13:06:58.5252410Z       |                              ^
+build	build	2026-02-05T13:06:58.5253490Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:311:42: note: in instantiation of template class 'xt::xiterable<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5254780Z   311 |     class xcontiguous_iterable : private xiterable<D>
+build	build	2026-02-05T13:06:58.5255170Z       |                                          ^
+build	build	2026-02-05T13:06:58.5256300Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:71:31: note: in instantiation of template class 'xt::xcontiguous_iterable<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5257480Z    71 |     class xcontainer : public xcontiguous_iterable<D>,
+build	build	2026-02-05T13:06:58.5257800Z       |                               ^
+build	build	2026-02-05T13:06:58.5258880Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5260020Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.5260350Z       |                                       ^
+build	build	2026-02-05T13:06:58.5261530Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5262810Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.5263240Z       |                                     ^
+build	build	2026-02-05T13:06:58.5264320Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:511:45: note: in instantiation of template class 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.5265570Z   511 |     inline xt::xarray<std::complex<float> > fft (const xt::xarray<std::complex<float> > &input) {
+build	build	2026-02-05T13:06:58.5266020Z       |                                             ^
+build	build	2026-02-05T13:06:58.5266500Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5267430Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5268490Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.5269580Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:23:
+build	build	2026-02-05T13:06:58.5271210Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xiterable.hpp:46:56: error: no type named 'const_stepper' in 'xt::xiterable_inner_types<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5272430Z    46 |         using const_stepper = typename iterable_types::const_stepper;
+build	build	2026-02-05T13:06:58.5272820Z       |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5273320Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5274220Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5275440Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.5277000Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:140:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5278230Z   140 |         using accessible_base::at;
+build	build	2026-02-05T13:06:58.5278520Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5279620Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:260:39: note: in instantiation of template class 'xt::xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5280780Z   260 |     class xstrided_container : public xcontainer<D>
+build	build	2026-02-05T13:06:58.5281120Z       |                                       ^
+build	build	2026-02-05T13:06:58.5282210Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:82:37: note: in instantiation of template class 'xt::xstrided_container<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.5283510Z    82 |     class xarray_container : public xstrided_container<xarray_container<EC, L, SC, Tag>>,
+build	build	2026-02-05T13:06:58.5283990Z       |                                     ^
+build	build	2026-02-05T13:06:58.5285150Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:511:45: note: in instantiation of template class 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.5286410Z   511 |     inline xt::xarray<std::complex<float> > fft (const xt::xarray<std::complex<float> > &input) {
+build	build	2026-02-05T13:06:58.5286890Z       |                                             ^
+build	build	2026-02-05T13:06:58.5287380Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5288250Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5289380Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:20:
+build	build	2026-02-05T13:06:58.5291000Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:141:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5292280Z   141 |         using accessible_base::shape;
+build	build	2026-02-05T13:06:58.5292580Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5293730Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:142:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5294930Z   142 |         using accessible_base::operator[];
+build	build	2026-02-05T13:06:58.5295280Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5296570Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:143:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5297800Z   143 |         using accessible_base::back;
+build	build	2026-02-05T13:06:58.5298100Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5299240Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:144:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5300410Z   144 |         using accessible_base::front;
+build	build	2026-02-05T13:06:58.5300930Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5302090Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:145:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5303300Z   145 |         using accessible_base::in_bounds;
+build	build	2026-02-05T13:06:58.5303590Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5304740Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xcontainer.hpp:146:15: error: using declaration refers into 'accessible_base::', which is not a base class of 'xcontainer<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5318010Z   146 |         using accessible_base::periodic;
+build	build	2026-02-05T13:06:58.5318640Z       |               ^~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5319140Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5320330Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5322310Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:93:52: error: no type named 'allocator_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5324030Z    93 |         using allocator_type = typename base_type::allocator_type;
+build	build	2026-02-05T13:06:58.5324410Z       |                                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.5325870Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:511:45: note: in instantiation of template class 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>' requested here
+build	build	2026-02-05T13:06:58.5327450Z   511 |     inline xt::xarray<std::complex<float> > fft (const xt::xarray<std::complex<float> > &input) {
+build	build	2026-02-05T13:06:58.5327890Z       |                                             ^
+build	build	2026-02-05T13:06:58.5328370Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.5329340Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.5330880Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:102:54: error: no type named 'backstrides_type' in 'xt::xstrided_container<xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>>'
+build	build	2026-02-05T13:06:58.5332300Z   102 |         using backstrides_type = typename base_type::backstrides_type;
+build	build	2026-02-05T13:06:58.5332800Z       |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.6147520Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.6151240Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:909:78: error: member reference base type 'const inner_strides_type' (aka 'const int') is not a structure or union
+build	build	2026-02-05T13:06:58.6154220Z   909 |                 blas_index_t a_stride = static_cast<blas_index_t>(t.strides().back());
+build	build	2026-02-05T13:06:58.6155370Z       |                                                                   ~~~~~~~~~~~^~~~~
+build	build	2026-02-05T13:06:58.6158910Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:75:25: note: in instantiation of function template specialization 'xt::linalg::dot<xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>, xt::xarray_container<xt::uvector<double>, xt::layout_type::row_major, xt::svector<unsigned long>>>' requested here
+build	build	2026-02-05T13:06:58.6185700Z    75 |     Arr R = xt::linalg::dot(A, r);  // NOQA
+build	build	2026-02-05T13:06:58.6186050Z       |                         ^
+build	build	2026-02-05T13:06:58.6186520Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.6187540Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:910:67: error: subscripted value is not an array, pointer, or vector
+build	build	2026-02-05T13:06:58.6188560Z   910 |                 blas_index_t b_stride = static_cast<blas_index_t>(o.strides()[match_dim]);
+build	build	2026-02-05T13:06:58.6189010Z       |                                                                   ^~~~~~~~~~~ ~~~~~~~~~
+build	build	2026-02-05T13:06:58.7059640Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:10:
+build	build	2026-02-05T13:06:58.7061130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:369:34: error: no member named 'shape' in 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.7063300Z   369 |       bool odd_last_dim = (input.shape()[input.shape().size()-1] % 2 != 0);
+build	build	2026-02-05T13:06:58.7063760Z       |                            ~~~~~ ^
+build	build	2026-02-05T13:06:58.7065270Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:512:14: note: in instantiation of function template specialization 'xt::fftw::_fft_<std::complex<float>, std::complex<float>, 1UL, -1, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan, void>' requested here
+build	build	2026-02-05T13:06:58.7067250Z   512 |       return _fft_<std::complex<float>, std::complex<float>, 1, FFTW_FORWARD, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan> (input);
+build	build	2026-02-05T13:06:58.7067820Z       |              ^
+build	build	2026-02-05T13:06:58.7068800Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:173:33: error: no member named 'shape' in 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.7069840Z   173 |       auto output_shape = input.shape();
+build	build	2026-02-05T13:06:58.7070340Z       |                           ~~~~~ ^
+build	build	2026-02-05T13:06:58.7071320Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:366:27: note: in instantiation of function template specialization 'xt::fftw::output_shape_from_input<std::complex<float>>' requested here
+build	build	2026-02-05T13:06:58.7072470Z   366 |       auto output_shape = output_shape_from_input(input, half_plus_one_out, half_plus_one_in, false);
+build	build	2026-02-05T13:06:58.7072930Z       |                           ^
+build	build	2026-02-05T13:06:58.7074130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:512:14: note: in instantiation of function template specialization 'xt::fftw::_fft_<std::complex<float>, std::complex<float>, 1UL, -1, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan, void>' requested here
+build	build	2026-02-05T13:06:58.7075690Z   512 |       return _fft_<std::complex<float>, std::complex<float>, 1, FFTW_FORWARD, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan> (input);
+build	build	2026-02-05T13:06:58.7076300Z       |              ^
+build	build	2026-02-05T13:06:58.7077900Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.7080710Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.7135130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:295:11: error: type 'base_type' (aka 'xstrided_container<xarray_container<xt::uvector<std::complex<float>, std::allocator<std::complex<float>>>, (xt::layout_type)1, xt::svector<unsigned long, 4, std::allocator<unsigned long>, true>, xt::xtensor_expression_tag>>') is not a direct or virtual base of 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>'
+build	build	2026-02-05T13:06:58.7136960Z   295 |         : base_type()
+build	build	2026-02-05T13:06:58.7173620Z       |           ^~~~~~~~~
+build	build	2026-02-05T13:06:58.7189390Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:367:52: note: in instantiation of member function 'xt::xarray_container<xt::uvector<std::complex<float>>, xt::layout_type::row_major, xt::svector<unsigned long>>::xarray_container' requested here
+build	build	2026-02-05T13:06:58.7193000Z   367 |       xt::xarray<output_t, layout_type::row_major> output(output_shape);
+build	build	2026-02-05T13:06:58.7205200Z       |                                                    ^
+build	build	2026-02-05T13:06:58.7353780Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:512:14: note: in instantiation of function template specialization 'xt::fftw::_fft_<std::complex<float>, std::complex<float>, 1UL, -1, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan, void>' requested here
+build	build	2026-02-05T13:06:58.7471340Z   512 |       return _fft_<std::complex<float>, std::complex<float>, 1, FFTW_FORWARD, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan> (input);
+build	build	2026-02-05T13:06:58.7604120Z       |              ^
+build	build	2026-02-05T13:06:58.7714230Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:9:
+build	build	2026-02-05T13:06:58.7825120Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-blas/6d7eef870b1131f41eba68093f8ee6ac7c310bd0/include/xtensor-blas/xlinalg.hpp:20:
+build	build	2026-02-05T13:06:58.7927040Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:297:20: error: call to non-static member function without an object argument
+build	build	2026-02-05T13:06:58.7973190Z   297 |         base_type::resize(shape, l);
+build	build	2026-02-05T13:06:58.7973760Z       |         ~~~~~~~~~~~^~~~~~
+build	build	2026-02-05T13:06:58.7974280Z In file included from /Users/runner/work/multiplierless-cpp/multiplierless-cpp/source/spectral_fact.cpp:10:
+build	build	2026-02-05T13:06:58.7976310Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:394:52: error: no matching constructor for initialization of 'xt::xarray<complex<float>, layout_type::row_major>' (aka 'xarray_container<uvector<std::complex<float>, std::allocator<std::complex<float>>>, (xt::layout_type)1, svector<unsigned long, 4, std::allocator<unsigned long>, true>>')
+build	build	2026-02-05T13:06:58.7978060Z   394 |       xt::xarray<output_t, layout_type::row_major> output(output_shape);
+build	build	2026-02-05T13:06:58.7978660Z       |                                                    ^      ~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.7980130Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor-fftw/e0c4db36d496ba46158fb01f06c67c026db6cbb3/include/xtensor-fftw/basic.hpp:516:14: note: in instantiation of function template specialization 'xt::fftw::_ifft_<std::complex<float>, std::complex<float>, 1UL, 1, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan, void>' requested here
+build	build	2026-02-05T13:06:58.7985060Z   516 |       return _ifft_<std::complex<float>, std::complex<float>, 1, FFTW_BACKWARD, true, false, false, fftwf_plan_dft_1d, fftwf_execute, fftwf_destroy_plan> (input);
+build	build	2026-02-05T13:06:58.7987960Z       |              ^
+build	build	2026-02-05T13:06:58.7989210Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:116:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'const value_type' (aka 'const std::complex<float>') for 1st argument
+build	build	2026-02-05T13:06:58.7990570Z   116 |         xarray_container(const value_type& t);
+build	build	2026-02-05T13:06:58.7991230Z       |         ^                ~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.7992800Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:117:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'nested_initializer_list_t<value_type, 1>' (aka 'initializer_list<std::complex<float>>') for 1st argument
+build	build	2026-02-05T13:06:58.7994360Z   117 |         xarray_container(nested_initializer_list_t<value_type, 1> t);
+build	build	2026-02-05T13:06:58.7994970Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.7996400Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:118:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'nested_initializer_list_t<value_type, 2>' (aka 'initializer_list<initializer_list<std::complex<float>>>') for 1st argument
+build	build	2026-02-05T13:06:58.7998370Z   118 |         xarray_container(nested_initializer_list_t<value_type, 2> t);
+build	build	2026-02-05T13:06:58.7998760Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8000250Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:119:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'nested_initializer_list_t<value_type, 3>' (aka 'initializer_list<initializer_list<initializer_list<std::complex<float>>>>') for 1st argument
+build	build	2026-02-05T13:06:58.8002130Z   119 |         xarray_container(nested_initializer_list_t<value_type, 3> t);
+build	build	2026-02-05T13:06:58.8002590Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8004110Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:120:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'nested_initializer_list_t<value_type, 4>' (aka 'initializer_list<initializer_list<initializer_list<initializer_list<std::complex<float>>>>>') for 1st argument
+build	build	2026-02-05T13:06:58.8005850Z   120 |         xarray_container(nested_initializer_list_t<value_type, 4> t);
+build	build	2026-02-05T13:06:58.8006240Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8007930Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:121:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'nested_initializer_list_t<value_type, 5>' (aka 'initializer_list<initializer_list<initializer_list<initializer_list<initializer_list<std::complex<float>>>>>>') for 1st argument
+build	build	2026-02-05T13:06:58.8009550Z   121 |         xarray_container(nested_initializer_list_t<value_type, 5> t);
+build	build	2026-02-05T13:06:58.8010490Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8012020Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:128:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'const xarray_container<uvector<complex<float>>, xt::layout_type::row_major, svector<unsigned long>>' for 1st argument
+build	build	2026-02-05T13:06:58.8013490Z   128 |         xarray_container(const xarray_container&) = default;
+build	build	2026-02-05T13:06:58.8013860Z       |         ^                ~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8015240Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:131:9: note: candidate constructor not viable: no known conversion from 'typename xt::xarray<complex<float>, xt::layout_type::row_major>::shape_type' (aka 'xt::svector<unsigned long>') to 'xarray_container<uvector<complex<float>>, xt::layout_type::row_major, svector<unsigned long>>' for 1st argument
+build	build	2026-02-05T13:06:58.8016710Z   131 |         xarray_container(xarray_container&&) = default;
+build	build	2026-02-05T13:06:58.8017090Z       |         ^                ~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8017960Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:135:18: note: candidate template ignored: could not match 'xtensor_container' against 'xt::svector'
+build	build	2026-02-05T13:06:58.8019020Z   135 |         explicit xarray_container(xtensor_container<EC, N, L, Tag>&& rhs);
+build	build	2026-02-05T13:06:58.8019410Z       |                  ^
+build	build	2026-02-05T13:06:58.8020360Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:140:9: note: candidate template ignored: could not match 'xexpression' against 'xt::svector'
+build	build	2026-02-05T13:06:58.8027830Z   140 |         xarray_container(const xexpression<E>& e);
+build	build	2026-02-05T13:06:58.8028230Z       |         ^
+build	build	2026-02-05T13:06:58.8029010Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:109:9: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+build	build	2026-02-05T13:06:58.8030070Z   109 |         xarray_container();
+build	build	2026-02-05T13:06:58.8030670Z       |         ^
+build	build	2026-02-05T13:06:58.8031470Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:112:18: note: candidate constructor not viable: requires 2 arguments, but 1 was provided
+build	build	2026-02-05T13:06:58.8032440Z   112 |         explicit xarray_container(const shape_type& shape, const strides_type& strides);
+build	build	2026-02-05T13:06:58.8032920Z       |                  ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8033830Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:111:18: note: candidate constructor not viable: requires at least 2 arguments, but 1 was provided
+build	build	2026-02-05T13:06:58.8034860Z   111 |         explicit xarray_container(const shape_type& shape, const_reference value, layout_type l = L);
+build	build	2026-02-05T13:06:58.8035390Z       |                  ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8036280Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:113:18: note: candidate constructor not viable: requires 3 arguments, but 1 was provided
+build	build	2026-02-05T13:06:58.8037360Z   113 |         explicit xarray_container(const shape_type& shape, const strides_type& strides, const_reference value);
+build	build	2026-02-05T13:06:58.8037930Z       |                  ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8038830Z /Users/runner/work/multiplierless-cpp/multiplierless-cpp/cpm_modules/xtensor/4a957e26c765b48cbec4a4235fe9e518d5a85d3d/include/xtensor/xarray.hpp:114:18: note: candidate constructor not viable: requires 3 arguments, but 1 was provided
+build	build	2026-02-05T13:06:58.8039860Z   114 |         explicit xarray_container(storage_type&& storage, inner_shape_type&& shape, inner_strides_type&& strides);
+build	build	2026-02-05T13:06:58.8040630Z       |                  ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+build	build	2026-02-05T13:06:58.8041200Z fatal error: too many errors emitted, stopping now [-ferror-limit=]
+build	build	2026-02-05T13:06:58.8041560Z 20 errors generated.
+build	build	2026-02-05T13:06:58.8041910Z make[2]: *** [CMakeFiles/Multiplierless.dir/source/spectral_fact.cpp.o] Error 1
+build	build	2026-02-05T13:06:58.8042340Z make[1]: *** [CMakeFiles/Multiplierless.dir/all] Error 2
+build	build	2026-02-05T13:06:58.8042550Z make: *** [all] Error 2
+build	build	2026-02-05T13:06:58.8056080Z ##[error]Process completed with exit code 2.

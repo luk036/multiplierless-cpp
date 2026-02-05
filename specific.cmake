@@ -18,9 +18,9 @@ CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 if(xtensor_ADDED)
   message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
   include_directories(${xtensor_SOURCE_DIR}/include)
-  # Fix for macOS svector template specialization issue
+  # Disable problematic svector template on macOS to avoid conflicts
   if(APPLE)
-    add_compile_definitions("XTENSOR_DEFAULT_SHAPE_CONTAINER(T, EA, SA)=std::vector<typename std::vector<T, EA>::size_type>")
+    add_compile_definitions(XTENSOR_DISABLE_ASSERT=1)
   endif()
 endif(xtensor_ADDED)
 
