@@ -90,7 +90,7 @@ auto spectral_fact(const Arr &r) -> Arr {
     const std::complex<double> j_{0, 1};
     // auto k = xt::fftw::rfftscale<double>(sin.shape()[0], dx);
     // xt::xarray<std::complex<double>> temp= xt::eval(i * alphatmp);
-    auto phi = xt::fftw::irfft(xt::eval(j_ * alphatmp));
+    auto phi = xt::fftw::irfft(xt::xarray<std::complex<double>>(xt::eval(j_ * alphatmp)));
 
     // now retrieve the original sampling
     // index = find(np.reminder([0:m-1], mult_factor) == 0)
@@ -100,7 +100,7 @@ auto spectral_fact(const Arr &r) -> Arr {
 
     // compute the impulse response (inverse Fourier transform)
     auto h_tmp = xt::exp(alpha1 + j_ * phi1);
-    Arr h = xt::fftw::irfft(xt::eval(h_tmp));
+    Arr h = xt::fftw::irfft(xt::xarray<std::complex<double>>(xt::eval(h_tmp)));
     return h;
 }
 
