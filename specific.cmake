@@ -14,11 +14,21 @@ if(xtl_ADDED)
   include_directories(${xtl_SOURCE_DIR}/include)
 endif(xtl_ADDED)
 
-CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
+# Disable problematic svector template on macOS to avoid Clang template ambiguity
+if(APPLE)
+  CPMAddPackage(
+    NAME xtensor
+    GITHUB_REPOSITORY xtensor-stack/xtensor
+    GIT_TAG 0.25.0
+    OPTIONS "XTENSOR_DISABLE_SVECTOR ON"
+  )
+else()
+  CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
+endif()
+
 if(xtensor_ADDED)
   message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
   include_directories(${xtensor_SOURCE_DIR}/include)
-  # Disable problematic svector template on macOS to avoid conflicts
   if(APPLE)
     add_compile_definitions(XTENSOR_DISABLE_ASSERT=1)
     add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
