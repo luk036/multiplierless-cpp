@@ -1,5 +1,11 @@
 #pragma once
 
+// Disable svector on macOS to avoid Clang template ambiguity issues
+// where long and unsigned long are both 64-bit
+#ifdef __APPLE__
+#define XTENSOR_DISABLE_SVECTOR 1
+#endif
+
 #include <tuple>                        // for tuple
 #include <type_traits>                  // for move
 #include <xtensor/xtensor_forward.hpp>  // for xarray

@@ -8,17 +8,18 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:xtensor-stack/xtl#0.7.5")
+CPMAddPackage("gh:xtensor-stack/xtl#0.8.1")
 if(xtl_ADDED)
   include_directories(${xtl_SOURCE_DIR}/include)
 endif()
 
 # Disable problematic svector template on macOS to avoid Clang template ambiguity
+# This must be defined BEFORE adding xtensor package
 if(APPLE)
   add_definitions(-DXTENSOR_DISABLE_SVECTOR=1)
   set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility" FORCE)
 endif()
-CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
+CPMAddPackage("gh:xtensor-stack/xtensor#0.27.1")
 
 if(xtensor_ADDED)
   include_directories(${xtensor_SOURCE_DIR}/include)
@@ -56,7 +57,7 @@ if(BLAS_FOUND)
   include_directories(${BLAS_INCLUDE_DIRS})
 endif(BLAS_FOUND)
 
-CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.20.0")
+CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.23.0")
 if(xtensor-blas_ADDED)
   include_directories(${xtensor-blas_SOURCE_DIR}/include)
 endif()
@@ -82,7 +83,7 @@ if(FFTW_FOUND)
   include_directories(${FFTW_INCLUDE_DIRS})
 endif(FFTW_FOUND)
 
-CPMAddPackage("gh:xtensor-stack/xtensor-fftw#0.2.5")
+CPMAddPackage("gh:xtensor-stack/xtensor-fftw#0.2.6")
 if(xtensor-fftw_ADDED)
   include_directories(${xtensor-fftw_SOURCE_DIR}/include)
 endif()
