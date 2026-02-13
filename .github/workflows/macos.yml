@@ -30,16 +30,16 @@ jobs:
         run: brew install fftw openblas llvm@20
 
       - name: configure
-        env:
-          CC: clang-20
-          CXX: clang++-20
-        run: cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -DCMAKE_BUILD_TYPE=Debug
+        run: |
+          export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+          export CC=clang
+          export CXX=clang++
+          cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -DCMAKE_BUILD_TYPE=Debug
 
       - name: build
-        env:
-          CC: clang-20
-          CXX: clang++-20
-        run: cmake --build build -j4
+        run: |
+          export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+          cmake --build build -j4
 
       - name: test
         run: |

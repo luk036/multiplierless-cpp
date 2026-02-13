@@ -4,3 +4,4 @@
 /.cache
 /.xmake
 .DS_Store
+err*.log
