@@ -16,15 +16,9 @@ endif(xtl_ADDED)
 
 # Disable problematic svector template on macOS to avoid Clang template ambiguity
 if(APPLE)
-  CPMAddPackage(
-    NAME xtensor
-    GITHUB_REPOSITORY xtensor-stack/xtensor
-    GIT_TAG 0.25.0
-    OPTIONS "XTENSOR_DISABLE_SVECTOR ON"
-  )
-else()
-  CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
+  set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility")
 endif()
+CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 
 if(xtensor_ADDED)
   message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
