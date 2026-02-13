@@ -40,7 +40,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Disable problematic svector template on macOS to avoid Clang template ambiguity
 if(APPLE)
-  add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
+  add_definitions(-DXTENSOR_DISABLE_SVECTOR=1)
 endif()
 
 include(specific.cmake)
@@ -66,7 +66,7 @@ target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4244>")
 
 # Link dependencies
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SPECIFIC_LIBS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${SPECIFIC_LIBS})
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

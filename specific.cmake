@@ -10,28 +10,26 @@ CPMAddPackage(
 
 CPMAddPackage("gh:xtensor-stack/xtl#0.7.5")
 if(xtl_ADDED)
-  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
   include_directories(${xtl_SOURCE_DIR}/include)
-endif(xtl_ADDED)
+endif()
 
 # Disable problematic svector template on macOS to avoid Clang template ambiguity
 if(APPLE)
+  add_definitions(-DXTENSOR_DISABLE_SVECTOR=1)
   set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility" FORCE)
 endif()
 CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 
 if(xtensor_ADDED)
-  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
   include_directories(${xtensor_SOURCE_DIR}/include)
   if(APPLE)
     add_compile_definitions(XTENSOR_DISABLE_ASSERT=1)
-    add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
     # Also try setting the definition on xtensor target directly
     if(TARGET xtensor)
       target_compile_definitions(xtensor INTERFACE XTENSOR_DISABLE_SVECTOR=1)
     endif()
   endif()
-endif(xtensor_ADDED)
+endif()
 
 CPMAddPackage(
   NAME EllAlgo
@@ -43,7 +41,6 @@ CPMAddPackage(
 find_package(OpenBLAS QUIET)
 if(OpenBLAS_FOUND)
   message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
-  # target_include_directories(OpenBLAS::OpenBLAS SYSTEM INTERFACE ${OpenBLAS_INCLUDE_DIRS})
   include_directories(${OpenBLAS_INCLUDE_DIRS})
 endif(OpenBLAS_FOUND)
 
@@ -61,10 +58,8 @@ endif(BLAS_FOUND)
 
 CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.20.0")
 if(xtensor-blas_ADDED)
-  message(STATUS "Found xtensor-blas: ${xtensor-blas_SOURCE_DIR}")
   include_directories(${xtensor-blas_SOURCE_DIR}/include)
-endif(xtensor-blas_ADDED)
-# remember to turn off the warnings
+endif()
 
 if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
@@ -89,9 +84,8 @@ endif(FFTW_FOUND)
 
 CPMAddPackage("gh:xtensor-stack/xtensor-fftw#0.2.5")
 if(xtensor-fftw_ADDED)
-  message(STATUS "Found xtensor-fftw: ${xtensor-fftw_SOURCE_DIR}")
   include_directories(${xtensor-fftw_SOURCE_DIR}/include)
-endif(xtensor-fftw_ADDED)
+endif()
 
 set(SPECIFIC_LIBS
     EllAlgo::EllAlgo
