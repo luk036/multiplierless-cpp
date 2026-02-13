@@ -21,6 +21,7 @@ if(xtensor_ADDED)
   # Disable problematic svector template on macOS to avoid conflicts
   if(APPLE)
     add_compile_definitions(XTENSOR_DISABLE_ASSERT=1)
+    add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
   endif()
 endif(xtensor_ADDED)
 
