@@ -16,7 +16,7 @@ endif(xtl_ADDED)
 
 # Disable problematic svector template on macOS to avoid Clang template ambiguity
 if(APPLE)
-  set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility")
+  set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility" FORCE)
 endif()
 CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 
@@ -26,6 +26,10 @@ if(xtensor_ADDED)
   if(APPLE)
     add_compile_definitions(XTENSOR_DISABLE_ASSERT=1)
     add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
+    # Also try setting the definition on xtensor target directly
+    if(TARGET xtensor)
+      target_compile_definitions(xtensor INTERFACE XTENSOR_DISABLE_SVECTOR=1)
+    endif()
   endif()
 endif(xtensor_ADDED)
 
