@@ -67,8 +67,8 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
     const auto ind_p = xt::where(w <= wpass)[0];  // passband
     auto ind_p_size = ind_p.size();
     this->Ap = xt::view(A, xt::range(0, ind_p_size), xt::all());
-    // stopband (w_stop <= w)
-    const auto ind_s = xt::where(wstop <= w)[0];  // stopband
+    // stopband (w >= w_stop)
+    const auto ind_s = xt::where(w >= wstop)[0];  // stopband
     const auto Sp = std::pow(10, delta2 / 20);
     using xt::placeholders::_;
     auto ind_s_0 = ind_s[0];
