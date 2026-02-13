@@ -38,6 +38,11 @@ include(cmake/CPM.cmake)
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# Disable problematic svector template on macOS to avoid Clang template ambiguity
+if(APPLE)
+  add_compile_definitions(XTENSOR_DISABLE_SVECTOR=1)
+endif()
+
 include(specific.cmake)
 
 # ---- Add source files ----
