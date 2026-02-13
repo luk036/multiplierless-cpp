@@ -24,15 +24,21 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: "**/cpm_modules"
-          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+          key: ${{ github.workflow }}-cpm-modules-clang20-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
       - name: Install project dependencies
-        run: brew install fftw openblas
+        run: brew install fftw openblas llvm@20
 
       - name: configure
+        env:
+          CC: clang-20
+          CXX: clang++-20
         run: cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -DCMAKE_BUILD_TYPE=Debug
 
       - name: build
+        env:
+          CC: clang-20
+          CXX: clang++-20
         run: cmake --build build -j4
 
       - name: test
