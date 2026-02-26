@@ -8,6 +8,13 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
+CPMAddPackage(
+  NAME spdlog
+  GIT_TAG v1.12.0
+  GITHUB_REPOSITORY gabime/spdlog
+  OPTIONS "SPDLOG_INSTALL YES" # create an installable target
+)
+
 CPMAddPackage("gh:xtensor-stack/xtl#0.7.7")
 if(xtl_ADDED)
   include_directories(${xtl_SOURCE_DIR}/include)
@@ -96,4 +103,5 @@ set(SPECIFIC_LIBS
     ${FFTW_LIBRARIES}
     Threads::Threads
     fmt::fmt
+    spdlog::spdlog
 )
