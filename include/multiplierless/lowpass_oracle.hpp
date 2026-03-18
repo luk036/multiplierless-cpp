@@ -86,11 +86,8 @@ class LowpassOracle {
     /*!
      * @brief Construct a new lowpass oracle object
      *
-     * @param[in] Ap
-     * @param[in] As
-     * @param[in] Anr
-     * @param[in] Lpsq
-     * @param[in] Upsq
+     * @param[in] Fdc A filter_design_construct object containing all necessary parameters
+     *                for the lowpass filter design (Ap, As, Anr, Lpsq, Upsq, etc.)
      */
     explicit LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
 
