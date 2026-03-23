@@ -42,18 +42,23 @@
 // *********************************************************************
 // filter specs (for a low-pass filter)
 // *********************************************************************
-// number of FIR coefficients (including zeroth)
+/// Filter design construct containing all parameters for lowpass filter design.
+/// This struct holds the filter order, passband/stopband specifications, and
+/// squared constraints used in the spectral factorization method for FIR filter design.
+/// @param argN The filter order (number of FIR coefficients including zeroth)
 struct filter_design_construct {
     using Arr = xt::xarray<double>;
 
-    int N;
-    Arr Ap;
-    Arr As;
-    Arr Anr;
-    double Lpsq;
-    double Upsq;
-    double Spsq;
+    int N;                      ///< Filter order (number of FIR coefficients including zeroth)
+    Arr Ap;                     ///< Passband constraint matrix
+    Arr As;                     ///< Stopband constraint matrix
+    Arr Anr;                    ///< Non-redundant constraint matrix
+    double Lpsq;                ///< Lower bound squared for passband (1/delta^2)
+    double Upsq;                ///< Upper bound squared for passband (delta^2)
+    double Spsq;                ///< Stopband attenuation squared
 
+    /// Construct a filter_design_construct with default parameters for the given filter order.
+    /// @param argN The filter order (N+1 coefficients will be generated)
     explicit filter_design_construct(int argN = 32);
 };
 
@@ -92,20 +97,35 @@ class LowpassOracle {
     explicit LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
 
     /*!
-     * @brief
+     * @brief Assess the optimization problem for the given filter coefficients.
      *
-     * @param[in] x
-     * @param[in] Spsq
-     * @return auto
+     * This function evaluates the constraints and computes the cutting plane
+     * for the FIR lowpass filter design optimization problem. It checks the
+     * non-negative real constraint, passband constraints, stopband constraints,
+     * and returns the appropriate gradient and objective function values.
+     *
+     * @param[in] x The filter coefficients (autocorrelation coefficients r).
+     * @param[in,out] Spsq On input, the initial stopband attenuation squared target.
+     *                      On output, the achieved maximum stopband value.
+     *
+     * @return A tuple containing:
+     *         - ParallelCut: Pair of gradient and objective function values
+     *         - bool: True if optimal solution found, false if more iterations needed
      */
     auto assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool>;
 
     /*!
-     * @brief
+     * @brief Operator function for optimization assessment.
      *
-     * @param[in] x
-     * @param[in] Spsq
-     * @return auto
+     * This is a convenience function that forwards to assess_optim.
+     *
+     * @param[in] x The filter coefficients (autocorrelation coefficients r).
+     * @param[in,out] Spsq On input, the initial stopband attenuation squared target.
+     *                      On output, the achieved maximum stopband value.
+     *
+     * @return A tuple containing:
+     *         - ParallelCut: Pair of gradient and objective function values
+     *         - bool: True if optimal solution found, false if more iterations needed
      */
     auto operator()(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
         return this->assess_optim(x, Spsq);
