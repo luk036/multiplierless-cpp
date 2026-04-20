@@ -46,7 +46,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wpedantic -Wextra -Werror)
   target_compile_options(
     ${PROJECT_NAME} PUBLIC -Wall -Wextra -Wconversion -Wno-parentheses
-                           -Wno-unused-but-set-parameter
+                           -Wno-unused-but-set-parameter -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
   target_compile_options(
