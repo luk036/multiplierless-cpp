@@ -20,11 +20,14 @@ if(xtl_ADDED)
   include_directories(${xtl_SOURCE_DIR}/include)
 endif()
 
-# Disable problematic svector template on macOS to avoid Clang template ambiguity
-# This must be defined BEFORE adding xtensor package
+# Disable problematic svector template on macOS to avoid Clang template ambiguity This must be
+# defined BEFORE adding xtensor package
 if(APPLE)
   add_definitions(-DXTENSOR_DISABLE_SVECTOR=1)
-  set(XTENSOR_DISABLE_SVECTOR ON CACHE BOOL "Disable svector for macOS Clang compatibility" FORCE)
+  set(XTENSOR_DISABLE_SVECTOR
+      ON
+      CACHE BOOL "Disable svector for macOS Clang compatibility" FORCE
+  )
 endif()
 CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
 

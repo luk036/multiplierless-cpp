@@ -70,7 +70,7 @@ auto to_csd(double num, int places = 0) -> string {
  * @param[in] csd_str
  * @return double
  */
-auto to_decimal(const std::string &csd_str) -> double {
+auto to_decimal(const std::string& csd_str) -> double {
     auto num = 0.0;
     auto loc = 0U;
     auto i = 0U;

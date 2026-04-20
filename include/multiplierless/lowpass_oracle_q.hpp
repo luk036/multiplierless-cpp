@@ -3,7 +3,7 @@
 // Disable svector on macOS to avoid Clang template ambiguity issues
 // where long and unsigned long are both 64-bit
 #ifdef __APPLE__
-#define XTENSOR_DISABLE_SVECTOR 1
+#    define XTENSOR_DISABLE_SVECTOR 1
 #endif
 
 #include <tuple>                        // for tuple
@@ -25,9 +25,9 @@ class LowpassOracleQ {
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 
-    Arr rcsd{};              ///< Quantized filter coefficients in CSD representation
-    unsigned int _nnz;      ///< Maximum number of non-zero CSD digits
-    LowpassOracle _lowpass; ///< The underlying lowpass oracle for optimization
+    Arr rcsd{};                     ///< Quantized filter coefficients in CSD representation
+    unsigned int _nnz;              ///< Maximum number of non-zero CSD digits
+    LowpassOracle _lowpass;         ///< The underlying lowpass oracle for optimization
     unsigned int _num_retries = 0;  ///< Number of retry attempts made
 
   public:
@@ -37,7 +37,7 @@ class LowpassOracleQ {
      * @param[in] nnz Maximum number of non-zero digits allowed in CSD representation.
      * @param[in] lowpass The LowpassOracle instance to wrap for optimization.
      */
-    LowpassOracleQ(unsigned int nnz, LowpassOracle &&lowpass)
+    LowpassOracleQ(unsigned int nnz, LowpassOracle&& lowpass)
         : _nnz(nnz), _lowpass(std::move(lowpass)) {}
 
     /*!
@@ -59,7 +59,7 @@ class LowpassOracleQ {
      *         - Arr: The quantized filter coefficients used
      *         - bool: True if more retries should be attempted
      */
-    auto assess_optim_q(const Arr &r, double &Spsq, bool retry)
+    auto assess_optim_q(const Arr& r, double& Spsq, bool retry)
         -> std::tuple<ParallelCut, bool, Arr, bool>;
 
     /*!
@@ -78,7 +78,7 @@ class LowpassOracleQ {
      *         - Arr: The quantized filter coefficients used
      *         - bool: True if more retries should be attempted
      */
-    auto operator()(const Arr &r, double &Spsq, bool retry)
+    auto operator()(const Arr& r, double& Spsq, bool retry)
         -> std::tuple<ParallelCut, bool, Arr, bool> {
         return this->assess_optim_q(r, Spsq, retry);
     }

@@ -1,7 +1,7 @@
 // Disable svector on macOS to avoid Clang template ambiguity issues
 // where long and unsigned long are both 64-bit
 #ifdef __APPLE__
-#define XTENSOR_DISABLE_SVECTOR 1
+#    define XTENSOR_DISABLE_SVECTOR 1
 #endif
 
 #include <cmath>    // for cos, M_PI
@@ -54,7 +54,7 @@ returns the impulse response `h` as an `Arr` object. */
  * @return The function `spectral_fact` returns the impulse response `h` that gives the desired
  * auto-correlation.
  */
-auto spectral_fact(const Arr &r) -> Arr {
+auto spectral_fact(const Arr& r) -> Arr {
     // length of the impulse response sequence
     const auto n = int(r.shape()[0]);
 
@@ -122,7 +122,7 @@ auto spectral_fact(const Arr &r) -> Arr {
  * @return The function `inverse_spectral_fact` returns the auto-correlation coefficients `r` as an
  * `Arr` object.
  */
-auto inverse_spectral_fact(const Arr &h) -> Arr {
+auto inverse_spectral_fact(const Arr& h) -> Arr {
     auto n = h.shape()[0];
     auto r = Arr{xt::zeros<double>({n})};
     using xt::placeholders::_;

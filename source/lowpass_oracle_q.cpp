@@ -16,10 +16,10 @@ using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
 extern auto to_csdnnz(double num, unsigned int) -> std::string;
-extern auto to_decimal(const std::string &csd_str) -> double;
+extern auto to_decimal(const std::string& csd_str) -> double;
 
-extern auto inverse_spectral_fact(const Arr &r) -> Arr;
-extern auto spectral_fact(const Arr &r) -> Arr;
+extern auto inverse_spectral_fact(const Arr& r) -> Arr;
+extern auto spectral_fact(const Arr& r) -> Arr;
 
 /**
  * The function assess_optim_q assesses the optimal value of q for a lowpass filter based on the
@@ -35,7 +35,7 @@ extern auto spectral_fact(const Arr &r) -> Arr;
  *
  * @return The function `assess_optim_q` returns a tuple containing the following elements:
  */
-auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
+auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
     if (!retry) {  // retry due to no effect in the previous cut
         // this->_lowpass.retry = false;
@@ -54,7 +54,7 @@ auto LowpassOracleQ::assess_optim_q(const Arr &r, double &Spsq, bool retry)
         this->_num_retries += 1;
     }
     auto [cut, shrunk] = this->_lowpass(this->rcsd, Spsq);
-    auto &[gc, hc] = cut;
+    auto& [gc, hc] = cut;
     hc += xt::sum(gc * (this->rcsd - r))();
     // auto more_alt = this->_lowpass.more_alt && !retry;
     return {cut, shrunk, this->rcsd, this->_num_retries < 15};

@@ -1,5 +1,5 @@
-#include <multiplierless/logger.hpp>
 #include <iostream>
+#include <multiplierless/logger.hpp>
 
 /**
  * @brief Example program demonstrating spdlogger integration

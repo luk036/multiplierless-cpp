@@ -94,7 +94,7 @@ filter_design_construct::filter_design_construct(int argN) : N(argN) {
  * @return The function `assess_optim` returns a tuple containing a `ParallelCut` object and a
  * boolean value.
  */
-auto LowpassOracle::assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
+auto LowpassOracle::assess_optim(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool> {
     // this->more_alt = true;
 
     // 1.0 nonnegative-real constraint

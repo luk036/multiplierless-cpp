@@ -66,8 +66,8 @@ endif()
 
 enable_testing()
 
-# Add a single test that runs all tests (both doctest and RapidCheck)
-# Note: We don't use doctest_discover_tests because it can conflict with RapidCheck
+# Add a single test that runs all tests (both doctest and RapidCheck) Note: We don't use
+# doctest_discover_tests because it can conflict with RapidCheck
 string(TOLOWER ${PROJECT_NAME} PROJECT_FILE_NAME)
 add_test(NAME ${PROJECT_FILE_NAME}Tests COMMAND ${PROJECT_NAME}Tests)
 

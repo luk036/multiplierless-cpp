@@ -4,7 +4,7 @@
 // Disable svector on macOS to avoid Clang template ambiguity issues
 // where long and unsigned long are both 64-bit
 #ifdef __APPLE__
-#define XTENSOR_DISABLE_SVECTOR 1
+#    define XTENSOR_DISABLE_SVECTOR 1
 #endif
 
 // #include <limits>
@@ -49,13 +49,13 @@
 struct filter_design_construct {
     using Arr = xt::xarray<double>;
 
-    int N;                      ///< Filter order (number of FIR coefficients including zeroth)
-    Arr Ap;                     ///< Passband constraint matrix
-    Arr As;                     ///< Stopband constraint matrix
-    Arr Anr;                    ///< Non-redundant constraint matrix
-    double Lpsq;                ///< Lower bound squared for passband (1/delta^2)
-    double Upsq;                ///< Upper bound squared for passband (delta^2)
-    double Spsq;                ///< Stopband attenuation squared
+    int N;        ///< Filter order (number of FIR coefficients including zeroth)
+    Arr Ap;       ///< Passband constraint matrix
+    Arr As;       ///< Stopband constraint matrix
+    Arr Anr;      ///< Non-redundant constraint matrix
+    double Lpsq;  ///< Lower bound squared for passband (1/delta^2)
+    double Upsq;  ///< Upper bound squared for passband (delta^2)
+    double Spsq;  ///< Stopband attenuation squared
 
     /// Construct a filter_design_construct with default parameters for the given filter order.
     /// @param argN The filter order (N+1 coefficients will be generated)
@@ -94,7 +94,7 @@ class LowpassOracle {
      * @param[in] Fdc A filter_design_construct object containing all necessary parameters
      *                for the lowpass filter design (Ap, As, Anr, Lpsq, Upsq, etc.)
      */
-    explicit LowpassOracle(filter_design_construct &&Fdc) : _Fdc{std::move(Fdc)} {}
+    explicit LowpassOracle(filter_design_construct&& Fdc) : _Fdc{std::move(Fdc)} {}
 
     /*!
      * @brief Assess the optimization problem for the given filter coefficients.
@@ -112,7 +112,7 @@ class LowpassOracle {
      *         - ParallelCut: Pair of gradient and objective function values
      *         - bool: True if optimal solution found, false if more iterations needed
      */
-    auto assess_optim(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool>;
+    auto assess_optim(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool>;
 
     /*!
      * @brief Operator function for optimization assessment.
@@ -127,7 +127,7 @@ class LowpassOracle {
      *         - ParallelCut: Pair of gradient and objective function values
      *         - bool: True if optimal solution found, false if more iterations needed
      */
-    auto operator()(const Arr &x, double &Spsq) -> std::tuple<ParallelCut, bool> {
+    auto operator()(const Arr& x, double& Spsq) -> std::tuple<ParallelCut, bool> {
         return this->assess_optim(x, Spsq);
     }
 };
