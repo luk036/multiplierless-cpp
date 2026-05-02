@@ -3,14 +3,14 @@ find_package(Threads REQUIRED)
 
 CPMAddPackage(
   NAME fmt
-  GIT_TAG 10.2.1
+  GIT_TAG 12.1.0
   GITHUB_REPOSITORY fmtlib/fmt
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
 CPMAddPackage(
   NAME spdlog
-  GIT_TAG v1.12.0
+  GIT_TAG v1.17.0
   GITHUB_REPOSITORY gabime/spdlog
   OPTIONS "SPDLOG_INSTALL YES" # create an installable target
 )
@@ -44,7 +44,7 @@ endif()
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.5.2
+  GIT_TAG 1.6.2
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )

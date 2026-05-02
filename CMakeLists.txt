@@ -10,7 +10,7 @@ option(INSTALL_ONLY "Enable for installation only" OFF)
 # Note: update this to your new project's name and version
 project(
   Multiplierless
-  VERSION 1.0
+  VERSION 1.0.1
   LANGUAGES CXX
 )
 
@@ -89,7 +89,7 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 10.2.1" "spdlog 1.12.0"
+  DEPENDENCIES "fmt 12.1.0" "spdlog 1.17.0"
 )
 
 if(NOT INSTALL_ONLY)
