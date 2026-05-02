@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>lowpass_oracle class | Multiplierless</title>
+  <title>LowpassOracle class | Multiplierless</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,11 +49,11 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          lowpass_oracle <span class="m-thin">class</span>
+          LowpassOracle <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="lowpass__oracle_8hpp.html">&lt;multiplierless/lowpass_oracle.hpp&gt;</a></div>
         </h1>
         <p>Oracle for FIR lowpass filter design.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -61,19 +61,18 @@
               <ul>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p>This example is taken from Almir Mutapcic in 2006:</p><pre>min   \gamma
 s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
 </pre><p>[0, \pi] R(\omega) &gt; 0, \forall \omega \in [0, \pi]</p>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="abfb265c677abe7cd478e3c26d6b89667">
-              <span class="m-doc-wrap-bumper"><a href="#abfb265c677abe7cd478e3c26d6b89667" class="m-doc-self">lowpass_oracle</a>(</span><span class="m-doc-wrap"><a href="structfilter__design__construct.html" class="m-doc">filter_<wbr />design_<wbr />construct</a>&amp;&amp; Fdc)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#a72a06c1e37cefd7509c51d065e093402" class="m-doc">LowpassOracle</a>(</span><span class="m-doc-wrap"><a href="structfilter__design__construct.html" class="m-doc">filter_<wbr />design_<wbr />construct</a>&amp;&amp; Fdc) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Construct a new lowpass oracle object.</dd>
           </dl>
@@ -82,32 +81,42 @@ s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8b16dde4046833c11dfb35216d42407a" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              <span class="m-doc-wrap-bumper">auto <a href="#ad31e9a564e7af5cd1909444190ae2fdf" class="m-doc">assess_optim</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
               double&amp; Spsq) -&gt; std::tuple&lt; ParallelCut, bool &gt; -&gt; auto</span>
             </dt>
-            <dd></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="ace7c17ff140d7b3012315e3e2d5a3cb6">
-              bool <a href="#ace7c17ff140d7b3012315e3e2d5a3cb6" class="m-doc-self">retry</a>
+            <dd>Assess the optimization problem for the given filter coefficients.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6053dd9d85d045fd7cff29853dbb4b12" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              double&amp; Spsq) -&gt; std::tuple&lt; ParallelCut, bool &gt; -&gt; auto</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="abf33461ee6b805a0119669211cbddf47">
-              bool <a href="#abf33461ee6b805a0119669211cbddf47" class="m-doc-self">more_alt</a>
-            </dt>
-            <dd><span></span></dd>
+            <dd>Operator function for optimization assessment.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a8b16dde4046833c11dfb35216d42407a"><div>
+          <section class="m-doc-details" id="a72a06c1e37cefd7509c51d065e093402"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto lowpass_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8b16dde4046833c11dfb35216d42407a" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              <span class="m-doc-wrap-bumper"> LowpassOracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a72a06c1e37cefd7509c51d065e093402" class="m-doc-self">LowpassOracle</a>(</span><span class="m-doc-wrap"><a href="structfilter__design__construct.html" class="m-doc">filter_<wbr />design_<wbr />construct</a>&amp;&amp; Fdc) <span class="m-label m-info">explicit</span> </span></span>
+            </h3>
+            <p>Construct a new lowpass oracle object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Fdc&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>A <a href="structfilter__design__construct.html" class="m-doc">filter_<wbr />design_<wbr />construct</a> object containing all necessary parameters for the lowpass filter design (Ap, As, Anr, Lpsq, Upsq, etc.)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad31e9a564e7af5cd1909444190ae2fdf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto LowpassOracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad31e9a564e7af5cd1909444190ae2fdf" class="m-doc-self">assess_optim</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
               double&amp; Spsq) -&gt; std::tuple&lt; ParallelCut, bool &gt;</span></span>
             </h3>
+            <p>Assess the optimization problem for the given filter coefficients.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -115,20 +124,50 @@ s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
               <tbody>
                 <tr>
                   <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>The filter coefficients (autocorrelation coefficients r).</td>
                 </tr>
                 <tr>
-                  <td>Spsq&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Spsq&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
+                  <td>On input, the initial stopband attenuation squared target. On output, the achieved maximum stopband value.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>auto</td>
+                  <td><p>A tuple containing:</p><ul><li>ParallelCut: Pair of gradient and objective function values</li><li>bool: True if optimal solution found, false if more iterations needed</li></ul></td>
                 </tr>
               </tfoot>
             </table>
+<p>This function evaluates the constraints and computes the cutting plane for the FIR lowpass filter design optimization problem. It checks the non-negative real constraint, passband constraints, stopband constraints, and returns the appropriate gradient and objective function values.</p>
+          </div></section>
+          <section class="m-doc-details" id="a6053dd9d85d045fd7cff29853dbb4b12"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto LowpassOracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6053dd9d85d045fd7cff29853dbb4b12" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              double&amp; Spsq) -&gt; std::tuple&lt; ParallelCut, bool &gt;</span></span>
+            </h3>
+            <p>Operator function for optimization assessment.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>The filter coefficients (autocorrelation coefficients r).</td>
+                </tr>
+                <tr>
+                  <td>Spsq&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
+                  <td>On input, the initial stopband attenuation squared target. On output, the achieved maximum stopband value.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><p>A tuple containing:</p><ul><li>ParallelCut: Pair of gradient and objective function values</li><li>bool: True if optimal solution found, false if more iterations needed</li></ul></td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This is a convenience function that forwards to assess_optim.</p>
           </div></section>
         </section>
       </div>
@@ -169,13 +208,13 @@ s.t.  L^2(\omega) \le R(\omega) \le U^2(\omega), \forall \omega \in
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>Multiplierless. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>Multiplierless. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
