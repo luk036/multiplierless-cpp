@@ -1,10 +1,4 @@
-#include <stddef.h>  // for size_t
-
-#include <cmath>                              // for pow, log10, M_PI, cos
 #include <multiplierless/lowpass_oracle.hpp>  // for LowpassOracle, filter_...
-#include <tuple>                              // for tuple
-#include <type_traits>                        // for move
-#include <vector>                             // for vector, vector<>::size_...
 #include <xtensor/xaccessible.hpp>            // for xconst_accessible, xacc...
 #include <xtensor/xarray.hpp>                 // for xarray_container
 #include <xtensor/xbroadcast.hpp>             // for xbroadcast
@@ -26,7 +20,7 @@ using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
 #ifndef M_PI
-#    define M_PI 3.14159265358979323846264338327950288
+constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
 /**

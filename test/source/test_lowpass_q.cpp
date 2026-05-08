@@ -3,7 +3,6 @@
 #include <ellalgo/ell.hpp>                      // for Ell
 #include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ
 #include <tuple>                                // for make_tuple, tuple
-#include <type_traits>                          // for move, add_const<>::type
 #include <xtensor/xtensor_forward.hpp>          // for xarray
 
 class LowpassOracle;

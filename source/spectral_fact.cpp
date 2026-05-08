@@ -6,10 +6,9 @@
 
 #include <cmath>    // for cos, M_PI
 #include <complex>  // for complex, operator*, operator-
-#include <tuple>    // for tuple
 
 #ifndef M_PI
-#    define M_PI 3.14159265358979323846264338327950288
+constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
 #include <xtensor-blas/xlinalg.hpp>  // for dot

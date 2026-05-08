@@ -5,7 +5,6 @@
 #include <ellalgo/ell.hpp>                    // for Ell
 #include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
 #include <tuple>                              // for make_tuple, tuple
-#include <type_traits>                        // for move, add_const<>::type
 // #include <xtensor-blas/xlinalg.hpp>
 
 using Arr = xt::xarray<double>;
