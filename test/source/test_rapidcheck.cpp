@@ -176,7 +176,7 @@ TEST_CASE("Property-based test: CSD symmetric property") {
 // Spectral factorization property-based tests
 // ---------------------------------------------------------------------------
 
-#include <ellalgo/arr.hpp>
+#    include <ellalgo/arr.hpp>
 
 extern auto spectral_fact(const Arr& r) -> Arr;
 extern auto inverse_spectral_fact(const Arr& h) -> Arr;
@@ -204,8 +204,7 @@ TEST_CASE("Property-based test: spectral_fact produces finite output") {
 
         auto h = spectral_fact(r);
         RC_ASSERT(h.size() == n);
-        for (size_t i = 0; i < n; ++i)
-            RC_ASSERT(std::isfinite(h(i)));
+        for (size_t i = 0; i < n; ++i) RC_ASSERT(std::isfinite(h(i)));
     });
 }
 
@@ -243,8 +242,7 @@ TEST_CASE("Property-based test: various filter orders converge") {
 
         auto h = spectral_fact(r);
         RC_ASSERT(h.size() == n);
-        for (size_t i = 0; i < n; ++i)
-            RC_ASSERT(std::isfinite(h(i)));
+        for (size_t i = 0; i < n; ++i) RC_ASSERT(std::isfinite(h(i)));
     });
 }
 

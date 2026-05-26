@@ -1,5 +1,5 @@
-#include <multiplierless/lowpass_oracle_q.hpp>
 #include <ellalgo/arr.hpp>
+#include <multiplierless/lowpass_oracle_q.hpp>
 
 using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;

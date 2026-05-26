@@ -3,11 +3,11 @@
 /// FFTW wrappers and complex array ops, kept separate from the core Arr
 /// (which now lives in ellalgo-cpp/include/ellalgo/arr.hpp).
 
-#include <complex>
 #include <fftw3.h>
-#include <vector>
 
+#include <complex>
 #include <ellalgo/arr.hpp>
+#include <vector>
 
 // Complex array type
 using CArr = std::vector<std::complex<double>>;
@@ -24,11 +24,8 @@ inline CArr rfft(const Arr& in) {
     size_t n = in.size();
     size_t n_out = n / 2 + 1;
     CArr out(n_out);
-    auto* plan = fftw_plan_dft_r2c_1d(
-        static_cast<int>(n),
-        const_cast<double*>(in.data()),
-        reinterpret_cast<fftw_complex*>(out.data()),
-        FFTW_ESTIMATE);
+    auto* plan = fftw_plan_dft_r2c_1d(static_cast<int>(n), const_cast<double*>(in.data()),
+                                      reinterpret_cast<fftw_complex*>(out.data()), FFTW_ESTIMATE);
     fftw_execute(plan);
     fftw_destroy_plan(plan);
     return out;
@@ -39,8 +36,7 @@ inline Arr irfft(const CArr& in, size_t expected_size) {
     Arr out(expected_size);
     auto* plan = fftw_plan_dft_c2r_1d(
         static_cast<int>(expected_size),
-        reinterpret_cast<fftw_complex*>(const_cast<std::complex<double>*>(in.data())),
-        out.data(),
+        reinterpret_cast<fftw_complex*>(const_cast<std::complex<double>*>(in.data())), out.data(),
         FFTW_ESTIMATE);
     fftw_execute(plan);
     fftw_destroy_plan(plan);
@@ -55,9 +51,7 @@ inline CArr fft(const CArr& in) {
     auto* plan = fftw_plan_dft_1d(
         static_cast<int>(n),
         reinterpret_cast<fftw_complex*>(const_cast<std::complex<double>*>(in.data())),
-        reinterpret_cast<fftw_complex*>(out.data()),
-        FFTW_FORWARD,
-        FFTW_ESTIMATE);
+        reinterpret_cast<fftw_complex*>(out.data()), FFTW_FORWARD, FFTW_ESTIMATE);
     fftw_execute(plan);
     fftw_destroy_plan(plan);
     return out;
@@ -70,9 +64,7 @@ inline Arr ifft(const CArr& in) {
     auto* plan = fftw_plan_dft_1d(
         static_cast<int>(n),
         reinterpret_cast<fftw_complex*>(const_cast<std::complex<double>*>(in.data())),
-        reinterpret_cast<fftw_complex*>(tmp.data()),
-        FFTW_BACKWARD,
-        FFTW_ESTIMATE);
+        reinterpret_cast<fftw_complex*>(tmp.data()), FFTW_BACKWARD, FFTW_ESTIMATE);
     fftw_execute(plan);
     fftw_destroy_plan(plan);
     Arr out(n);

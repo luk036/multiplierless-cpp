@@ -1,7 +1,7 @@
 #pragma once
 
-#include <multiplierless/lowpass_oracle.hpp>
 #include <ellalgo/arr.hpp>
+#include <multiplierless/lowpass_oracle.hpp>
 
 /*!
  * @brief Oracle for quantized FIR lowpass filter design.

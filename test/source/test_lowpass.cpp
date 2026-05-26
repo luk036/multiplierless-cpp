@@ -1,12 +1,11 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
+#include <ellalgo/arr.hpp>
 #include <ellalgo/cutting_plane.hpp>          // for cutting_plane_optim
 #include <ellalgo/ell.hpp>                    // for Ell
 #include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
 #include <tuple>                              // for make_tuple, tuple
-
-#include <ellalgo/arr.hpp>
 
 // static filter_design_construct Fdc{};
 auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {

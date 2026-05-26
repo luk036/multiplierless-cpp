@@ -1,5 +1,4 @@
 #include <cmath>
-
 #include <multiplierless/lowpass_oracle.hpp>
 
 using Vec = std::valarray<double>;

@@ -1,10 +1,9 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+#include <ellalgo/arr.hpp>
 #include <valarray>
 #include <vector>
-
-#include <ellalgo/arr.hpp>
 
 // Modified from CVX code by Almir Mutapcic in 2006.
 // Adapted in 2010 for impulse response peak-minimization by convex iteration by

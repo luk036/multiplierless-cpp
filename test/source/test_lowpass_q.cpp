@@ -1,10 +1,9 @@
 // -*- coding: utf-8 -*-
+#include <ellalgo/arr.hpp>
 #include <ellalgo/cutting_plane.hpp>            // for cutting_plane_optim_q
 #include <ellalgo/ell.hpp>                      // for Ell
 #include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ
 #include <tuple>                                // for make_tuple, tuple
-
-#include <ellalgo/arr.hpp>
 
 class LowpassOracle;
 

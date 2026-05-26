@@ -36,10 +36,4 @@ if(FFTW_FOUND)
   include_directories(${FFTW_INCLUDE_DIRS})
 endif()
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo
-    ${FFTW_LIBRARIES}
-    Threads::Threads
-    fmt::fmt
-    spdlog::spdlog
-)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)
