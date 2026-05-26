@@ -5,9 +5,8 @@
 #include <ellalgo/ell.hpp>                    // for Ell
 #include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
 #include <tuple>                              // for make_tuple, tuple
-// #include <xtensor-blas/xlinalg.hpp>
 
-using Arr = xt::xarray<double>;
+#include <ellalgo/arr.hpp>
 
 // static filter_design_construct Fdc{};
 auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
@@ -24,7 +23,7 @@ auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
 auto run_lowpass(bool use_parallel_cut) {
     constexpr int N = 32;
 
-    auto r0 = xt::zeros<double>({N});  // initial x0
+    auto r0 = zeros(N);  // initial x0
     auto ellip = Ell<Arr>(40.0, r0);
     // auto omega = LowpassOracle(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     auto [omega, t] = create_lowpass_case(N);

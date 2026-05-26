@@ -1,16 +1,7 @@
 #pragma once
 
-// Disable svector on macOS to avoid Clang template ambiguity issues
-// where long and unsigned long are both 64-bit
-#ifdef __APPLE__
-#    define XTENSOR_DISABLE_SVECTOR 1
-#endif
-
-// #include <tuple>                        // for tuple
-// #include <type_traits>                  // for move
-#include <xtensor/xtensor_forward.hpp>  // for xarray
-
-#include "lowpass_oracle.hpp"  // for LowpassOracle
+#include <multiplierless/lowpass_oracle.hpp>
+#include <ellalgo/arr.hpp>
 
 /*!
  * @brief Oracle for quantized FIR lowpass filter design.
@@ -21,7 +12,6 @@
  * with the quantized values while tracking the number of retries.
  */
 class LowpassOracleQ {
-    using Arr = xt::xarray<double>;
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 

@@ -3,11 +3,10 @@
 #include <ellalgo/ell.hpp>                      // for Ell
 #include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ
 #include <tuple>                                // for make_tuple, tuple
-#include <xtensor/xtensor_forward.hpp>          // for xarray
+
+#include <ellalgo/arr.hpp>
 
 class LowpassOracle;
-
-using Arr = xt::xarray<double>;
 
 extern auto create_lowpass_case(int N) -> std::tuple<LowpassOracle, double>;
 
@@ -25,7 +24,7 @@ auto run_csdlowpass(bool use_parallel_cut) {
     constexpr int N = 32;
     const int nnz = 7;
 
-    auto r0 = xt::zeros<double>({N});  // initial x0
+    auto r0 = zeros(N);  // initial x0
     auto ellip = Ell<Arr>(40.0, r0);
     // auto omega = LowpassOracleQ(Fdc.Ap, Fdc.As, Fdc.Anr, Fdc.Lpsq, Fdc.Upsq);
     auto [omega, t] = create_csdlowpass_case(N, nnz);

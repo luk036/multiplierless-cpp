@@ -1,15 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-// Disable svector on macOS to avoid Clang template ambiguity issues
-// where long and unsigned long are both 64-bit
-#ifdef __APPLE__
-#    define XTENSOR_DISABLE_SVECTOR 1
-#endif
-
-// #include <limits>
 #include <valarray>
-#include <xtensor/xarray.hpp>
+#include <vector>
+
+#include <ellalgo/arr.hpp>
 
 // Modified from CVX code by Almir Mutapcic in 2006.
 // Adapted in 2010 for impulse response peak-minimization by convex iteration by
@@ -36,9 +31,6 @@
 // delta is allowed passband ripple.
 // This is a convex problem (can be formulated as an SDP after sampling).
 
-// rand('twister',sum(100*clock))
-// randn('state',sum(100*clock))
-
 // *********************************************************************
 // filter specs (for a low-pass filter)
 // *********************************************************************
@@ -47,12 +39,10 @@
 /// squared constraints used in the spectral factorization method for FIR filter design.
 /// @param argN The filter order (number of FIR coefficients including zeroth)
 struct filter_design_construct {
-    using Arr = xt::xarray<double>;
-
     int N;        ///< Filter order (number of FIR coefficients including zeroth)
-    Arr Ap;       ///< Passband constraint matrix
-    Arr As;       ///< Stopband constraint matrix
-    Arr Anr;      ///< Non-redundant constraint matrix
+    Arr Ap;       ///< Passband constraint matrix (2D)
+    Arr As;       ///< Stopband constraint matrix (2D)
+    Arr Anr;      ///< Non-redundant constraint matrix (2D)
     double Lpsq;  ///< Lower bound squared for passband (1/delta^2)
     double Upsq;  ///< Upper bound squared for passband (delta^2)
     double Spsq;  ///< Stopband attenuation squared
@@ -61,8 +51,6 @@ struct filter_design_construct {
     /// @param argN The filter order (N+1 coefficients will be generated)
     explicit filter_design_construct(int argN = 32);
 };
-
-// from itertools import chain
 
 /*!
  * @brief Oracle for FIR lowpass filter design.
@@ -74,7 +62,6 @@ struct filter_design_construct {
  * [0, \pi] R(\omega) > 0, \forall \omega \in [0, \pi]
  */
 class LowpassOracle {
-    using Arr = xt::xarray<double>;
     using Vec = std::valarray<double>;
     using ParallelCut = std::pair<Arr, Vec>;
 
@@ -85,9 +72,6 @@ class LowpassOracle {
     filter_design_construct _Fdc;
 
   public:
-    // bool retry{false};  // ???
-    // bool more_alt{true};
-
     /*!
      * @brief Construct a new lowpass oracle object
      *

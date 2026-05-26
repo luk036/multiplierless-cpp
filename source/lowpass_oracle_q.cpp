@@ -1,15 +1,6 @@
 #include <multiplierless/lowpass_oracle_q.hpp>
-#include <xtensor/xarray.hpp>      // for xarray_container
-#include <xtensor/xcontainer.hpp>  // for xcontainer
-#include <xtensor/xfunction.hpp>   // for xfunction
-#include <xtensor/xmath.hpp>       // for sum
-#include <xtensor/xoperation.hpp>  // for xfunction_type_t, opera...
-#include <xtensor/xreducer.hpp>    // for xreducer, xreducer<>::c...
-#include <xtensor/xsemantic.hpp>   // for xsemantic_base
+#include <ellalgo/arr.hpp>
 
-#include "multiplierless/lowpass_oracle.hpp"  // for LowpassOracle
-
-using Arr = xt::xarray<double>;
 using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
@@ -35,13 +26,12 @@ extern auto spectral_fact(const Arr& r) -> Arr;
 auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
     if (!retry) {  // retry due to no effect in the previous cut
-        // this->_lowpass.retry = false;
         auto [cut, shrunk] = this->_lowpass(r, Spsq);
         if (!shrunk) {
             return {cut, shrunk, r, true};
         }
         auto h = spectral_fact(r);
-        auto hcsd = Arr(h.shape());
+        auto hcsd = Arr(h.size());
         for (auto i = 0U; i != h.size(); ++i) {
             hcsd(i) = to_csdnnz_fast(h(i), this->_nnz);
         }
@@ -52,7 +42,10 @@ auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
     }
     auto [cut, shrunk] = this->_lowpass(this->rcsd, Spsq);
     auto& [gc, hc] = cut;
-    hc += xt::sum(gc * (this->rcsd - r))();
-    // auto more_alt = this->_lowpass.more_alt && !retry;
+    auto dot_val = 0.0;
+    for (size_t i = 0; i < gc.size(); ++i) {
+        dot_val += gc(i) * (this->rcsd(i) - r(i));
+    }
+    hc += dot_val;
     return {cut, shrunk, this->rcsd, this->_num_retries < 15};
 }

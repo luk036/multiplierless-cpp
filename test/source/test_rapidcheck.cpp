@@ -164,12 +164,103 @@ TEST_CASE("Property-based test: CSD symmetric property") {
         auto mantissa = *rc::gen::inRange(1, 100) / 100.0;
         auto num = mantissa * std::pow(2.0, exponent);
 
-        // Should not crash
         auto csd_str = to_csd(num, 10);
         auto result = to_decimal(csd_str);
 
         RC_ASSERT(csd_str.size() > 0);
         RC_ASSERT(std::isfinite(result));
+    });
+}
+
+// ---------------------------------------------------------------------------
+// Spectral factorization property-based tests
+// ---------------------------------------------------------------------------
+
+#include <ellalgo/arr.hpp>
+
+extern auto spectral_fact(const Arr& r) -> Arr;
+extern auto inverse_spectral_fact(const Arr& h) -> Arr;
+
+/// Generate a valid auto-correlation sequence for an AR(1)-like process:
+///   r(k) = alpha^k   for k = 0, 1, ..., n-1
+/// Guaranteed positive definite for |alpha| < 1.
+/// alpha in (0.3, 0.7) — mild to moderate decay, avoids extreme dynamic range.
+static void fill_valid_acorr(Arr& r) {
+    auto n = r.size();
+    auto alpha = static_cast<double>(*rc::gen::inRange(30, 70)) / 100.0;
+    r(0) = 1.0;
+    double ak = alpha;
+    for (size_t k = 1; k < n; ++k) {
+        r(k) = ak;
+        ak *= alpha;
+    }
+}
+
+TEST_CASE("Property-based test: spectral_fact produces finite output") {
+    rc::check("spectral_fact on valid auto-correlation returns finite h", []() {
+        auto n = static_cast<size_t>(*rc::gen::inRange(8, 65));
+        Arr r(n);
+        fill_valid_acorr(r);
+
+        auto h = spectral_fact(r);
+        RC_ASSERT(h.size() == n);
+        for (size_t i = 0; i < n; ++i)
+            RC_ASSERT(std::isfinite(h(i)));
+    });
+}
+
+TEST_CASE("Property-based test: auto-correlation first element is energy") {
+    rc::check("r[0] equals energy of impulse response", []() {
+        auto n = static_cast<size_t>(*rc::gen::inRange(8, 49));
+        Arr r(n);
+        fill_valid_acorr(r);
+
+        auto h = spectral_fact(r);
+
+        double energy = 0.0;
+        for (size_t i = 0; i < n; ++i) energy += h(i) * h(i);
+
+        auto rel_err = std::fabs((r(0) - energy) / (r(0) + 1e-10));
+        RC_ASSERT(rel_err < 0.01);
+    });
+}
+
+TEST_CASE("Property-based test: auto-correlation non-negative at lag 0") {
+    rc::check("r[0] is non-negative for any valid auto-correlation", []() {
+        auto n = static_cast<size_t>(*rc::gen::inRange(4, 33));
+        Arr r(n);
+        fill_valid_acorr(r);
+
+        RC_ASSERT(r(0) >= 0.0);
+    });
+}
+
+TEST_CASE("Property-based test: various filter orders converge") {
+    rc::check("spectral_fact converges for various filter orders", []() {
+        auto n = static_cast<size_t>(*rc::gen::inRange(8, 65));
+        Arr r(n);
+        fill_valid_acorr(r);
+
+        auto h = spectral_fact(r);
+        RC_ASSERT(h.size() == n);
+        for (size_t i = 0; i < n; ++i)
+            RC_ASSERT(std::isfinite(h(i)));
+    });
+}
+
+TEST_CASE("Property-based test: impulse response energy preserved") {
+    rc::check("spectral_fact preserves energy (h energy ≈ r[0])", []() {
+        auto n = static_cast<size_t>(*rc::gen::inRange(8, 49));
+        Arr r(n);
+        fill_valid_acorr(r);
+
+        auto h = spectral_fact(r);
+
+        double energy_h = 0.0;
+        for (size_t i = 0; i < n; ++i) energy_h += h(i) * h(i);
+
+        auto rel_err = std::fabs((energy_h - r(0)) / (r(0) + 1e-10));
+        RC_ASSERT(rel_err < 0.01);
     });
 }
 

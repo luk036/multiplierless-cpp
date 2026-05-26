@@ -38,11 +38,6 @@ include(cmake/CPM.cmake)
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Disable problematic svector template on macOS to avoid Clang template ambiguity
-if(APPLE)
-  add_definitions(-DXTENSOR_DISABLE_SVECTOR=1)
-endif()
-
 include(specific.cmake)
 
 # ---- Add source files ----
@@ -70,11 +65,6 @@ else()
   target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-march=native>")
   target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-flto>")
   target_link_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-flto>")
-endif()
-
-# Disable xtensor assertions in non-debug builds
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-  target_compile_definitions(${PROJECT_NAME} PRIVATE XTENSOR_DISABLE_ASSERT=1)
 endif()
 
 # being a cross-platform target, we enforce standards conformance on MSVC

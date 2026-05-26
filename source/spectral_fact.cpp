@@ -1,37 +1,12 @@
-// Disable svector on macOS to avoid Clang template ambiguity issues
-// where long and unsigned long are both 64-bit
-#ifdef __APPLE__
-#    define XTENSOR_DISABLE_SVECTOR 1
-#endif
-
-#include <cmath>    // for cos, M_PI
-#include <complex>  // for complex, operator*, operator-
+#include <cmath>
+#include <complex>
 
 #ifndef M_PI
 constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
-#include <xtensor-blas/xlinalg.hpp>  // for dot
-#include <xtensor-fftw/basic.hpp>    // for irfft, rfft
-#include <xtensor/xaccessible.hpp>   // for xaccessible
-#include <xtensor/xarray.hpp>        // for xarray_container
-#include <xtensor/xbroadcast.hpp>    // for xbroadcast
-#include <xtensor/xbuilder.hpp>      // for zeros, concatenate, linspace
-#include <xtensor/xcontainer.hpp>    // for xcontainer, xcontainer<>::...
-#include <xtensor/xeval.hpp>         // for eval
-#include <xtensor/xexception.hpp>    // for throw_concatenate_error
-#include <xtensor/xfunction.hpp>     // for xfunction
-#include <xtensor/xgenerator.hpp>    // for xgenerator
-#include <xtensor/xiterator.hpp>     // for linear_begin
-#include <xtensor/xlayout.hpp>       // for layout_type, layout_type::...
-#include <xtensor/xmath.hpp>         // for abs, exp, log, sum, abs_fun
-#include <xtensor/xoperation.hpp>    // for xfunction_type_t, operator*
-#include <xtensor/xreducer.hpp>      // for xreducer
-#include <xtensor/xslice.hpp>        // for range, xtuph, _
-#include <xtensor/xutils.hpp>        // for accumulate
-#include <xtensor/xview.hpp>         // for xview, view
-
-using Arr = xt::xarray<double>;
+#include <ellalgo/arr.hpp>
+#include <multiplierless/fftw_helper.hpp>
 
 /* The `spectral_fact` function is performing spectral factorization using the
 Kolmogorov 1939 approach. It takes an input vector `r` which represents the
@@ -54,55 +29,54 @@ returns the impulse response `h` as an `Arr` object. */
  * auto-correlation.
  */
 auto spectral_fact(const Arr& r) -> Arr {
-    // length of the impulse response sequence
-    const auto n = int(r.shape()[0]);
-
-    // over-sampling factor
-    const auto mult_factor = 20;  // should have mult_factor*(n) >> n
+    const auto n = int(r.size());
+    const auto mult_factor = 100;
     const auto m = mult_factor * n;
 
     // Cache the cosine matrix A across calls (depends only on n, not on r)
-    // This avoids O(m*n) recomputation on every optimization iteration.
+    // Note: linspace with m points from 0 to 2π, endpoint excluded (Python convention)
     static int cached_n = 0;
     static Arr cached_A;
     if (n != cached_n) {
-        // Use xt::linalg::outer for vectorized matrix construction
-        Arr w = xt::linspace<double>(0, 2 * M_PI, size_t(m));
-        auto cols = xt::arange(1.0, double(n));
-        Arr An = 2.0 * xt::cos(xt::linalg::outer(w, cols));
-        cached_A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
+        double step_w = 2.0 * M_PI / static_cast<double>(m);
+        Arr w(m);
+        for (size_t i = 0; i < size_t(m); ++i) w(i) = static_cast<double>(i) * step_w;
+        auto cols = arange(1.0, double(n));
+        Arr An = 2.0 * cos(outer(w, cols));
+        cached_A = concatenate(ones(m, 1), An, 1);
         cached_n = n;
     }
     const auto& A = cached_A;
-    Arr R = xt::linalg::dot(A, r);  // NOQA
+    Arr R = dot(A, r);
 
-    Arr alpha = 0.5 * xt::log(xt::abs(R));
+    // Clamp near-zero freq response to avoid log(≤0)
+    auto min_val = *std::min_element(R.begin(), R.end());
+    if (min_val <= 0) {
+        for (size_t i = 0; i < R.size(); ++i)
+            if (R(i) <= 0) R(i) = 1e-10;
+    }
 
-    // find the Hilbert transform
-    auto alphatmp = xt::fftw::rfft(alpha);
-    // alphatmp(floor(m/2)+1: m) = -alphatmp(floor(m/2)+1: m)
+    Arr alpha = 0.5 * log(abs(R));
+
+    // Hilbert transform via full FFT (matches Python np.fft.fft / np.fft.ifft)
+    auto alphatmp = fft(cast_to_complex(alpha));
     auto ind = size_t(m) / 2;
+    // Negate the negative-frequency half (ind .. m-1)
+    for (auto i = ind; i < m; ++i) alphatmp[i] = -alphatmp[i];
+    alphatmp[0] = std::complex<double>(0.0, 0.0);
+    alphatmp[ind] = std::complex<double>(0.0, 0.0);
 
-    //??? alphatmp[ind:m] = -alphatmp[ind:m];
-    xt::view(alphatmp, xt::range(ind, m)) = -xt::view(alphatmp, xt::range(ind, m));
-    alphatmp[0] = 0.;
-    alphatmp[ind] = 0.;
-
-    // multiply by i*k
+    // phi = real(ifft(j * alphatmp))    — matches Python
     const std::complex<double> j_{0, 1};
-    // auto k = xt::fftw::rfftscale<double>(sin.shape()[0], dx);
-    // xt::xarray<std::complex<double>> temp= xt::eval(i * alphatmp);
-    auto phi = xt::fftw::irfft(xt::xarray<std::complex<double>>(xt::eval(j_ * alphatmp)));
+    Arr phi = ifft(j_ * alphatmp);
 
-    // now retrieve the original sampling
-    // index = find(np.reminder([0:m-1], mult_factor) == 0)
-    // auto index = xt::arange(0, m, mult_factor);
-    auto alpha1 = xt::view(alpha, xt::range(0, m, mult_factor));
-    auto phi1 = xt::view(phi, xt::range(0, m, mult_factor));
+    // Subsample alpha and phi by mult_factor
+    auto alpha1 = view(alpha, Range(0, m, size_t(mult_factor)));
+    auto phi1 = view(phi, Range(0, m, size_t(mult_factor)));
 
-    // compute the impulse response (inverse Fourier transform)
-    auto h_tmp = xt::exp(alpha1 + j_ * phi1);
-    Arr h = xt::fftw::irfft(xt::xarray<std::complex<double>>(xt::eval(h_tmp)));
+    // h = real(ifft(exp(alpha1 + j*phi1)))   — matches Python
+    auto h_tmp = exp(cast_to_complex(alpha1) + j_ * cast_to_complex(phi1));
+    Arr h = ifft(h_tmp);
     return h;
 }
 
@@ -112,6 +86,8 @@ auto spectral_fact(const Arr& r) -> Arr {
  * given impulse response. It returns the auto-correlation coefficients `r` as
  * an `Arr` object.
  *
+ * Uses explicit O(n^2) convolution matching Python's np.convolve(h, h[::-1])[n-1:].
+ *
  * @param[in] h The parameter `h` is the impulse response, which is a one-dimensional array or
  * vector representing the response of a system to an impulse input.
  *
@@ -119,14 +95,15 @@ auto spectral_fact(const Arr& r) -> Arr {
  * `Arr` object.
  */
 auto inverse_spectral_fact(const Arr& h) -> Arr {
-    auto n = h.shape()[0];
-    // Use FFT-based autocorrelation (O(n log n) instead of O(n^2))
-    // Zero-pad to 2n to avoid circular convolution artifacts
-    Arr padded = xt::zeros<double>({2 * n});
-    xt::view(padded, xt::range(0, n)) = h;
-    auto H = xt::fftw::rfft(padded);
-    Arr R = xt::eval(xt::abs(H) * xt::abs(H));            // power spectrum |H|^2
-    auto autocorr = xt::fftw::irfft(
-        xt::xarray<std::complex<double>>(xt::eval(xt::cast<std::complex<double>>(R))));
-    return xt::eval(xt::view(autocorr, xt::range(0, n)) * (2.0 * n));
+    auto n = h.size();
+    Arr r(n);
+    // r[t] = Σ_{i=0}^{n-1-t} h[i+t] * h[i]   for t = 0..n-1
+    for (size_t t = 0; t < n; ++t) {
+        double sum = 0.0;
+        for (size_t i = 0; i < n - t; ++i) {
+            sum += h(i + t) * h(i);
+        }
+        r(t) = sum;
+    }
+    return r;
 }
