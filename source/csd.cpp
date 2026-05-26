@@ -102,6 +102,35 @@ auto to_decimal(const std::string& csd_str) -> double {
  * @param[in] nnz number of non-zero
  * @return string
  */
+/**
+ * @brief Fast CSD conversion returning a double directly (no string allocation).
+ *
+ * This avoids the overhead of allocating and parsing CSD strings.
+ * The result is a canonical signed digit approximation of `num`
+ * using at most `nnz` non-zero digits.
+ *
+ * @param[in] num Input value to quantize
+ * @param[in] nnz Maximum number of non-zero digits
+ * @return double The CSD quantized value
+ */
+auto to_csdnnz_fast(double num, unsigned int nnz) -> double {
+    if (num == 0.0) {
+        return 0.0;
+    }
+    auto result = 0.0;
+    auto bit_val = std::ldexp(1.0, int(std::ceil(std::log2(std::fabs(num) * 1.5))) - 1);
+    while (nnz > 0 && std::fabs(num) > 1e-100) {
+        if (std::fabs(1.5 * num) > bit_val) {
+            auto sgn = (num > 0) ? 1.0 : -1.0;
+            result += sgn * bit_val;
+            num -= sgn * bit_val;
+            --nnz;
+        }
+        bit_val *= 0.5;
+    }
+    return result;
+}
+
 auto to_csdnnz(double num, unsigned int nnz = 4) -> string {
     if (num == 0) {
         return "0";

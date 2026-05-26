@@ -13,8 +13,7 @@ using Arr = xt::xarray<double>;
 using Vec = std::valarray<double>;
 using ParallelCut = std::pair<Arr, Vec>;
 
-extern auto to_csdnnz(double num, unsigned int) -> std::string;
-extern auto to_decimal(const std::string& csd_str) -> double;
+extern auto to_csdnnz_fast(double num, unsigned int) -> double;
 
 extern auto inverse_spectral_fact(const Arr& r) -> Arr;
 extern auto spectral_fact(const Arr& r) -> Arr;
@@ -44,7 +43,7 @@ auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
         auto h = spectral_fact(r);
         auto hcsd = Arr(h.shape());
         for (auto i = 0U; i != h.size(); ++i) {
-            hcsd(i) = to_decimal(to_csdnnz(h(i), this->_nnz));
+            hcsd(i) = to_csdnnz_fast(h(i), this->_nnz);
         }
         this->rcsd = inverse_spectral_fact(hcsd);
         this->_num_retries = 0;  // reset to zero

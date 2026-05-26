@@ -106,12 +106,20 @@ auto LowpassOracle::assess_optim(const Arr& x, double& Spsq) -> std::tuple<Paral
 
     // this->retry = false;  // ???
 
+    auto dot_row = [&](const auto& mat, size_t row) -> double {
+        double sum = 0.0;
+        for (size_t j = 0; j < x.size(); ++j) {
+            sum += mat(row, j) * x(j);
+        }
+        return sum;
+    };
+
     auto k = this->_i_Ap;
     for (auto i = 0U; i != N; ++i, ++k) {
         if (k == N) {
             k = 0;  // round robin
         }
-        auto v = xt::sum(xt::view(this->_Fdc.Ap, k, xt::all()) * x)();
+        auto v = dot_row(this->_Fdc.Ap, k);
         if (v > this->_Fdc.Upsq) {
             // Calculate: f = v - Upsq;
             Arr g = xt::view(this->_Fdc.Ap, k, xt::all());
@@ -138,7 +146,7 @@ auto LowpassOracle::assess_optim(const Arr& x, double& Spsq) -> std::tuple<Paral
         if (k == N) {
             k = 0;  // round robin
         }
-        auto v = xt::sum(xt::view(this->_Fdc.As, k, xt::all()) * x)();
+        auto v = dot_row(this->_Fdc.As, k);
         if (v > Spsq) {
             // Calculate: f = v - Spsq
             Arr g = xt::view(this->_Fdc.As, k, xt::all());
@@ -168,7 +176,7 @@ auto LowpassOracle::assess_optim(const Arr& x, double& Spsq) -> std::tuple<Paral
         if (k == N) {
             k = 0;  // round robin
         }
-        auto v = xt::sum(xt::view(this->_Fdc.Anr, k, xt::all()) * x)();
+        auto v = dot_row(this->_Fdc.Anr, k);
         if (v < 0.0) {
             Vec f{-v};
             Arr g = -xt::view(this->_Fdc.Anr, k, xt::all());

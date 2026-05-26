@@ -60,6 +60,23 @@ add_library(${PROJECT_NAME} ${headers} ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
+# ---- Optimization flags ----
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:/O2>")
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:/GL>")
+  target_link_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:/LTCG>")
+else()
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-O3>")
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-march=native>")
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-flto>")
+  target_link_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:-flto>")
+endif()
+
+# Disable xtensor assertions in non-debug builds
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+  target_compile_definitions(${PROJECT_NAME} PRIVATE XTENSOR_DISABLE_ASSERT=1)
+endif()
+
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 # Suppress C4244 warning (potential data loss) which is treated as error in MSVC

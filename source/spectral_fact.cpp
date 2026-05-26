@@ -58,25 +58,22 @@ auto spectral_fact(const Arr& r) -> Arr {
     const auto n = int(r.shape()[0]);
 
     // over-sampling factor
-    const auto mult_factor = 100;  // should have mult_factor*(n) >> n
+    const auto mult_factor = 20;  // should have mult_factor*(n) >> n
     const auto m = mult_factor * n;
 
-    // Computation method:
-    //     H(exp(jTw)) = alpha(w) + j*phi(w),
-    // where
-    //     alpha(w) = 1/2*ln(R(w)) and phi(w) = Hilbert_trans(alpha(w)).
-
-    // compute 1/2*ln(R(w))
-    // w = 2*pi*[0:m-1]/m
-    Arr w = xt::linspace<double>(0, 2 * M_PI, size_t(m));
-
-    auto An = Arr(xt::zeros<double>({m, n - 1}));
-    for (auto i = 0; i != m; ++i) {
-        for (auto j = 0; j != n - 1; ++j) {
-            An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
-        }
+    // Cache the cosine matrix A across calls (depends only on n, not on r)
+    // This avoids O(m*n) recomputation on every optimization iteration.
+    static int cached_n = 0;
+    static Arr cached_A;
+    if (n != cached_n) {
+        // Use xt::linalg::outer for vectorized matrix construction
+        Arr w = xt::linspace<double>(0, 2 * M_PI, size_t(m));
+        auto cols = xt::arange(1.0, double(n));
+        Arr An = 2.0 * xt::cos(xt::linalg::outer(w, cols));
+        cached_A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
+        cached_n = n;
     }
-    Arr A = xt::concatenate(xt::xtuple(xt::ones<double>({m, 1}), An), 1);
+    const auto& A = cached_A;
     Arr R = xt::linalg::dot(A, r);  // NOQA
 
     Arr alpha = 0.5 * xt::log(xt::abs(R));
@@ -123,10 +120,13 @@ auto spectral_fact(const Arr& r) -> Arr {
  */
 auto inverse_spectral_fact(const Arr& h) -> Arr {
     auto n = h.shape()[0];
-    auto r = Arr{xt::zeros<double>({n})};
-    using xt::placeholders::_;
-    for (auto t = 0U; t != n; ++t) {
-        r(t) = xt::sum(xt::view(h, xt::range(t, _)) * xt::view(h, xt::range(_, n - t)))();
-    }
-    return r;
+    // Use FFT-based autocorrelation (O(n log n) instead of O(n^2))
+    // Zero-pad to 2n to avoid circular convolution artifacts
+    Arr padded = xt::zeros<double>({2 * n});
+    xt::view(padded, xt::range(0, n)) = h;
+    auto H = xt::fftw::rfft(padded);
+    Arr R = xt::eval(xt::abs(H) * xt::abs(H));            // power spectrum |H|^2
+    auto autocorr = xt::fftw::irfft(
+        xt::xarray<std::complex<double>>(xt::eval(xt::cast<std::complex<double>>(R))));
+    return xt::eval(xt::view(autocorr, xt::range(0, n)) * (2.0 * n));
 }
