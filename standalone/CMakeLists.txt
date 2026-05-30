@@ -11,7 +11,7 @@ CPMAddPackage(
 add_executable(${PROJECT_NAME}Standalone source/main.cpp)
 
 set_target_properties(
-  ${PROJECT_NAME}Standalone PROPERTIES CXX_STANDARD 17 OUTPUT_NAME ${PROJECT_NAME}
+  ${PROJECT_NAME}Standalone PROPERTIES CXX_STANDARD 20 OUTPUT_NAME ${PROJECT_NAME}
 )
 
 target_link_libraries(
@@ -23,7 +23,7 @@ target_link_libraries(
 add_executable(${PROJECT_NAME}LoggerExample source/logger_example.cpp)
 
 set_target_properties(
-  ${PROJECT_NAME}LoggerExample PROPERTIES CXX_STANDARD 17 OUTPUT_NAME logger_example
+  ${PROJECT_NAME}LoggerExample PROPERTIES CXX_STANDARD 20 OUTPUT_NAME logger_example
 )
 
 target_link_libraries(

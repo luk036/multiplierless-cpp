@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME}Tests ${sources})
 target_link_libraries(
   ${PROJECT_NAME}Tests doctest::doctest ${PROJECT_NAME}::${PROJECT_NAME} ${SPECIFIC_LIBS}
 )
-set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 17)
+set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 20)
 
 # Link RapidCheck if available
 if(rapidcheck_ADDED)

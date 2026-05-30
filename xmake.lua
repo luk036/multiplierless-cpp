@@ -1,4 +1,4 @@
-set_languages("c++17")
+set_languages("c++20")
 set_policy("build.optimization.lto", true)
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
