@@ -5,48 +5,23 @@
   "description": "Result produced by the FirDesign CLI. Contains quantized FIR coefficients in both numeric and CSD string form.",
   "type": "object",
   "properties": {
-    "filter_order": {
-      "type": "integer",
-      "description": "Echo of the input filter order."
-    },
-    "csd_nnz": {
-      "type": "integer",
-      "description": "Echo of the input csd_nnz."
-    },
-    "iterations": {
-      "type": "integer",
-      "description": "Number of ellipsoid-method iterations performed."
-    },
+    "filter_order": { "type": "integer" },
+    "csd_nnz": { "type": "integer" },
+    "iterations": { "type": "integer" },
+    "spectral_method": { "type": "string", "enum": ["root", "fft"] },
     "coefficients": {
       "type": "array",
-      "description": "FIR impulse response coefficients h[0..N-1]. The filter is symmetric: use as h or in linear-phase form.",
       "items": {
         "type": "object",
         "properties": {
-          "index": {
-            "type": "integer",
-            "description": "Zero-based coefficient index."
-          },
-          "value": {
-            "type": "number",
-            "description": "CSD-quantized coefficient value (double). Use directly in floating-point simulation."
-          },
-          "csd": {
-            "type": "string",
-            "pattern": "^[0+-]+\\.[0+-]*$",
-            "description": "Canonical Signed Digit string. Digits: '+' (+1), '-' (−1), '0' (0). Point separates integer/fractional part."
-          }
+          "index": { "type": "integer" },
+          "value": { "type": "number" },
+          "csd": { "type": "string", "pattern": "^[0+-]+\\.[0+-]*$" }
         },
         "required": ["index", "value", "csd"]
       }
-    }
+    },
+    "verilog": { "type": "string" }
   },
-  "required": ["filter_order", "csd_nnz", "iterations", "coefficients"],
-
-  "properties": {
-    "verilog": {
-      "type": "string",
-      "description": "Synthesizable Verilog module (present only when verilog was requested in input)."
-    }
-  }
+  "required": ["filter_order", "csd_nnz", "iterations", "coefficients"]
 }

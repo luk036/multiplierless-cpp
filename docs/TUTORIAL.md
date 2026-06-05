@@ -126,6 +126,27 @@ All other keys have sensible defaults (shown above).
 | `tolerance` | `1e-14` | Convergence tolerance. Smaller = tighter |
 | `ellipsoid_radius` | `40.0` | Initial search region size |
 | `parallel_cut` | `true` | Enables faster convergence |
+| `spectral_method` | `"root"` | `"root"` (Aberth, faster) or `"fft"` (Kolmogorov, legacy) |
+| `root_tolerance` | `1e-8` | Aberth convergence tolerance. Larger = looser but faster |
+
+### Spectral Factorization Methods
+
+The CLI supports two spectral factorization algorithms:
+
+| Method | Key | Speed | Accuracy | When to use |
+|--------|-----|-------|----------|-------------|
+| **Aberth root-finding** | `"root"` | Fast (~333 iter) | Good (configurable tolerance) | Default, production |
+| **FFT (Kolmogorov 1939)** | `"fft"` | Slower (~1482 iter) | Reference (exact values) | Verification, comparison |
+
+The root-finding method uses polynomial root-finding via the Aberth-Ehrlich
+algorithm to extract minimum-phase roots directly. The tolerance (`root_tolerance`)
+controls convergence:
+- `1e-4`: Loose but fast — good for quick experiments
+- `1e-8`: **Default** — balanced speed and accuracy
+- `1e-12`: Tight — use for narrow transition bands or high-order filters
+
+> **Note**: For very large filters (N > 64), increase `root_tolerance` to `1e-6`
+> or switch to `"fft"` to avoid convergence issues.
 
 ### To get Verilog output
 
@@ -646,6 +667,8 @@ Try in order:
 | `discretization_factor` | More samples | More accurate constraints, more memory |
 | `passband_ripple` | Larger | Easier to design, more ripple |
 | `stopband_attenuation` | Smaller | Deeper stopband, harder to converge |
+| `spectral_method` | `"fft"` | Use legacy FFT, exact but slower |
+| `root_tolerance` | Larger value | Faster convergence, looser root accuracy |
 
 ---
 
@@ -659,6 +682,7 @@ Try in order:
 | CLI hangs | Reduce `max_iters` or `filter_order` for testing |
 | `fir-design: command not found` | Run `pip install -e .` in the Python project |
 | No Verilog in output | Add `"verilog": {"input_width": 16}` to your JSON spec |
+| "Aberth did not converge" | Increase `root_tolerance` (e.g. `1e-6`) or switch to `"fft"` |
 
 ---
 

@@ -75,6 +75,19 @@
       "default": true,
       "description": "Use parallel cutting-plane for faster ellipsoid volume reduction."
     },
+    "spectral_method": {
+      "type": "string",
+      "enum": ["root", "fft"],
+      "default": "root",
+      "description": "Spectral factorization method: 'root' = polynomial root-finding (default), 'fft' = Kolmogorov 1939 FFT"
+    },
+    "root_tolerance": {
+      "type": "number",
+      "minimum": 1e-16,
+      "maximum": 1e-4,
+      "default": 1e-8,
+      "description": "Convergence tolerance for Aberth root-finding (only used when spectral_method='root'). Larger = looser but faster."
+    },
     "verilog": {
       "type": "object",
       "description": "Optional Verilog code generation. Omit to skip.",

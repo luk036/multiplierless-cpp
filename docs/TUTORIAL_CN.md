@@ -45,15 +45,16 @@
 
 ## 2. 安装
 
-### 方案 A：C++ (xmake)
+### 方案 A：C++ (cmake)
 
 ```bash
 cd multiplierless-cpp
-xmake -y -j8
+cmake -S. -Bbuild
+cmake --build build --config Release
 ```
 
-CLI 二进制文件位于 `build/windows/x64/release/FirDesign.exe`
-（Linux 上为 `build/linux/x86_64/release/FirDesign`）。
+CLI 二进制文件位于 `build\standalone\Release\FirDesign.exe`
+（Linux 上为 `build/standalone/FirDesign`）。
 
 ### 方案 B：Python (pip)
 
@@ -120,6 +121,26 @@ python -m multiplierless.fir_design spec.json
 | `tolerance` | `1e-14` | 收敛容差。越小越严格 |
 | `ellipsoid_radius` | `40.0` | 初始搜索区域大小 |
 | `parallel_cut` | `true` | 启用并行切割以加速收敛 |
+| `spectral_method` | `"root"` | `"root"`（Aberth，更快）或 `"fft"`（Kolmogorov，传统） |
+| `root_tolerance` | `1e-8` | Aberth 收敛容差。越大越宽松但更快 |
+
+### 谱分解方法
+
+CLI 支持两种谱分解算法：
+
+| 方法 | 键值 | 速度 | 精度 | 适用场景 |
+|------|------|------|------|----------|
+| **Aberth 根求解** | `"root"` | 快 (~333 次迭代) | 良好（可调容差） | 默认，生产环境 |
+| **FFT (Kolmogorov 1939)** | `"fft"` | 较慢 (~1482 次迭代) | 参考值（精确） | 验证、对比 |
+
+根求解方法使用 Aberth-Ehrlich 算法通过多项式根求解直接提取最小相位根。
+容差 (`root_tolerance`) 控制收敛：
+- `1e-4`：宽松但快 — 适合快速实验
+- `1e-8`：**默认值** — 速度与精度的平衡
+- `1e-12`：严格 — 适用于窄过渡带或高阶滤波器
+
+> **注意**：对于大型滤波器（N > 64），将 `root_tolerance` 增大到 `1e-6`
+> 或切换到 `"fft"` 以避免收敛问题。
 
 ### 获取 Verilog 输出
 
@@ -625,6 +646,8 @@ python tools/verify_filter.py lowpass_32_output.json
 | `discretization_factor` | 更多采样点 | 约束更精确，内存更大 |
 | `passband_ripple` | 更大 | 更容易设计，纹波更大 |
 | `stopband_attenuation` | 更小 | 阻带更深，更难收敛 |
+| `spectral_method` | `"fft"` | 使用传统 FFT，精确但较慢 |
+| `root_tolerance` | 更大值 | 收敛更快，根精度较松 |
 
 ---
 
@@ -637,6 +660,8 @@ python tools/verify_filter.py lowpass_32_output.json
 | `Optimization failed — no feasible solution` | 参见上文调优指南 |
 | CLI 卡住 | 减少 `max_iters` 或 `filter_order` 进行测试 |
 | `fir-design: command not found` | 在 Python 项目中运行 `pip install -e .` |
+| 输出中无 Verilog | 在 JSON 规格中添加 `"verilog": {"input_width": 16}` |
+| "Aberth 未收敛" | 增大 `root_tolerance`（如 `1e-6`）或切换到 `"fft"` |
 | 输出中无 Verilog | 在 JSON 规格中添加 `"verilog": {"input_width": 16}` |
 
 ---

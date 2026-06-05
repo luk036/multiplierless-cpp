@@ -1,0 +1,169 @@
+{
+  "filter_order": 32,
+  "csd_nnz": 4,
+  "iterations": 333,
+  "coefficients": [
+    {
+      "index": 0,
+      "value": 0.018824637798484804,
+      "csd": "0.00000+0+0-0+"
+    },
+    {
+      "index": 1,
+      "value": 0.030427797237996924,
+      "csd": "0.0000+0000-00+0+"
+    },
+    {
+      "index": 2,
+      "value": 0.049808956286198774,
+      "csd": "0.000+0-0+0-"
+    },
+    {
+      "index": 3,
+      "value": 0.07213933938402994,
+      "csd": "0.000+00+0+000-"
+    },
+    {
+      "index": 4,
+      "value": 0.0965891828094414,
+      "csd": "0.00+0-00+0-"
+    },
+    {
+      "index": 5,
+      "value": 0.11834957269000036,
+      "csd": "0.00+000-00+0+"
+    },
+    {
+      "index": 6,
+      "value": 0.1345320524581663,
+      "csd": "0.00+000+0+00-"
+    },
+    {
+      "index": 7,
+      "value": 0.1437871719377044,
+      "csd": "0.00+00+0+0-"
+    },
+    {
+      "index": 8,
+      "value": 0.14291611999326378,
+      "csd": "0.00+00+00+0+"
+    },
+    {
+      "index": 9,
+      "value": 0.1305595866853681,
+      "csd": "0.00+000+0-00-"
+    },
+    {
+      "index": 10,
+      "value": 0.10795202468067586,
+      "csd": "0.00+00-00-0+"
+    },
+    {
+      "index": 11,
+      "value": 0.07979002874385333,
+      "csd": "0.000+0+00+00-"
+    },
+    {
+      "index": 12,
+      "value": 0.04635118143071297,
+      "csd": "0.000+0-0000-000-"
+    },
+    {
+      "index": 13,
+      "value": 0.013585485935959376,
+      "csd": "0.00000+00-000-0+"
+    },
+    {
+      "index": 14,
+      "value": -0.014506355393289531,
+      "csd": "0.00000-000+00+00+"
+    },
+    {
+      "index": 15,
+      "value": -0.03515928691280032,
+      "csd": "0.0000-00-000000000-0+"
+    },
+    {
+      "index": 16,
+      "value": -0.04695649588167511,
+      "csd": "0.000-0+000000-0+"
+    },
+    {
+      "index": 17,
+      "value": -0.04894128911385142,
+      "csd": "0.000-0+00-000-"
+    },
+    {
+      "index": 18,
+      "value": -0.04237946660867819,
+      "csd": "0.000-0+0+00+"
+    },
+    {
+      "index": 19,
+      "value": -0.030123732348103036,
+      "csd": "0.0000-0000+00+0+"
+    },
+    {
+      "index": 20,
+      "value": -0.014437826517759962,
+      "csd": "0.00000-000+0+00-"
+    },
+    {
+      "index": 21,
+      "value": 0.0008991249865291596,
+      "csd": "0.000000000+000-0-000-"
+    },
+    {
+      "index": 22,
+      "value": 0.013472132105294524,
+      "csd": "0.00000+00-00-0+"
+    },
+    {
+      "index": 23,
+      "value": 0.023203605424660958,
+      "csd": "0.0000+0-0000-000+"
+    },
+    {
+      "index": 24,
+      "value": 0.02751447585219976,
+      "csd": "0.0000+00-000+0-"
+    },
+    {
+      "index": 25,
+      "value": 0.027245496727681884,
+      "csd": "0.0000+00-0000-0+"
+    },
+    {
+      "index": 26,
+      "value": 0.023467804961793008,
+      "csd": "0.0000+0-0000000+000000-"
+    },
+    {
+      "index": 27,
+      "value": 0.018653220388907495,
+      "csd": "0.00000+0+0-00+"
+    },
+    {
+      "index": 28,
+      "value": 0.013291331104639821,
+      "csd": "0.00000+00-0-0+"
+    },
+    {
+      "index": 29,
+      "value": 0.00832036068529568,
+      "csd": "0.000000+000+0000+0+"
+    },
+    {
+      "index": 30,
+      "value": 0.005386443447235892,
+      "csd": "0.000000+0-0-0000+"
+    },
+    {
+      "index": 31,
+      "value": 0.0004879797478917874,
+      "csd": "0.0000000000+0000000000-0-000-"
+    }
+  ],
+  "verilog": "\nmodule fir_filter (\n    input signed [15:0] x,      // Input value\n    output signed [44:0] h0\n    output signed [44:0] h1\n    output signed [44:0] h2\n    output signed [44:0] h3\n    output signed [44:0] h4\n    output signed [44:0] h5\n    output signed [44:0] h6\n    output signed [44:0] h7\n    output signed [44:0] h8\n    output signed [44:0] h9\n    output signed [44:0] h10\n    output signed [44:0] h11\n    output signed [44:0] h12\n    output signed [44:0] h13\n    output signed [44:0] h14\n    output signed [44:0] h15\n    output signed [44:0] h16\n    output signed [44:0] h17\n    output signed [44:0] h18\n    output signed [44:0] h19\n    output signed [44:0] h20\n    output signed [44:0] h21\n    output signed [44:0] h22\n    output signed [44:0] h23\n    output signed [44:0] h24\n    output signed [44:0] h25\n    output signed [44:0] h26\n    output signed [44:0] h27\n    output signed [44:0] h28\n    output signed [44:0] h29\n    output signed [44:0] h30\n    output signed [44:0] h31\n);\n\n    // Create shifted versions of input\n    wire signed [44:0] x_shift17 = x <<< 17;\n    wire signed [44:0] x_shift15 = x <<< 15;\n    wire signed [44:0] x_shift12 = x <<< 12;\n    wire signed [44:0] x_shift11 = x <<< 11;\n    wire signed [44:0] x_shift10 = x <<< 10;\n    wire signed [44:0] x_shift9 = x <<< 9;\n    wire signed [44:0] x_shift8 = x <<< 8;\n    wire signed [44:0] x_shift7 = x <<< 7;\n    wire signed [44:0] x_shift6 = x <<< 6;\n    wire signed [44:0] x_shift5 = x <<< 5;\n    wire signed [44:0] x_shift4 = x <<< 4;\n    wire signed [44:0] x_shift3 = x <<< 3;\n    wire signed [44:0] x_shift2 = x <<< 2;\n    wire signed [44:0] x_shift0 = x <<< 0;\n\n    // Cross-CSE: shared pattern \"0+0+\"\n    wire signed [44:0] _cse_0 = x_shift8 + x_shift6;\n\n    // h0: 00000000000000000000000+0+0-0+\n    wire signed [44:0] h0 = (_cse_0 >>> 2) + -x_shift2 + x_shift0;\n\n    // h1: 0000000000000000000+0000-00+0+\n    wire signed [44:0] h1 = x_shift10 - x_shift5 + (_cse_0 >>> 6);\n\n    // h2: 00000000000000000000000+0-0+0-\n    wire signed [44:0] h2 = x_shift6 - x_shift4 + x_shift2 - x_shift0;\n\n    // h3: 00000000000000000000+00+0+000-\n    wire signed [44:0] h3 = x_shift9 + (_cse_0 >>> 2) + -x_shift0;\n\n    // h4: 0000000000000000000000+0-00+0-\n    wire signed [44:0] h4 = x_shift7 - x_shift5 + x_shift2 - x_shift0;\n\n    // h5: 00000000000000000000+000-00+0+\n    wire signed [44:0] h5 = x_shift9 - x_shift5 + (_cse_0 >>> 6);\n\n    // h6: 00000000000000000000+000+0+00-\n    wire signed [44:0] h6 = x_shift9 + (_cse_0 >>> 3) + -x_shift0;\n\n    // h7: 0000000000000000000000+00+0+0-\n    wire signed [44:0] h7 = x_shift7 + (_cse_0 >>> 4) + -x_shift0;\n\n    // h8: 000000000000000000000+00+00+0+\n    wire signed [44:0] h8 = x_shift8 + x_shift5 + (_cse_0 >>> 6);\n\n    // h9: 00000000000000000000+000+0-00-\n    wire signed [44:0] h9 = x_shift9 + x_shift5 - x_shift3 - x_shift0;\n\n    // h10: 000000000000000000000+00-00-0+\n    wire signed [44:0] h10 = x_shift8 - x_shift5 - x_shift2 + x_shift0;\n\n    // h11: 000000000000000000000+0+00+00-\n    wire signed [44:0] h11 = _cse_0 + x_shift3 - x_shift0;\n\n    // h12: 000000000000000000+0-0000-000-\n    wire signed [44:0] h12 = x_shift11 - x_shift9 - x_shift4 - x_shift0;\n\n    // h13: 00000000000000000000+00-000-0+\n    wire signed [44:0] h13 = x_shift9 - x_shift6 - x_shift2 + x_shift0;\n\n    // h14: 0000000000000000000-000+00+00+\n    wire signed [44:0] h14 = -x_shift10 + x_shift6 + x_shift3 + x_shift0;\n\n    // h15: 00000000000000-00-000000000-0+\n    wire signed [44:0] h15 = -x_shift15 - x_shift12 - x_shift2 + x_shift0;\n\n    // h16: 000000000000000000-0+000000-0+\n    wire signed [44:0] h16 = -x_shift11 + x_shift9 - x_shift2 + x_shift0;\n\n    // h17: 00000000000000000000-0+00-000-\n    wire signed [44:0] h17 = -x_shift9 + x_shift7 - x_shift4 - x_shift0;\n\n    // h18: 0000000000000000000000-0+0+00+\n    wire signed [44:0] h18 = -x_shift7 + (_cse_0 >>> 3) + x_shift0;\n\n    // h19: 0000000000000000000-0000+00+0+\n    wire signed [44:0] h19 = -x_shift10 + x_shift5 + (_cse_0 >>> 6);\n\n    // h20: 00000000000000000000-000+0+00-\n    wire signed [44:0] h20 = -x_shift9 + (_cse_0 >>> 3) + -x_shift0;\n\n    // h21: 0000000000000000000+000-0-000-\n    wire signed [44:0] h21 = x_shift10 - x_shift6 - x_shift4 - x_shift0;\n\n    // h22: 000000000000000000000+00-00-0+\n    wire signed [44:0] h22 = x_shift8 - x_shift5 - x_shift2 + x_shift0;\n\n    // h23: 000000000000000000+0-0000-000+\n    wire signed [44:0] h23 = x_shift11 - x_shift9 - x_shift4 + x_shift0;\n\n    // h24: 00000000000000000000+00-000+0-\n    wire signed [44:0] h24 = x_shift9 - x_shift6 + x_shift2 - x_shift0;\n\n    // h25: 0000000000000000000+00-0000-0+\n    wire signed [44:0] h25 = x_shift10 - x_shift7 - x_shift2 + x_shift0;\n\n    // h26: 000000000000+0-0000000+000000-\n    wire signed [44:0] h26 = x_shift17 - x_shift15 + x_shift7 - x_shift0;\n\n    // h27: 0000000000000000000000+0+0-00+\n    wire signed [44:0] h27 = (_cse_0 >>> 1) + -x_shift3 + x_shift0;\n\n    // h28: 0000000000000000000000+00-0-0+\n    wire signed [44:0] h28 = x_shift7 - x_shift4 - x_shift2 + x_shift0;\n\n    // h29: 000000000000000000+000+0000+0+\n    wire signed [44:0] h29 = x_shift11 + x_shift7 + (_cse_0 >>> 6);\n\n    // h30: 00000000000000000000+0-0-0000+\n    wire signed [44:0] h30 = x_shift9 - x_shift7 - x_shift5 + x_shift0;\n\n    // h31: 000000000000+0000000000-0-000-\n    wire signed [44:0] h31 = x_shift17 - x_shift6 - x_shift4 - x_shift0;\nendmodule\n"
+}
+

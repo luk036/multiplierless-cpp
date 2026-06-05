@@ -35,8 +35,14 @@ CPMAddPackage(
   GITHUB_REPOSITORY nlohmann/json
 )
 
+CPMAddPackage(
+  NAME Ginger
+  GIT_TAG 1.1.2
+  GITHUB_REPOSITORY luk036/ginger-cpp
+  OPTIONS "INSTALL_ONLY YES"
+)
 
-# FFTW for spectral factorization
+# FFTW for spectral_fact_fft
 if(MSVC)
   find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB)
   add_definitions(-DFFTW_NO_LONGDOUBLE)
@@ -45,9 +51,7 @@ else()
 endif()
 
 if(FFTW_FOUND)
-  set(LIBS ${LIBS} ${FFTW_LIBRARIES})
-  message(STATUS "Found FFTW: ${FFTW_LIBRARIES}")
   include_directories(${FFTW_INCLUDE_DIRS})
 endif()
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo Csd::Csd ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)
+set(SPECIFIC_LIBS Ginger::Ginger EllAlgo::EllAlgo Csd::Csd ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)

@@ -1,7 +1,10 @@
 # Yosys synthesis script for multiplierless FIR filter
-# Reads CSD-generated Verilog and produces synthesis statistics + netlist
+# Usage: yosys -Q synthesize.ys
+# Override input file: yosys -p "set in_file fir_filter_cpp.v" -Q synthesize.ys
 
-read_verilog fir_filter_tutorial.v
+if {[info exists in_file]} { } else { set in_file fir_filter_cpp.v }
+
+read_verilog $in_file
 hierarchy -top fir_filter
 proc
 opt

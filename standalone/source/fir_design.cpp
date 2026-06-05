@@ -16,7 +16,8 @@
 using json = nlohmann::json;
 
 extern auto csd_quantize(double num, unsigned int nnz) -> double;
-extern auto spectral_fact(const Arr& r) -> Arr;
+extern auto spectral_fact_fft(const Arr& r) -> Arr;
+extern auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 extern auto to_csdnnz(double num, unsigned int nnz) -> std::string;
 
 int main(int argc, char** argv) {
@@ -74,12 +75,20 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    auto h = spectral_fact(r);
+    auto spectral_method = spec.value("spectral_method", std::string("root"));
+    auto root_tol = spec.value("root_tolerance", 1e-8);
+    Arr h;
+    if (spectral_method == "fft") {
+        h = spectral_fact_fft(r);
+    } else {
+        h = spectral_fact_root(r, root_tol);
+    }
 
     json output;
     output["filter_order"] = filter_order;
     output["csd_nnz"] = csd_nnz;
     output["iterations"] = num_iters;
+    output["spectral_method"] = spectral_method;
     output["coefficients"] = json::array();
 
     for (size_t i = 0; i < h.size(); ++i) {
