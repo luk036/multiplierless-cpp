@@ -178,7 +178,7 @@ TEST_CASE("Property-based test: CSD symmetric property") {
 
 #    include <ellalgo/arr.hpp>
 
-extern auto spectral_fact(const Arr& r) -> Arr;
+extern auto spectral_fact_fft(const Arr& r) -> Arr;
 extern auto inverse_spectral_fact(const Arr& h) -> Arr;
 
 /// Generate a valid auto-correlation sequence for an AR(1)-like process:
@@ -202,7 +202,7 @@ TEST_CASE("Property-based test: spectral_fact produces finite output") {
         Arr r(n);
         fill_valid_acorr(r);
 
-        auto h = spectral_fact(r);
+        auto h = spectral_fact_fft(r);
         RC_ASSERT(h.size() == n);
         for (size_t i = 0; i < n; ++i) RC_ASSERT(std::isfinite(h(i)));
     });
@@ -214,7 +214,7 @@ TEST_CASE("Property-based test: auto-correlation first element is energy") {
         Arr r(n);
         fill_valid_acorr(r);
 
-        auto h = spectral_fact(r);
+        auto h = spectral_fact_fft(r);
 
         double energy = 0.0;
         for (size_t i = 0; i < n; ++i) energy += h(i) * h(i);
@@ -240,7 +240,7 @@ TEST_CASE("Property-based test: various filter orders converge") {
         Arr r(n);
         fill_valid_acorr(r);
 
-        auto h = spectral_fact(r);
+        auto h = spectral_fact_fft(r);
         RC_ASSERT(h.size() == n);
         for (size_t i = 0; i < n; ++i) RC_ASSERT(std::isfinite(h(i)));
     });
@@ -252,7 +252,7 @@ TEST_CASE("Property-based test: impulse response energy preserved") {
         Arr r(n);
         fill_valid_acorr(r);
 
-        auto h = spectral_fact(r);
+        auto h = spectral_fact_fft(r);
 
         double energy_h = 0.0;
         for (size_t i = 0; i < n; ++i) energy_h += h(i) * h(i);

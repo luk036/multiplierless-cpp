@@ -2,7 +2,7 @@
 
 #include <ellalgo/arr.hpp>
 
-extern auto spectral_fact(const Arr& r) -> Arr;
+extern auto spectral_fact_fft(const Arr& r) -> Arr;
 extern auto inverse_spectral_fact(const Arr& h) -> Arr;
 
 TEST_CASE("spectral_fact round-trip (Python reference test)") {
@@ -17,7 +17,7 @@ TEST_CASE("spectral_fact round-trip (Python reference test)") {
     h(6) = 0.01315678f;
 
     auto r = inverse_spectral_fact(h);
-    auto h2 = spectral_fact(r);
+    auto h2 = spectral_fact_fft(r);
 
     CHECK(h.size() == h2.size());
     for (size_t i = 0; i < h.size(); ++i) {
