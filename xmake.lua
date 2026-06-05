@@ -3,6 +3,8 @@ set_policy("build.optimization.lto", true)
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
 
+add_requires("nlohmann_json")
+
 if is_mode("release") then
 	set_optimize("fastest")
 end
@@ -54,6 +56,16 @@ local rc_lib = is_plat("windows")
 	and path.join(rc_lib_dir, "rapidcheck.lib")
 	or  path.join(rc_lib_dir, "librapidcheck.a")
 
+local csd_dir = path.join(os.projectdir(), "../csd-cpp")
+
+target("Csd")
+	set_kind("static")
+	set_languages("c++14")
+	add_includedirs(path.join(csd_dir, "include"), {public = true})
+	add_files(path.join(csd_dir, "source/csd.cpp"), path.join(csd_dir, "source/csd_multiplier.cpp"),
+	          path.join(csd_dir, "source/lcsre.cpp"))
+	set_group("Dependencies")
+
 target("EllAlgo")
 	set_kind("static")
 	add_includedirs(path.join(ellalgo_dir, "include"), {public = true})
@@ -71,7 +83,7 @@ target("Multiplierless")
 	add_includedirs(path.join(fmt_dir, "include"), {public = true})
 	add_includedirs(path.join(spdlog_dir, "include"), {public = true})
 	add_files("source/*.cpp")
-	add_deps("EllAlgo")
+	add_deps("Csd", "EllAlgo")
 	add_linkdirs(path.join(fftw_prefix, "lib"))
 	add_linkdirs(fmt_lib_dir)
 	add_linkdirs(spdlog_lib_dir)
@@ -131,6 +143,20 @@ target("LoggerExample")
 	add_includedirs("include")
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
 	add_files("standalone/source/logger_example.cpp")
+	add_linkdirs(fmt_lib_dir)
+	add_linkdirs(spdlog_lib_dir)
+	add_links("fmt", "spdlog")
+	if is_plat("windows") then
+		add_syslinks("ws2_32")
+	end
+
+target("FirDesign")
+	set_kind("binary")
+	add_deps("Multiplierless", "EllAlgo")
+	add_includedirs("include")
+	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
+	add_files("standalone/source/fir_design.cpp")
+	add_packages("nlohmann_json")
 	add_linkdirs(fmt_lib_dir)
 	add_linkdirs(spdlog_lib_dir)
 	add_links("fmt", "spdlog")

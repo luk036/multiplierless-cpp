@@ -29,3 +29,15 @@ set_target_properties(
 target_link_libraries(
   ${PROJECT_NAME}LoggerExample ${PROJECT_NAME}::${PROJECT_NAME} ${SPECIFIC_LIBS}
 )
+
+# ---- Create FIR design CLI executable ----
+
+add_executable(${PROJECT_NAME}FirDesign source/fir_design.cpp)
+
+set_target_properties(
+  ${PROJECT_NAME}FirDesign PROPERTIES CXX_STANDARD 20 OUTPUT_NAME FirDesign
+)
+
+target_link_libraries(
+  ${PROJECT_NAME}FirDesign ${PROJECT_NAME}::${PROJECT_NAME} nlohmann_json::nlohmann_json ${SPECIFIC_LIBS}
+)

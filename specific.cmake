@@ -22,6 +22,20 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES"
 )
 
+CPMAddPackage(
+  NAME Csd
+  GIT_TAG 1.1.2
+  GITHUB_REPOSITORY luk036/csd-cpp
+  OPTIONS "INSTALL_ONLY YES"
+)
+
+CPMAddPackage(
+  NAME nlohmann_json
+  GIT_TAG v3.11.3
+  GITHUB_REPOSITORY nlohmann/json
+)
+
+
 # FFTW for spectral factorization
 if(MSVC)
   find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB)
@@ -36,4 +50,4 @@ if(FFTW_FOUND)
   include_directories(${FFTW_INCLUDE_DIRS})
 endif()
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo Csd::Csd ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)

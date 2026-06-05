@@ -46,9 +46,10 @@ struct filter_design_construct {
     double Upsq;  ///< Upper bound squared for passband (delta^2)
     double Spsq;  ///< Stopband attenuation squared
 
-    /// Construct a filter_design_construct with default parameters for the given filter order.
-    /// @param argN The filter order (N+1 coefficients will be generated)
     explicit filter_design_construct(int argN = 32);
+
+    filter_design_construct(int argN, double wpass_norm, double wstop_norm, double passband_ripple,
+                            double stopband_attn, int discretization_factor);
 };
 
 /*!

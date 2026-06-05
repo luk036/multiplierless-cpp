@@ -1,0 +1,14 @@
+# Yosys synthesis script for multiplierless FIR filter
+# Reads CSD-generated Verilog and produces synthesis statistics + netlist
+
+read_verilog fir_filter_tutorial.v
+hierarchy -top fir_filter
+proc
+opt
+stat
+
+# Write JSON netlist for analysis
+write_json fir_filter_synth.json
+
+# Write synthesized Verilog
+write_verilog -noattr fir_filter_synth.v

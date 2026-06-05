@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/luk036/multiplierless-cpp/fir_design_input.schema.json",
+  "title": "FIR Filter Design — Input Specification",
+  "description": "Filter specifications for the FirDesign CLI. All keys except filter_order and csd_nnz have defaults.",
+  "type": "object",
+  "properties": {
+    "filter_order": {
+      "type": "integer",
+      "minimum": 4,
+      "description": "Number of FIR coefficients (including zeroth). Must be even for Bairstow rootfinding."
+    },
+    "passband_edge": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 0.5,
+      "default": 0.12,
+      "description": "Normalized passband edge frequency (×π). e.g. 0.12 → 0.12π rad."
+    },
+    "stopband_edge": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 0.5,
+      "default": 0.20,
+      "description": "Normalized stopband edge frequency (×π). e.g. 0.20 → 0.20π rad. Must be > passband_edge."
+    },
+    "passband_ripple": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.125,
+      "description": "Maximum passband ripple (linear, not dB). 0.125 ≈ ±1.0 dB ripple."
+    },
+    "stopband_attenuation": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.125,
+      "description": "Stopband attenuation target (linear, not dB). 0.125 ≈ -18 dB."
+    },
+    "csd_nnz": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16,
+      "default": 7,
+      "description": "Maximum non-zero CSD digits per coefficient. Hardware cost = csd_nnz − 1 adders/subtractors per tap."
+    },
+    "discretization_factor": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 200,
+      "default": 15,
+      "description": "Frequency sampling density multiplier (Cheney's rule-of-thumb). m = discretization_factor × filter_order."
+    },
+    "max_iters": {
+      "type": "integer",
+      "minimum": 100,
+      "default": 50000,
+      "description": "Maximum ellipsoid-method iterations."
+    },
+    "tolerance": {
+      "type": "number",
+      "minimum": 1e-30,
+      "default": 1e-14,
+      "description": "Convergence tolerance (squared ellipsoid radius threshold)."
+    },
+    "ellipsoid_radius": {
+      "type": "number",
+      "minimum": 1.0,
+      "default": 40.0,
+      "description": "Initial ellipsoid radius — bounds the search region for autocorrelation coefficients."
+    },
+    "parallel_cut": {
+      "type": "boolean",
+      "default": true,
+      "description": "Use parallel cutting-plane for faster ellipsoid volume reduction."
+    },
+    "verilog": {
+      "type": "object",
+      "description": "Optional Verilog code generation. Omit to skip.",
+      "properties": {
+        "input_width": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 64,
+          "default": 16,
+          "description": "Bit width of the input signal x."
+        },
+        "module_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+          "default": "fir_filter",
+          "description": "Name of the generated Verilog module."
+        }
+      }
+    }
+  },
+  "required": ["filter_order", "csd_nnz"]
+}

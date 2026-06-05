@@ -1,0 +1,8 @@
+{
+  "filter_order": 32,
+  "csd_nnz": 4,
+  "verilog": {
+    "input_width": 16,
+    "module_name": "fir_filter"
+  }
+}

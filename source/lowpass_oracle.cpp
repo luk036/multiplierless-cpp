@@ -15,20 +15,18 @@ constexpr double M_PI = 3.14159265358979323846264338327950288;
  * @param[in] argN The parameter `argN` represents the value of N, which is the order of the filter.
  * It determines the number of filter coefficients and the complexity of the filter design.
  */
-filter_design_construct::filter_design_construct(int argN) : N(argN) {
-    const auto wpass = 0.12 * M_PI;  // end of passband
-    const auto wstop = 0.20 * M_PI;  // start of stopband
-    const auto delta0_wpass = 0.125;
-    const auto delta0_wstop = 0.125;
-    // maximum passband ripple in dB (+/- around 0 dB)
-    const auto delta = 20 * std::log10(1 + delta0_wpass);
-    // stopband attenuation desired in dB
-    const auto delta2 = 20 * std::log10(delta0_wstop);
-    // *********************************************************************
-    // optimization parameters
-    // *********************************************************************
-    // rule-of-thumb discretization (from Cheney's Approximation Theory)
-    const auto m = 15 * this->N;
+filter_design_construct::filter_design_construct(int argN)
+    : filter_design_construct(argN, 0.12, 0.20, 0.125, 0.125, 15) {}
+
+filter_design_construct::filter_design_construct(int argN, double wpass_norm, double wstop_norm,
+                                                  double passband_ripple, double stopband_attn,
+                                                  int discretization_factor)
+    : N(argN) {
+    const auto wpass = wpass_norm * M_PI;
+    const auto wstop = wstop_norm * M_PI;
+    const auto delta = 20 * std::log10(1 + passband_ripple);
+    const auto delta2 = 20 * std::log10(stopband_attn);
+    const auto m = discretization_factor * this->N;
     const auto w = linspace(0, M_PI, size_t(m));  // omega
     // passband 0 <= w <= w_pass
     const auto Lp = std::pow(10, -delta / 20);

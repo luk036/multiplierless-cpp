@@ -1,119 +1,18 @@
-/**
- Canonical Signed Digit Functions
+/// @file csd.cpp
+/// @brief CSD wrapper — delegates to csd-cpp library, adds fast double-returning variant.
+///
+/// Canonical Signed Digit functions for multiplierless FIR filter design.
+/// The core CSD ↔ decimal conversions live in the csd-cpp library
+/// (namespace csd). This file provides:
+///   - Global-namespace wrappers matching the old API used by tests and internals
+///   - csd_quantize() — a direct double→double CSD quantization (no string allocs)
 
- Handles:
-  * Decimals
-  *
-  *
+#include <csd/csd.hpp>
 
- eg, +00-00+000.0 or 0.+0000-00+
- Where: '+' is +1
-        '-' is -1
+#include <cmath>
+#include <string>
 
- Harnesser
- License: GPL2
-*/
-
-#include <cmath>   // for fabs, pow, ceil, log2
-#include <string>  // for basic_string
-// #include <string_view>
-
-using std::ceil;
-using std::fabs;
-using std::log2;
-using std::pow;
-using std::string;
-
-/**
- * @brief Convert to CSD (Canonical Signed Digit) string representation
- *
- * Original author: Harnesser
- * https://sourceforge.net/projects/pycsd/
- * License: GPL2
- *
- * @param[in] num
- * @param[in] places
- * @return string
- */
-auto to_csd(double num, int places = 0) -> string {
-    if (num == 0) {
-        return "0";
-    }
-    auto absnum = fabs(num);
-    auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
-    auto csd_str = string{absnum < 1 ? "0" : ""};
-    auto pow2n = pow(2.0, n - 1);
-    while (n > -places) {
-        if (n == 0) {
-            csd_str += '.';
-        }
-        n -= 1;
-        auto d = 1.5 * num;
-        if (d > pow2n) {
-            csd_str += '+';
-            num -= pow2n;
-        } else if (d < -pow2n) {
-            csd_str += '-';
-            num += pow2n;
-        } else {
-            csd_str += '0';
-        }
-        pow2n /= 2.0;
-    }
-    return csd_str;
-}
-
-/**
- * @brief Convert the CSD string to a decimal
- *
- * @param[in] csd_str
- * @return double
- */
-auto to_decimal(const std::string& csd_str) -> double {
-    auto num = 0.0;
-    auto loc = 0U;
-    auto i = 0U;
-    for (auto c : csd_str) {
-        if (c == '.') {
-            loc = i + 1;
-        } else {
-            num *= 2;
-            if (c != '0') {
-                if (c == '+') {
-                    num += 1;
-                } else if (c == '-') {
-                    num -= 1;
-                }
-                // else unknown character
-            }
-        }
-        ++i;
-    }
-    if (loc != 0U) {
-        num /= pow(2.0, csd_str.size() - loc);
-    }
-    return num;
-}
-
-/**
- * @brief Convert to CSD (Canonical Signed Digit) string representation
- *
- * @param[in] num
- * @param[in] nnz number of non-zero
- * @return string
- */
-/**
- * @brief Fast CSD conversion returning a double directly (no string allocation).
- *
- * This avoids the overhead of allocating and parsing CSD strings.
- * The result is a canonical signed digit approximation of `num`
- * using at most `nnz` non-zero digits.
- *
- * @param[in] num Input value to quantize
- * @param[in] nnz Maximum number of non-zero digits
- * @return double The CSD quantized value
- */
-auto to_csdnnz_fast(double num, unsigned int nnz) -> double {
+auto csd_quantize(double num, unsigned int nnz) -> double {
     if (num == 0.0) {
         return 0.0;
     }
@@ -131,35 +30,21 @@ auto to_csdnnz_fast(double num, unsigned int nnz) -> double {
     return result;
 }
 
-auto to_csdnnz(double num, unsigned int nnz = 4) -> string {
-    if (num == 0) {
+// =========================================================================
+//  Global-namespace wrappers — backward-compatible API for tests / internals
+// =========================================================================
+
+auto to_csd(double num, int places) -> std::string {
+    if (num == 0.0) {
         return "0";
     }
-    auto absnum = fabs(num);
-    auto n = absnum < 1 ? 0 : int(ceil(log2(absnum * 1.5)));
-    auto csd_str = string{absnum < 1 ? "0" : ""};
-    auto pow2n = pow(2.0, n - 1);
-    while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
-        if (n == 0) {
-            csd_str += '.';
-        }
-        n -= 1;
-        auto d = 1.5 * num;
-        if (d > pow2n) {
-            csd_str += '+';
-            num -= pow2n;
-            nnz -= 1;
-        } else if (d < -pow2n) {
-            csd_str += '-';
-            num += pow2n;
-            nnz -= 1;
-        } else {
-            csd_str += '0';
-        }
-        pow2n /= 2.0;
-        if (nnz == 0) {
-            num = 0;
-        }
-    }
-    return csd_str;
+    return csd::to_csd(num, places);
+}
+
+auto to_decimal(const std::string& csd_str) -> double {
+    return csd::to_decimal(csd_str.c_str());
+}
+
+auto to_csdnnz(double num, unsigned int nnz) -> std::string {
+    return csd::to_csdnnz(num, nnz);
 }
