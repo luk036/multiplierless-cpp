@@ -78,8 +78,8 @@
     "spectral_method": {
       "type": "string",
       "enum": ["root", "fft"],
-      "default": "root",
-      "description": "Spectral factorization method: 'root' = polynomial root-finding (default), 'fft' = Kolmogorov 1939 FFT"
+      "default": "fft",
+      "description": "Spectral factorization method: 'fft' = Kolmogorov 1939 FFT (default, more stable), 'root' = polynomial root-finding"
     },
     "root_tolerance": {
       "type": "number",

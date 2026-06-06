@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    auto spectral_method = spec.value("spectral_method", std::string("root"));
+    auto spectral_method = spec.value("spectral_method", std::string("fft"));
     auto root_tol = spec.value("root_tolerance", 1e-8);
     Arr h;
     if (spectral_method == "fft") {

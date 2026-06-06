@@ -1,8 +1,6 @@
 {
   "filter_order": 32,
   "csd_nnz": 4,
-  "spectral_method": "root",
-  "root_tolerance": 1e-8,
   "verilog": {
     "input_width": 16,
     "module_name": "fir_filter"

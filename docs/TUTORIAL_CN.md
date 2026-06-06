@@ -121,8 +121,8 @@ python -m multiplierless.fir_design spec.json
 | `tolerance` | `1e-14` | 收敛容差。越小越严格 |
 | `ellipsoid_radius` | `40.0` | 初始搜索区域大小 |
 | `parallel_cut` | `true` | 启用并行切割以加速收敛 |
-| `spectral_method` | `"root"` | `"root"`（Aberth，更快）或 `"fft"`（Kolmogorov，传统） |
-| `root_tolerance` | `1e-8` | Aberth 收敛容差。越大越宽松但更快 |
+| `spectral_method` | `"fft"` | `"fft"`（Kolmogorov，默认，更稳定）或 `"root"`（Aberth，可调） |
+| `root_tolerance` | `1e-8` | Aberth 收敛容差（仅在 `spectral_method="root"` 时使用）。越大越宽松但更快 |
 
 ### 谱分解方法
 
@@ -130,17 +130,17 @@ CLI 支持两种谱分解算法：
 
 | 方法 | 键值 | 速度 | 精度 | 适用场景 |
 |------|------|------|------|----------|
-| **Aberth 根求解** | `"root"` | 快 (~333 次迭代) | 良好（可调容差） | 默认，生产环境 |
-| **FFT (Kolmogorov 1939)** | `"fft"` | 较慢 (~1482 次迭代) | 参考值（精确） | 验证、对比 |
+| **FFT (Kolmogorov 1939)** | `"fft"` | 稳定，较慢 (~1482 次迭代) | 参考值（精确） | **默认**，最稳定 |
+| **Aberth 根求解** | `"root"` | 快 (~333 次迭代) | 良好（可调容差） | 快速实验、调优 |
 
-根求解方法使用 Aberth-Ehrlich 算法通过多项式根求解直接提取最小相位根。
-容差 (`root_tolerance`) 控制收敛：
+FFT 方法是**默认值**，因为它数值更稳定 — 尤其适合大滤波器和严格规格。
+根求解方法更快但需要针对不同滤波阶数调整 `root_tolerance`：
 - `1e-4`：宽松但快 — 适合快速实验
-- `1e-8`：**默认值** — 速度与精度的平衡
+- `1e-8`：速度与精度的平衡
 - `1e-12`：严格 — 适用于窄过渡带或高阶滤波器
 
-> **注意**：对于大型滤波器（N > 64），将 `root_tolerance` 增大到 `1e-6`
-> 或切换到 `"fft"` 以避免收敛问题。
+> **注意**：对于大型滤波器（N > 64），使用默认的 `"fft"` 方法。
+> 仅在需要更少迭代且愿意调整 `root_tolerance` 时才切换到 `"root"`。
 
 ### 获取 Verilog 输出
 
@@ -646,7 +646,7 @@ python tools/verify_filter.py lowpass_32_output.json
 | `discretization_factor` | 更多采样点 | 约束更精确，内存更大 |
 | `passband_ripple` | 更大 | 更容易设计，纹波更大 |
 | `stopband_attenuation` | 更小 | 阻带更深，更难收敛 |
-| `spectral_method` | `"fft"` | 使用传统 FFT，精确但较慢 |
+| `spectral_method` | `"root"` | 使用根求解，迭代更快但需调优 |
 | `root_tolerance` | 更大值 | 收敛更快，根精度较松 |
 
 ---

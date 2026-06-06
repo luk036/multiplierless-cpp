@@ -12,6 +12,8 @@
 constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
+auto spectral_fact_fft(const Arr& r) -> Arr;
+
 auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     const auto n = r.size();
     const auto deg = 2 * n - 2;
@@ -48,7 +50,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     return h;
 }
 
-auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_root(r, 1e-8); }
+auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_fft(r); }
 
 auto spectral_fact_fft(const Arr& r) -> Arr {
     const auto n = int(r.size());
