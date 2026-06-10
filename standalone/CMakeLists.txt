@@ -34,10 +34,9 @@ target_link_libraries(
 
 add_executable(${PROJECT_NAME}FirDesign source/fir_design.cpp)
 
-set_target_properties(
-  ${PROJECT_NAME}FirDesign PROPERTIES CXX_STANDARD 20 OUTPUT_NAME FirDesign
-)
+set_target_properties(${PROJECT_NAME}FirDesign PROPERTIES CXX_STANDARD 20 OUTPUT_NAME FirDesign)
 
 target_link_libraries(
-  ${PROJECT_NAME}FirDesign ${PROJECT_NAME}::${PROJECT_NAME} nlohmann_json::nlohmann_json ${SPECIFIC_LIBS}
+  ${PROJECT_NAME}FirDesign ${PROJECT_NAME}::${PROJECT_NAME} nlohmann_json::nlohmann_json
+  ${SPECIFIC_LIBS}
 )

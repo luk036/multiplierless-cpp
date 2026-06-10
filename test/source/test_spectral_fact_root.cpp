@@ -1,8 +1,7 @@
 #include <doctest/doctest.h>
 
-#include <ellalgo/arr.hpp>
-
 #include <cmath>
+#include <ellalgo/arr.hpp>
 
 extern auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 

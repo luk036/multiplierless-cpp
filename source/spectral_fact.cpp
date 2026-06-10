@@ -1,12 +1,11 @@
 #include <algorithm>
 #include <cmath>
 #include <complex>
-#include <vector>
-
 #include <ellalgo/arr.hpp>
 #include <ginger/aberth.hpp>
 #include <ginger/config.hpp>
 #include <multiplierless/fftw_helper.hpp>
+#include <vector>
 
 #ifndef M_PI
 constexpr double M_PI = 3.14159265358979323846264338327950288;
@@ -19,10 +18,8 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     const auto deg = 2 * n - 2;
     std::vector<double> coeffs(deg + 1, 0.0);
     coeffs[0] = r(n - 1);
-    for (size_t i = 0; i < n - 1; ++i)
-        coeffs[i + 1] = 2.0 * r(n - 2 - i);
-    for (size_t i = 0; i < n - 2; ++i)
-        coeffs[deg - i - 1] = 2.0 * r(n - 2 - i);
+    for (size_t i = 0; i < n - 1; ++i) coeffs[i + 1] = 2.0 * r(n - 2 - i);
+    for (size_t i = 0; i < n - 2; ++i) coeffs[deg - i - 1] = 2.0 * r(n - 2 - i);
     coeffs[n - 1] = 2.0 * r(0);
     coeffs[deg] = r(n - 1);
     std::reverse(coeffs.begin(), coeffs.end());
@@ -35,8 +32,10 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
 
     std::vector<std::complex<double>> inside;
     for (auto& z : zs) {
-        if (std::abs(z) < 1.0) inside.push_back(z);
-        else inside.push_back(1.0 / z);
+        if (std::abs(z) < 1.0)
+            inside.push_back(z);
+        else
+            inside.push_back(1.0 / z);
     }
 
     auto hc = poly_from_roots(inside);

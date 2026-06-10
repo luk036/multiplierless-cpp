@@ -19,8 +19,8 @@ filter_design_construct::filter_design_construct(int argN)
     : filter_design_construct(argN, 0.12, 0.20, 0.125, 0.125, 15) {}
 
 filter_design_construct::filter_design_construct(int argN, double wpass_norm, double wstop_norm,
-                                                  double passband_ripple, double stopband_attn,
-                                                  int discretization_factor)
+                                                 double passband_ripple, double stopband_attn,
+                                                 int discretization_factor)
     : N(argN) {
     const auto wpass = wpass_norm * M_PI;
     const auto wstop = wstop_norm * M_PI;

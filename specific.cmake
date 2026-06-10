@@ -54,4 +54,12 @@ if(FFTW_FOUND)
   include_directories(${FFTW_INCLUDE_DIRS})
 endif()
 
-set(SPECIFIC_LIBS Ginger::Ginger EllAlgo::EllAlgo Csd::Csd ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)
+set(SPECIFIC_LIBS
+    Ginger::Ginger
+    EllAlgo::EllAlgo
+    Csd::Csd
+    ${FFTW_LIBRARIES}
+    Threads::Threads
+    fmt::fmt
+    spdlog::spdlog
+)

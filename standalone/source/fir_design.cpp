@@ -1,14 +1,13 @@
+#include <algorithm>
+#include <cmath>
 #include <csd/csd_multiplier.hpp>
 #include <ellalgo/arr.hpp>
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
-#include <multiplierless/lowpass_oracle.hpp>
-#include <multiplierless/lowpass_oracle_q.hpp>
-
-#include <algorithm>
-#include <cmath>
 #include <fstream>
 #include <iostream>
+#include <multiplierless/lowpass_oracle.hpp>
+#include <multiplierless/lowpass_oracle_q.hpp>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
