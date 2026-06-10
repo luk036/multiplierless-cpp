@@ -53,7 +53,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
 auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_fft(r); }
 
 auto spectral_fact_fft(const Arr& r) -> Arr {
-    const auto n = int(r.size());
+    const auto n = static_cast<int>(r.size());
     const auto mult_factor = 100;
     const auto m = mult_factor * n;
 
@@ -62,8 +62,8 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     if (n != cached_n) {
         const auto step_w = 2.0 * M_PI / static_cast<double>(m);
         Arr w(m);
-        for (size_t i = 0; i < size_t(m); ++i) w(i) = static_cast<double>(i) * step_w;
-        auto cols = arange(1.0, double(n));
+        for (size_t i = 0; i < static_cast<size_t>(m); ++i) w(i) = static_cast<double>(i) * step_w;
+        auto cols = arange(1.0, static_cast<double>(n));
         Arr An = 2.0 * cos(outer(w, cols));
         cached_A = concatenate(ones(m, 1), An, 1);
         cached_n = n;
@@ -79,15 +79,15 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
 
     Arr alpha = 0.5 * log(abs(R));
     auto alphatmp = fft(cast_to_complex(alpha));
-    auto ind = size_t(m) / 2;
+    auto ind = static_cast<size_t>(m) / 2;
     for (auto i = ind; i < m; ++i) alphatmp[i] = -alphatmp[i];
     alphatmp[0] = {0.0, 0.0};
     alphatmp[ind] = {0.0, 0.0};
 
     const std::complex<double> j_{0, 1};
     Arr phi = ifft(j_ * alphatmp);
-    auto alpha1 = view(alpha, Range(0, m, size_t(mult_factor)));
-    auto phi1 = view(phi, Range(0, m, size_t(mult_factor)));
+    auto alpha1 = view(alpha, Range(0, m, static_cast<size_t>(mult_factor)));
+    auto phi1 = view(phi, Range(0, m, static_cast<size_t>(mult_factor)));
     return ifft(exp(cast_to_complex(alpha1) + j_ * cast_to_complex(phi1)));
 }
 

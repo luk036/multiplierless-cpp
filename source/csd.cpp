@@ -17,7 +17,7 @@ auto csd_quantize(double num, unsigned int nnz) -> double {
         return 0.0;
     }
     auto result = 0.0;
-    auto bit_val = std::ldexp(1.0, int(std::ceil(std::log2(std::fabs(num) * 1.5))) - 1);
+    auto bit_val = std::ldexp(1.0, static_cast<int>(std::ceil(std::log2(std::fabs(num) * 1.5))) - 1);
     while (nnz > 0 && std::fabs(num) > 1e-100) {
         if (std::fabs(1.5 * num) > bit_val) {
             auto sgn = (num > 0) ? 1.0 : -1.0;

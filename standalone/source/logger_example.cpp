@@ -8,32 +8,32 @@
  * to log messages to a file.
  */
 int main() {
-    std::cout << "Multiplierless Spdlogger Example" << std::endl;
-    std::cout << "=================================" << std::endl;
+    std::cout << "Multiplierless Spdlogger Example" << '\n';
+    std::cout << "=================================" << '\n';
 
     // Example 1: Basic logging
-    std::cout << "\n[Example 1] Basic logging" << std::endl;
+    std::cout << "\n[Example 1] Basic logging" << '\n';
     multiplierless::log_with_spdlog("Application started");
-    std::cout << "  -> Logged: Application started" << std::endl;
+    std::cout << "  -> Logged: Application started" << '\n';
 
     // Example 2: Logging operational messages
-    std::cout << "\n[Example 2] Logging operational messages" << std::endl;
+    std::cout << "\n[Example 2] Logging operational messages" << '\n';
     multiplierless::log_with_spdlog("Processing data...");
-    std::cout << "  -> Logged: Processing data..." << std::endl;
+    std::cout << "  -> Logged: Processing data..." << '\n';
 
     multiplierless::log_with_spdlog("Data processing completed successfully");
-    std::cout << "  -> Logged: Data processing completed successfully" << std::endl;
+    std::cout << "  -> Logged: Data processing completed successfully" << '\n';
 
     // Example 3: Logging status updates
-    std::cout << "\n[Example 3] Logging status updates" << std::endl;
+    std::cout << "\n[Example 3] Logging status updates" << '\n';
     multiplierless::log_with_spdlog("System initialized");
-    std::cout << "  -> Logged: System initialized" << std::endl;
+    std::cout << "  -> Logged: System initialized" << '\n';
 
     multiplierless::log_with_spdlog("Ready to accept connections");
-    std::cout << "  -> Logged: Ready to accept connections" << std::endl;
+    std::cout << "  -> Logged: Ready to accept connections" << '\n';
 
-    std::cout << "\n=================================" << std::endl;
-    std::cout << "Check 'multiplierless.log' for logged messages" << std::endl;
+    std::cout << "\n=================================" << '\n';
+    std::cout << "Check 'multiplierless.log' for logged messages" << '\n';
 
     return 0;
 }

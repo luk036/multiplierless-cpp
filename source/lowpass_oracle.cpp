@@ -27,7 +27,7 @@ filter_design_construct::filter_design_construct(int argN, double wpass_norm, do
     const auto delta = 20 * std::log10(1 + passband_ripple);
     const auto delta2 = 20 * std::log10(stopband_attn);
     const auto m = discretization_factor * this->N;
-    const auto w = linspace(0, M_PI, size_t(m));  // omega
+    const auto w = linspace(0, M_PI, static_cast<size_t>(m));  // omega
     // passband 0 <= w <= w_pass
     const auto Lp = std::pow(10, -delta / 20);
     const auto Up = std::pow(10, +delta / 20);
