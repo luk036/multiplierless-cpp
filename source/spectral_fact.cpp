@@ -13,6 +13,18 @@ constexpr double M_PI = 3.14159265358979323846264338327950288;
 
 auto spectral_fact_fft(const Arr& r) -> Arr;
 
+/**
+ * @brief Spectral factorization via root-finding.
+ *
+ * Builds a symmetric polynomial from the autocorrelation coefficients,
+ * finds its roots using the Aberth-Ehrlich method (via ginger library),
+ * selects roots inside the unit circle, and reconstructs the minimum-phase
+ * impulse response. Normalises the energy to match r(0).
+ *
+ * @param[in] r         Autocorrelation sequence (top half).
+ * @param[in] tolerance Convergence tolerance for the Aberth solver.
+ * @return The minimum-phase impulse response coefficients h.
+ */
 auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     const auto n = r.size();
     const auto deg = 2 * n - 2;
@@ -49,8 +61,28 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     return h;
 }
 
+/**
+ * @brief Spectral factorization (convenience wrapper).
+ *
+ * Delegates to spectral_fact_fft.
+ * @param[in] r Autocorrelation sequence.
+ * @return Minimum-phase impulse response h.
+ */
 auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_fft(r); }
 
+/**
+ * @brief Spectral factorization via FFT / Hilbert transform.
+ *
+ * Over-samples the frequency response by a factor of 100, computes
+ * \f$ \alpha = \frac{1}{2}\ln|R(\omega)| \f$, applies the Hilbert
+ * transform to obtain the minimum-phase log-magnitude / phase pair,
+ * and returns the inverse FFT of \f$ e^{\alpha + j\phi} \f$.
+ *
+ * Results are cached for repeated calls with the same filter order.
+ *
+ * @param[in] r Autocorrelation sequence (top half).
+ * @return Minimum-phase impulse response h.
+ */
 auto spectral_fact_fft(const Arr& r) -> Arr {
     const auto n = static_cast<int>(r.size());
     const auto mult_factor = 100;
@@ -90,6 +122,15 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     return ifft(exp(cast_to_complex(alpha1) + j_ * cast_to_complex(phi1)));
 }
 
+/**
+ * @brief Inverse spectral factorization.
+ *
+ * Computes the autocorrelation sequence from an impulse response:
+ * \f$ r(t) = \sum_{i=0}^{n-1-t} h(i+t) \cdot h(i) \f$.
+ *
+ * @param[in] h Impulse response coefficients.
+ * @return Autocorrelation sequence r (same length as h).
+ */
 auto inverse_spectral_fact(const Arr& h) -> Arr {
     auto n = h.size();
     Arr r(n);

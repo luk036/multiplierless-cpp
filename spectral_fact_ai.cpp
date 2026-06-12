@@ -7,6 +7,17 @@
 constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
+/**
+ * @brief Spectral factorization (AI-generated reference implementation).
+ *
+ * Computes the minimum-phase impulse response from autocorrelation
+ * coefficients using over-sampled frequency-domain log-magnitude and an
+ * approximate Hilbert transform. Note: this file uses std::valarray and
+ * does NOT include the actual FFT calls — it is a reference / stub.
+ *
+ * @param[in] r Autocorrelation sequence (top half).
+ * @return Impulse response coefficients h (same size as r).
+ */
 std::valarray<double> spectral_fact(const std::valarray<double>& r) {
     // length of the impulse response sequence
     size_t n = r.size();
@@ -52,6 +63,15 @@ std::valarray<double> spectral_fact(const std::valarray<double>& r) {
     return h;
 }
 
+/**
+ * @brief Inverse spectral factorization (AI-generated).
+ *
+ * Computes the autocorrelation from an impulse response:
+ * \f$ r[t] = \sum_{i=t}^{n-1} h[i] \cdot h[i-t] \f$.
+ *
+ * @param[in] h Impulse response.
+ * @return Autocorrelation sequence r.
+ */
 std::valarray<double> inverse_spectral_fact(const std::valarray<double>& h) {
     size_t n = h.size();
     std::valarray<double> r(n);

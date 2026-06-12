@@ -4,32 +4,59 @@
 #include <cmath>  // import pow, cos, sqrt
 #include <multiplierless/rootfinding.hpp>
 
-// using vec2 = numeric::vector2<double>;
-// using mat2 = numeric::matrix2<vec2>;
+/// @file rootfinding.cpp
+/// @brief Multi-threaded Bairstow root-finding for even-degree polynomials.
+///
+/// Implements a parallel Bairstow method with Aberth-style deflation for
+/// finding quadratic factors of even-degree real polynomials. Used internally
+/// by the spectral-factorization root-finding path.
 
+/// @brief Build a 2×2 companion matrix from two quadratic factors.
+/// @param vr Quadratic coefficients (r, q).
+/// @param vp Linear coefficients (p, s).
+/// @return 2×2 matrix.
 auto makeG(const vec2& vr, const vec2& vp) -> mat2 {
     const auto& [r, q] = vr;
     const auto& [p, s] = vp;
     return mat2{vec2{p * r + s, p}, vec2{p * q, s}};
 }
 
+/// @brief Build the adjugate of a 2×2 matrix from two quadratic factors.
+/// @param vr Quadratic coefficients (r, q).
+/// @param vp Linear coefficients (p, s).
+/// @return Adjugate 2×2 matrix.
 auto makeadjoint(const vec2& vr, const vec2& vp) -> mat2 {
     const auto& [r, q] = vr;
     const auto& [p, s] = vp;
     return mat2{vec2{s, -p}, vec2{-p * q, p * r + s}};
 }
 
+/// @brief Suppress the contribution of a known root (deflation step).
+/// @param vA  Polynomial value at current iterate.
+/// @param vA1 [in,out] Derivative approximation, updated in place.
+/// @param vr  Current quadratic iterate.
+/// @param vrj Neighbouring quadratic factor (already converged).
 void suppress(const vec2& vA, vec2& vA1, const vec2& vr, const vec2& vrj) {
     auto vp = vr - vrj;
     auto mp = makeadjoint(vrj, vp);  // 2 mul's
     vA1 -= mp.mdot(vA) / mp.det();   // 6 mul's + 2 div's
 }
 
+/// @brief Apply a single Newton correction step.
+/// @param vA  Polynomial value at current iterate.
+/// @param vA1 Derivative approximation.
+/// @param vr  Current quadratic iterate.
+/// @return Corrected quadratic factor.
 auto check_newton(const vec2& vA, const vec2& vA1, const vec2& vr) -> vec2 {
     auto mA1 = makeadjoint(vr, vA1);  // 2 mul's
     return mA1.mdot(vA) / mA1.det();  // 6 mul's + 2 div's
 }
 
+/// @brief Horner evaluation of a polynomial at a real point.
+/// @param pb Polynomial coefficients (modified in place during evaluation).
+/// @param n  Polynomial degree.
+/// @param r  Evaluation point.
+/// @return Value of the polynomial at r.
 auto horner_eval(std::vector<double>& pb, size_t n, const double& r) -> double {
     for (auto i = 0U; i != n; ++i) {
         pb[i + 1] += pb[i] * r;
@@ -37,6 +64,15 @@ auto horner_eval(std::vector<double>& pb, size_t n, const double& r) -> double {
     return pb[n];
 }
 
+/// @brief Horner evaluation of a polynomial at a quadratic factor.
+///
+/// Evaluates \f$ P(x) = (x^2 - r x - q) Q(x) + A x + B \f$,
+/// returning the remainder coefficients (A, B).
+///
+/// @param pb Polynomial coefficients (modified in place).
+/// @param n  Polynomial degree.
+/// @param vr Quadratic factor (r, q).
+/// @return Remainder (A, B) as a vec2.
 auto horner(std::vector<double>& pb, size_t n, const vec2& vr) -> vec2 {
     const auto& [r, q] = vr;
     pb[1] += pb[0] * r;
@@ -47,6 +83,13 @@ auto horner(std::vector<double>& pb, size_t n, const vec2& vr) -> vec2 {
     return vec2{pb[n - 1], pb[n]};
 }
 
+/// @brief Generate initial guesses for quadratic factors.
+///
+/// Distributes \f$ M = N/2 \f$ initial quadratic factors evenly on a circle
+/// centred at the origin in the (r, q) parameter space.
+///
+/// @param pa Polynomial coefficients (length N+1).
+/// @return Vector of M initial quadratic-factor guesses.
 auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
     static const auto PI = std::acos(-1.0);
 
@@ -69,12 +112,16 @@ auto initial_guess(const std::vector<double>& pa) -> std::vector<vec2> {
 }
 
 /**
- * @brief Multi-threading Bairstow's method (even degree only)
+ * @brief Multi-threaded Bairstow method for even-degree polynomials.
  *
- * @param[in] pa polynomial
- * @param[in] vrs vector of iterates
- * @param[in] options maximum iterations and tolorance
- * @return std::tuple<unsigned int, bool>
+ * Runs a parallel Bairstow iteration with Aberth-style deflation using a
+ * thread pool. Each quadratic factor is updated independently per iteration
+ * using Gauss-Seidel-style suppression of neighbouring factors.
+ *
+ * @param[in]     pa      Polynomial coefficients (degree N, must be even).
+ * @param[in,out] vrs     Initial quadratic-factor guesses; overwritten with converged factors.
+ * @param[in]     options  Solver options (max_iters, tolerance).
+ * @return (iteration_count, converged) tuple.
  */
 auto pbairstow_even(const std::vector<double>& pa, std::vector<vec2>& vrs,
                     const Options& options = Options()) -> std::tuple<unsigned int, bool> {

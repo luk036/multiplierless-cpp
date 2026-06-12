@@ -33,10 +33,9 @@
 // *********************************************************************
 // filter specs (for a low-pass filter)
 // *********************************************************************
-/// Filter design construct containing all parameters for lowpass filter design.
+/// @brief Filter design construct containing all parameters for lowpass filter design.
 /// This struct holds the filter order, passband/stopband specifications, and
 /// squared constraints used in the spectral factorization method for FIR filter design.
-/// @param argN The filter order (number of FIR coefficients including zeroth)
 struct filter_design_construct {
     int N;        ///< Filter order (number of FIR coefficients including zeroth)
     Arr Ap;       ///< Passband constraint matrix (2D)

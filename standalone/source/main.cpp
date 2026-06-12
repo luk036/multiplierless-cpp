@@ -1,3 +1,9 @@
+/// @file
+/// @brief Legacy standalone entry point (greeting program).
+///
+/// Provided for backward compatibility. The primary FIR design tool
+/// lives in fir_design.cpp.
+
 #include <multiplierless/version.h>  // for MULTIPLIERLESS_VERSION
 
 #include <cxxopts.hpp>    // for value, OptionAdder, Options, Opt...
@@ -5,6 +11,12 @@
 #include <string>         // for char_traits, hash, operator==
 #include <unordered_map>  // for operator==, unordered_map, __has...
 
+/**
+ * @brief Legacy main — prints version / help information.
+ * @param[in] argc Argument count.
+ * @param[in] argv Argument vector.
+ * @return 0 on success.
+ */
 auto main(int argc, char** argv) -> int {
     // const std::unordered_map<std::string, multiplierless::LanguageCode> languages{
     //     {"en", multiplierless::LanguageCode::EN},

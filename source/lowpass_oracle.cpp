@@ -9,15 +9,34 @@ constexpr double M_PI = 3.14159265358979323846264338327950288;
 #endif
 
 /**
- * The above function is a constructor for a filter design class that initializes various parameters
- * and matrices used in the filter design process.
+ * @brief Default constructor using built-in default filter specs.
  *
- * @param[in] argN The parameter `argN` represents the value of N, which is the order of the filter.
- * It determines the number of filter coefficients and the complexity of the filter design.
+ * Delegates to the full constructor with defaults:
+ *   - Normalized passband edge:  0.12
+ *   - Normalized stopband edge:  0.20
+ *   - Passband ripple:           0.125
+ *   - Stopband attenuation:      0.125
+ *   - Discretization factor:     15
+ *
+ * @param[in] argN Filter order (number of FIR coefficients).
  */
 filter_design_construct::filter_design_construct(int argN)
     : filter_design_construct(argN, 0.12, 0.20, 0.125, 0.125, 15) {}
 
+/**
+ * @brief Construct a filter design with explicit specifications.
+ *
+ * Builds the constraint matrices Ap (passband), As (stopband), Anr
+ * (non-redundant) and the squared bounds Lpsq, Upsq, Spsq from the
+ * given analog filter parameters.
+ *
+ * @param[in] argN             Filter order.
+ * @param[in] wpass_norm       Normalized passband edge frequency (×π rad/sample).
+ * @param[in] wstop_norm       Normalized stopband edge frequency (×π rad/sample).
+ * @param[in] passband_ripple  Allowed passband ripple (linear).
+ * @param[in] stopband_attn    Stopband attenuation (linear).
+ * @param[in] discretization_factor  Grid density multiplier (m = factor × N).
+ */
 filter_design_construct::filter_design_construct(int argN, double wpass_norm, double wstop_norm,
                                                  double passband_ripple, double stopband_attn,
                                                  int discretization_factor)
@@ -58,13 +77,16 @@ filter_design_construct::filter_design_construct(int argN, double wpass_norm, do
 }
 
 /**
- * The function assess_optim in the LowpassOracle class assesses the optimization of a given input
- * vector x based on various constraints and returns a tuple containing the gradient and objective
- * function values, along with a boolean indicating whether the optimization is complete.
+ * @brief Assess the optimization for the given autocorrelation coefficients.
+ *
+ * Evaluates the non-negative-real constraint, passband constraints (Upsq/Lpsq),
+ * and stopband constraint (Spsq) using a round-robin traversal of the constraint
+ * matrices. Returns the cutting-plane (gradient + objective) when a constraint is
+ * violated, or signals optimality when all constraints are satisfied.
  *
  * @param[in] x A 1-dimensional array representing the optimization variables.
- * @param[in] Spsq Spsq is a reference to a double variable. It is used to store the maximum value
- * of the stopband constraint.
+ * @param[in,out] Spsq On input, the target stopband attenuation squared.
+ *                      On output, the achieved maximum stopband value.
  *
  * @return The function `assess_optim` returns a tuple containing a `ParallelCut` object and a
  * boolean value.

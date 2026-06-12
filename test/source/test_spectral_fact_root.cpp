@@ -5,7 +5,11 @@
 
 extern auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 
-/// Fill r with a valid auto-correlation sequence: r(k) = alpha^k, alpha in (0,1)
+/**
+ * @brief Fill r with a valid auto-correlation sequence: r(k) = alpha^k.
+ * @param[in,out] r     Array to fill (size determines sequence length).
+ * @param[in]     alpha  Decay factor in (0, 1).
+ */
 static void fill_acorr_decay(Arr& r, double alpha) {
     r(0) = 1.0;
     double ak = alpha;

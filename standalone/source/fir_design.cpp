@@ -19,6 +19,18 @@ extern auto spectral_fact_fft(const Arr& r) -> Arr;
 extern auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 extern auto to_csdnnz(double num, unsigned int nnz) -> std::string;
 
+/**
+ * @brief FIR filter design tool — main entry point.
+ *
+ * Reads a JSON filter specification, runs ellipsoid-method optimisation with
+ * CSD quantisation, performs spectral factorisation, and outputs the
+ * multiplierless FIR coefficients in JSON format (with optional Verilog
+ * generation for the CSD multiplier hardware).
+ *
+ * @param[in] argc Argument count.
+ * @param[in] argv Argument vector. Usage: fir_design <filter_spec.json>
+ * @return 0 on success, 1 on error.
+ */
 int main(int argc, char** argv) {
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <filter_spec.json>\n";

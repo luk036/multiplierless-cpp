@@ -5,6 +5,14 @@
 
 namespace multiplierless {
 
+    /**
+     * @brief Log a message to "multiplierless.log" via spdlog.
+     *
+     * Creates / re-creates a basic file logger each invocation, writes
+     * at INFO level with a timestamped pattern, and flushes immediately.
+     *
+     * @param[in] message The message to log.
+     */
     void log_with_spdlog(const std::string& message) {
         // Always create a fresh logger to ensure proper file handling
         std::shared_ptr<spdlog::logger> logger;

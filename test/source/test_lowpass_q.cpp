@@ -9,6 +9,12 @@ class LowpassOracle;
 
 extern auto create_lowpass_case(int N) -> std::tuple<LowpassOracle, double>;
 
+/**
+ * @brief Create a LowpassOracleQ with default parameters.
+ * @param[in] N    Filter order (default 32).
+ * @param[in] nnz  Maximum non-zero CSD digits (default 8).
+ * @return (LowpassOracleQ, initial Spsq) tuple.
+ */
 auto create_csdlowpass_case(int N = 32, int nnz = 8) -> std::tuple<LowpassOracleQ, double> {
     auto [omega, Spsq] = create_lowpass_case(N);
     auto Pcsd = LowpassOracleQ(nnz, std::move(omega));
@@ -19,6 +25,11 @@ auto create_csdlowpass_case(int N = 32, int nnz = 8) -> std::tuple<LowpassOracle
 // optimization
 // ********************************************************************
 
+/**
+ * @brief Run the CSD-quantised lowpass optimisation.
+ * @param[in] use_parallel_cut Whether to enable parallel cutting-plane.
+ * @return (feasible, iteration_count) tuple.
+ */
 auto run_csdlowpass(bool use_parallel_cut) {
     constexpr int N = 32;
     const int nnz = 7;

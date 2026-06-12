@@ -10,18 +10,24 @@ extern auto inverse_spectral_fact(const Arr& r) -> Arr;
 extern auto spectral_fact(const Arr& r) -> Arr;
 
 /**
- * The function assess_optim_q assesses the optimal value of q for a lowpass filter based on the
- * input signal and previous cuts.
+ * @brief Assess the optimization with quantized (CSD) coefficients.
  *
- * @param[in] r The parameter `r` is the top-half of the auto-correlation coefficients. It
- * represents the desired auto-correlation of the impulse response. It should be passed in as a
- * column vector.
- * @param[in] Spsq Spsq is a reference to a double variable. It is used to store the sum of squared
- * values of the input signal.
- * @param[in] retry A boolean flag indicating whether the function is being retried due to no effect
- * in the previous cut.
+ * On the first call (retry=false), evaluates the lowpass oracle with the
+ * continuous coefficients, performs spectral factorization, quantizes the
+ * impulse response to CSD format, and computes the quantized autocorrelation.
+ * On retry calls, evaluates the oracle with the previously computed quantized
+ * coefficients and adjusts the cutting plane by the quantization error.
  *
- * @return The function `assess_optim_q` returns a tuple containing the following elements:
+ * @param[in]     r     The top-half autocorrelation coefficients (continuous).
+ * @param[in,out] Spsq  On input, target stopband attenuation squared.
+ *                      On output, achieved stopband value.
+ * @param[in]     retry True if the previous cut had no effect and this is a retry.
+ *
+ * @return A tuple of (ParallelCut, is_optimal, rcsd, more_retries).
+ *         - ParallelCut:  (gradient, objective) cutting-plane pair.
+ *         - bool:         True if the optimal solution was found.
+ *         - Arr:          The quantized autocorrelation coefficients used.
+ *         - bool:         True if more retries should be attempted.
  */
 auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {

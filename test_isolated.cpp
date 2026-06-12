@@ -1,6 +1,12 @@
+/// @brief Quick smoke-test for filter_design_construct.
+
 #include <iostream>
 #include <multiplierless/lowpass_oracle.hpp>
 
+/**
+ * @brief Verify that filter_design_construct produces valid constraint matrices.
+ * @return 0 on success.
+ */
 int main() {
     std::cout << "Creating Fdc..." << std::endl;
     auto Fdc = filter_design_construct(32);

@@ -7,7 +7,11 @@ extern auto spectral_fact(const Arr& r) -> Arr;
 extern auto spectral_fact_fft(const Arr& r) -> Arr;
 extern auto inverse_spectral_fact(const Arr& h) -> Arr;
 
-/// Fill r with a valid auto-correlation sequence: r(k) = alpha^k, alpha in (0,1)
+/**
+ * @brief Fill r with an AR(1) auto-correlation: r(k) = alpha^k.
+ * @param[in,out] r     Array to fill.
+ * @param[in]     alpha  Decay factor in (0, 1).
+ */
 static void fill_ar1_acorr(Arr& r, double alpha) {
     r(0) = 1.0;
     double ak = alpha;

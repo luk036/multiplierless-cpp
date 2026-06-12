@@ -1,9 +1,15 @@
+/// @brief Quick smoke-test for spectral factorization.
+
 #include <cstdio>
 #include <ellalgo/arr.hpp>
 #include <multiplierless/fftw_helper.hpp>
 
 auto spectral_fact(const Arr& r) -> Arr;
 
+/**
+ * @brief Test spectral factorisation with a simple AR(1) autocorrelation.
+ * @return 0 on success.
+ */
 int main() {
     // AR(1) with alpha=0.3, n=8
     Arr r(8);

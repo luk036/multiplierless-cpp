@@ -7,7 +7,11 @@
 #include <multiplierless/lowpass_oracle.hpp>  // for filter_design_construct
 #include <tuple>                              // for make_tuple, tuple
 
-// static filter_design_construct Fdc{};
+/**
+ * @brief Create a LowpassOracle with default parameters.
+ * @param[in] N Filter order (default 32).
+ * @return (LowpassOracle, initial Spsq) tuple.
+ */
 auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
     auto Fdc = filter_design_construct(N);
     auto t = Fdc.Spsq;
@@ -19,6 +23,11 @@ auto create_lowpass_case(int N = 32) -> std::tuple<LowpassOracle, double> {
 // optimization
 // ********************************************************************
 
+/**
+ * @brief Run the lowpass filter optimisation.
+ * @param[in] use_parallel_cut Whether to enable parallel cutting-plane.
+ * @return (feasible, iteration_count) tuple.
+ */
 auto run_lowpass(bool use_parallel_cut) {
     constexpr int N = 32;
 

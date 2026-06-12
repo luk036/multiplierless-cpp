@@ -9,7 +9,14 @@
 // Assuming Eigen is used for matrix operations
 using namespace Eigen;
 
-// Function to compute the auto-correlation from impulse response
+/**
+ * @brief Inverse spectral factorization (AI-generated, Eigen-based).
+ *
+ * Computes the autocorrelation from an impulse response using std::vector.
+ *
+ * @param[in] h Impulse response vector.
+ * @return Autocorrelation sequence r.
+ */
 std::vector<double> inverse_spectral_fact(const std::vector<double>& h) {
     int n = h.size();
     std::vector<double> r(n, 0.0);
@@ -21,7 +28,15 @@ std::vector<double> inverse_spectral_fact(const std::vector<double>& h) {
     return r;
 }
 
-// Spectral factorization function
+/**
+ * @brief Spectral factorization (AI-generated, FFTW-based).
+ *
+ * Placeholder implementation showing the FFTW plan setup and spectral
+ * factorization structure. The inner computation is not fully implemented.
+ *
+ * @param[in] r Autocorrelation sequence.
+ * @return Impulse response (currently returns empty vector).
+ */
 std::vector<double> spectral_fact(const std::vector<double>& r) {
     int n = r.size();
     int m = n * 100;  // Over-sampling factor

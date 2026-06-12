@@ -3,6 +3,10 @@
 #include <limits>       // import numric_limits
 #include <type_traits>  // import make_signed
 
+/**
+ * @brief Verify unsigned integer round-trip through signed conversion.
+ * @tparam T An unsigned integer type.
+ */
 template <typename T> static void check_unsigned() {
     auto MAX = std::numeric_limits<T>::max();
 
