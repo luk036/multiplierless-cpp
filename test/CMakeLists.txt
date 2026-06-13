@@ -49,15 +49,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
                            -Wno-unused-but-set-parameter -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
-  target_compile_options(
-    ${PROJECT_NAME}
-    PUBLIC /std:c++latest
-           /W4
-           /wd4819
-           /wd4146
-           /wd4127
-           /wd4244
-  )
+  target_compile_options(${PROJECT_NAME} PUBLIC /std:c++latest /W4 /wd4819 /wd4146 /wd4127 /wd4244)
   target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
