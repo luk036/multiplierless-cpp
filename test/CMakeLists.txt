@@ -52,7 +52,6 @@ elseif(MSVC)
   target_compile_options(
     ${PROJECT_NAME}
     PUBLIC /std:c++latest
-           /await
            /W4
            /wd4819
            /wd4146
