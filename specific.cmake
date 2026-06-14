@@ -42,9 +42,12 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES"
 )
 
-# FFTW for spectral_fact_fft
-# On Windows with conda, help FindFFTW.cmake locate the library
-if(WIN32 AND DEFINED ENV{CONDA_PREFIX} AND NOT FFTW_ROOT AND NOT DEFINED ENV{FFTWDIR})
+# FFTW for spectral_fact_fft On Windows with conda, help FindFFTW.cmake locate the library
+if(WIN32
+   AND DEFINED ENV{CONDA_PREFIX}
+   AND NOT FFTW_ROOT
+   AND NOT DEFINED ENV{FFTWDIR}
+)
   set(FFTW_ROOT "$ENV{CONDA_PREFIX}/Library")
 elseif(DEFINED ENV{FFTWDIR} AND NOT FFTW_ROOT)
   set(FFTW_ROOT "$ENV{FFTWDIR}")

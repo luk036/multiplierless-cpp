@@ -8,10 +8,13 @@ option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 CPMAddPackage("gh:doctest/doctest#v2.4.11")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.3")
 
-# Add RapidCheck for property-based testing
-# Use locally cached source (if available) to avoid network fetch
+# Add RapidCheck for property-based testing Use locally cached source (if available) to avoid
+# network fetch
 if(EXISTS "${CMAKE_BINARY_DIR}/_deps/rapidcheck-src")
-  set(FETCHCONTENT_SOURCE_DIR_RAPIDCHECK "${CMAKE_BINARY_DIR}/_deps/rapidcheck-src" CACHE PATH "Local rapidcheck source")
+  set(FETCHCONTENT_SOURCE_DIR_RAPIDCHECK
+      "${CMAKE_BINARY_DIR}/_deps/rapidcheck-src"
+      CACHE PATH "Local rapidcheck source"
+  )
 endif()
 CPMAddPackage(
   NAME rapidcheck
@@ -53,7 +56,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
                            -Wno-unused-but-set-parameter -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC /std:c++latest /W4 /WX /wd5285 /wd4819 /wd4146 /wd4127 /wd4244)
+  target_compile_options(
+    ${PROJECT_NAME}
+    PUBLIC /std:c++latest
+           /W4
+           /WX
+           /wd5285
+           /wd4819
+           /wd4146
+           /wd4127
+           /wd4244
+  )
   # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
