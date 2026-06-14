@@ -12,7 +12,7 @@ CPMAddPackage(
   NAME spdlog
   GIT_TAG v1.17.0
   GITHUB_REPOSITORY gabime/spdlog
-  OPTIONS "SPDLOG_INSTALL YES"
+  OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
 )
 
 CPMAddPackage(
@@ -43,6 +43,13 @@ CPMAddPackage(
 )
 
 # FFTW for spectral_fact_fft
+# On Windows with conda, help FindFFTW.cmake locate the library
+if(WIN32 AND DEFINED ENV{CONDA_PREFIX} AND NOT FFTW_ROOT AND NOT DEFINED ENV{FFTWDIR})
+  set(FFTW_ROOT "$ENV{CONDA_PREFIX}/Library")
+elseif(DEFINED ENV{FFTWDIR} AND NOT FFTW_ROOT)
+  set(FFTW_ROOT "$ENV{FFTWDIR}")
+endif()
+
 if(MSVC)
   find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB)
   add_definitions(-DFFTW_NO_LONGDOUBLE)
