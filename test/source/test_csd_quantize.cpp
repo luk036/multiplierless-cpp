@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <numbers>
 
 extern auto csd_quantize(double num, unsigned int nnz) -> double;
 
@@ -23,8 +24,8 @@ TEST_CASE("csd_quantize positive values") {
     CHECK(std::fabs(q2 - 42.0) < 5.0);
 
     // With more non-zero digits, should be more accurate
-    auto q3_lo = csd_quantize(3.14159, 2);
-    auto q3_hi = csd_quantize(3.14159, 8);
+    auto q3_lo = csd_quantize(std::numbers::pi, 2);
+    auto q3_hi = csd_quantize(std::numbers::pi, 8);
     CHECK(std::fabs(q3_hi - 3.14159) <= std::fabs(q3_lo - 3.14159) + 1e-12);
 }
 

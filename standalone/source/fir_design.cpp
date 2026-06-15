@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
             csd_strings.push_back(c["csd"].get<std::string>());
         }
 
-        auto max_len = size_t(0);
+        auto max_len = static_cast<size_t>(0);
         for (const auto& s : csd_strings) {
             max_len = std::max(max_len, s.size());
         }
@@ -127,11 +127,11 @@ int main(int argc, char** argv) {
         std::vector<csd::MultiplierSpec> specs;
         for (size_t i = 0; i < csd_strings.size(); ++i) {
             auto raw = csd_strings[i];
-            raw.erase(std::remove(raw.begin(), raw.end(), '.'), raw.end());
+            std::erase(raw, '.');
             while (raw.size() < max_len) {
                 raw = "0" + raw;
             }
-            specs.push_back({"h" + std::to_string(i), raw, input_width, max_power});
+            specs.push_back({.name="h" + std::to_string(i), .csd=raw, .input_width=input_width, .max_power=max_power});
         }
 
         output["verilog"] = csd::generate_csd_multipliers(specs, module_name);

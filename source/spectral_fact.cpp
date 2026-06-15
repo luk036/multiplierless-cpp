@@ -5,10 +5,12 @@
 #include <ginger/aberth.hpp>
 #include <ginger/config.hpp>
 #include <multiplierless/fftw_helper.hpp>
+#include <numbers>
+#include <utility>
 #include <vector>
 
 #ifndef M_PI
-constexpr double M_PI = 3.14159265358979323846264338327950288;
+constexpr double M_PI = std::numbers::pi;
 #endif
 
 auto spectral_fact_fft(const Arr& r) -> Arr;
@@ -34,7 +36,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     for (size_t i = 0; i < n - 2; ++i) coeffs[deg - i - 1] = 2.0 * r(n - 2 - i);
     coeffs[n - 1] = 2.0 * r(0);
     coeffs[deg] = r(n - 1);
-    std::reverse(coeffs.begin(), coeffs.end());
+    std::ranges::reverse(coeffs);
 
     auto zs = initial_aberth_autocorr(coeffs);
     Options opts;
@@ -93,7 +95,7 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     if (n != cached_n) {
         const auto step_w = 2.0 * M_PI / static_cast<double>(m);
         Arr w(m);
-        for (size_t i = 0; i < static_cast<size_t>(m); ++i) w(i) = static_cast<double>(i) * step_w;
+        for (size_t i = 0; std::cmp_less(i ,m); ++i) w(i) = static_cast<double>(i) * step_w;
         auto cols = arange(1.0, static_cast<double>(n));
         Arr An = 2.0 * cos(outer(w, cols));
         cached_A = concatenate(ones(m, 1), An, 1);
@@ -102,7 +104,7 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     const auto& A = cached_A;
     Arr R = dot(A, r);
 
-    auto min_val = *std::min_element(R.begin(), R.end());
+    auto min_val = *std::ranges::min_element(R);
     if (min_val <= 0) {
         for (size_t i = 0; i < R.size(); ++i)
             if (R(i) <= 0) R(i) = 1e-10;
@@ -111,7 +113,7 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     Arr alpha = 0.5 * log(abs(R));
     auto alphatmp = fft(cast_to_complex(alpha));
     auto ind = static_cast<size_t>(m) / 2;
-    for (auto i = ind; i < m; ++i) alphatmp[i] = -alphatmp[i];
+    for (auto i = ind; std::cmp_less(i , m); ++i) alphatmp[i] = -alphatmp[i];
     alphatmp[0] = {0.0, 0.0};
     alphatmp[ind] = {0.0, 0.0};
 
