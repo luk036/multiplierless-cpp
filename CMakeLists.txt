@@ -69,8 +69,6 @@ endif()
 
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
-# Suppress C4244 warning (potential data loss) which is treated as error in MSVC
-target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4244>")
 
 # Link dependencies
 target_link_libraries(${PROJECT_NAME} PUBLIC ${SPECIFIC_LIBS})
