@@ -131,7 +131,10 @@ int main(int argc, char** argv) {
             while (raw.size() < max_len) {
                 raw = "0" + raw;
             }
-            specs.push_back({.name="h" + std::to_string(i), .csd=raw, .input_width=input_width, .max_power=max_power});
+            specs.push_back({.name = "h" + std::to_string(i),
+                             .csd = raw,
+                             .input_width = input_width,
+                             .max_power = max_power});
         }
 
         output["verilog"] = csd::generate_csd_multipliers(specs, module_name);

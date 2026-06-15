@@ -95,7 +95,7 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     if (n != cached_n) {
         const auto step_w = 2.0 * M_PI / static_cast<double>(m);
         Arr w(m);
-        for (size_t i = 0; std::cmp_less(i ,m); ++i) w(i) = static_cast<double>(i) * step_w;
+        for (size_t i = 0; std::cmp_less(i, m); ++i) w(i) = static_cast<double>(i) * step_w;
         auto cols = arange(1.0, static_cast<double>(n));
         Arr An = 2.0 * cos(outer(w, cols));
         cached_A = concatenate(ones(m, 1), An, 1);
@@ -113,7 +113,7 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     Arr alpha = 0.5 * log(abs(R));
     auto alphatmp = fft(cast_to_complex(alpha));
     auto ind = static_cast<size_t>(m) / 2;
-    for (auto i = ind; std::cmp_less(i , m); ++i) alphatmp[i] = -alphatmp[i];
+    for (auto i = ind; std::cmp_less(i, m); ++i) alphatmp[i] = -alphatmp[i];
     alphatmp[0] = {0.0, 0.0};
     alphatmp[ind] = {0.0, 0.0};
 
