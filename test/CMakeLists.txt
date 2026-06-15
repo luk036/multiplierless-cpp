@@ -5,7 +5,7 @@ option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 
 # ---- Dependencies ----
 
-CPMAddPackage("gh:doctest/doctest#v2.4.11")
+CPMAddPackage("gh:doctest/doctest#v2.5.2")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.3")
 
 # Add RapidCheck for property-based testing Use locally cached source (if available) to avoid
@@ -56,7 +56,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
                            -Wno-unused-but-set-parameter -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC /std:c++latest /W4 /WX /wd5285)
+  target_compile_options(${PROJECT_NAME} PUBLIC /std:c++latest /W4 /WX)
   # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
