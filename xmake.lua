@@ -21,7 +21,7 @@ if is_plat("linux") then
 	set_warnings("all", "error")
 	-- add_cxflags("-Wconversion", {force = true})
 elseif is_plat("windows") then
-	add_cxflags("/EHsc /utf-8 /W4 /WX /wd5285", {force = true})
+	add_cxflags("/EHsc /utf-8 /W4 /WX", {force = true})
 end
 
 -- EllAlgo-cpp include path (core Arr lives here now)
