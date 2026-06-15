@@ -37,7 +37,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Ginger
-  GIT_TAG 1.1.2
+  GIT_TAG 1.1.3
   GITHUB_REPOSITORY luk036/ginger-cpp
   OPTIONS "INSTALL_ONLY YES"
 )
