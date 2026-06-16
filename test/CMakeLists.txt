@@ -51,10 +51,7 @@ endif()
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wpedantic -Wextra -Werror)
-  target_compile_options(
-    ${PROJECT_NAME} PUBLIC -Wall -Wextra -Wconversion -Wno-parentheses
-                           -Wno-unused-but-set-parameter
-  )
+  target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wextra -Wconversion)
 elseif(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC /std:c++latest /W4 /WX)
   # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
