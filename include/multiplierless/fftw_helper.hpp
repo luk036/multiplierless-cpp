@@ -13,7 +13,7 @@
 #include <ellalgo/arr.hpp>
 #include <vector>
 
-/// Complex array type
+/** @brief Complex array type used for FFT operations. */
 using CArr = std::vector<std::complex<double>>;
 
 /// @brief Cast a real Arr to a complex CArr.

@@ -1,6 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+/** @file lowpass_oracle.hpp
+ *  @brief Oracle for FIR lowpass filter design via spectral factorization and convex optimization.
+ */
+
 #include <ellalgo/arr.hpp>
 #include <valarray>
 #include <vector>

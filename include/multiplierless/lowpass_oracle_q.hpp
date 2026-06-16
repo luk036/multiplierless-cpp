@@ -1,5 +1,9 @@
 #pragma once
 
+/** @file lowpass_oracle_q.hpp
+ *  @brief Oracle for quantized FIR lowpass filter design with CSD representation.
+ */
+
 #include <ellalgo/arr.hpp>
 #include <multiplierless/lowpass_oracle.hpp>
 

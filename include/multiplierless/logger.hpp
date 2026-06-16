@@ -1,5 +1,9 @@
 #pragma once
 
+/** @file logger.hpp
+ *  @brief Logging utilities for the multiplierless library using spdlog.
+ */
+
 #include <string>
 
 namespace multiplierless {
