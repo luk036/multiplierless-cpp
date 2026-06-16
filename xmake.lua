@@ -1,3 +1,5 @@
+set_license("MIT")
+set_policy("check.target_package_licenses", false)
 set_languages("c++20")
 -- set_policy("build.optimization.lto", true)
 
@@ -5,6 +7,7 @@ add_rules("mode.debug", "mode.release", "mode.coverage")
 
 add_requires("nlohmann_json")
 add_requires("doctest", { alias = "doctest" })
+add_requires("fftw", { alias = "fftw" })
 add_requires("fmt", { alias = "fmt" })
 add_requires("spdlog", { alias = "spdlog" })
 add_requires("cxxopts", { alias = "cxxopts" })
@@ -28,7 +31,7 @@ end
 local ellalgo_inc = path.join(os.projectdir(), "../ellalgo-cpp/include")
 
 -- FFTW from conda environment (adjust for your system)
-local fftw_prefix = "D:/scoop/apps/miniconda3/current/envs/cppflow/Library"
+-- local fftw_prefix = "D:/scoop/apps/miniconda3/current/envs/cppflow/Library"
 
 -- EllAlgo source (sibling project)
 local ellalgo_dir = path.join(os.projectdir(), "../ellalgo-cpp")
@@ -43,7 +46,7 @@ local rc_lib = is_plat("windows")
 
 local csd_dir = path.join(os.projectdir(), "../csd-cpp")
 local ginger_dir = path.join(os.projectdir(), "../ginger-cpp")
-local fftw_prefix = "D:/scoop/apps/miniconda3/current/envs/cppflow/Library"
+-- local fftw_prefix = "D:/scoop/apps/miniconda3/current/envs/cppflow/Library"
 
 target("Ginger")
 	set_kind("static")
@@ -74,11 +77,12 @@ target("Multiplierless")
 	add_includedirs("include", {public = true})
 	add_includedirs(ellalgo_inc, {public = true})
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"), {public = true})
-	add_includedirs(path.join(fftw_prefix, "include"), {public = true})
+	-- add_includedirs(path.join(fftw_prefix, "include"), {public = true})
 	add_files("source/*.cpp")
 	add_deps("Ginger", "Csd", "EllAlgo")
-	add_linkdirs(path.join(fftw_prefix, "lib"))
-	add_links("fftw3", "fftw3f")
+	-- add_linkdirs(path.join(fftw_prefix, "lib"))
+	-- add_links("fftw3", "fftw3f")
+	add_packages("fftw")
 	add_packages("fmt", "spdlog")
 	if is_plat("windows") then
 		add_syslinks("ws2_32")
@@ -90,8 +94,8 @@ target("MultiplierlessTests")
 	add_includedirs("include")
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
 	add_files("test/source/*.cpp")
-	add_links("fftw3", "fftw3f")
-	add_packages("fmt", "spdlog", "doctest")
+	-- add_links("fftw3", "fftw3f")
+	add_packages("fftw", "fmt", "spdlog", "doctest")
 	if is_plat("windows") then
 		add_syslinks("ws2_32")
 	end
@@ -111,7 +115,7 @@ target("MultiplierlessStandalone")
 	add_includedirs("include")
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
 	add_files("standalone/source/main.cpp")
-	add_packages("cxxopts", "fmt", "spdlog")
+	add_packages("cxxopts", "fmt", "spdlog", "fftw")
 	if is_plat("windows") then
 		add_syslinks("ws2_32")
 	end
@@ -122,7 +126,7 @@ target("LoggerExample")
 	add_includedirs("include")
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
 	add_files("standalone/source/logger_example.cpp")
-	add_packages("fmt", "spdlog")
+	add_packages("fmt", "spdlog", "fftw")
 	if is_plat("windows") then
 		add_syslinks("ws2_32")
 	end
@@ -134,7 +138,7 @@ target("FirDesign")
 	add_includedirs(path.join(os.projectdir(), "build/PackageProjectInclude"))
 	add_files("standalone/source/fir_design.cpp")
 	add_packages("nlohmann_json")
-	add_packages("fmt", "spdlog")
+	add_packages("fmt", "spdlog", "fftw")
 	if is_plat("windows") then
 		add_syslinks("ws2_32")
 	end
