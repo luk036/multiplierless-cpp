@@ -1,0 +1,9 @@
+<map id="multiplierless/lowpass_oracle.hpp" name="multiplierless/lowpass_oracle.hpp">
+<area shape="rect" id="Node000001" title="Oracle for FIR lowpass filter design via spectral factorization and convex optimization." alt="" coords="99,5,267,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,120,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,48,93,88,90,84,152,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="145,93,221,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,46,185,79,180,79,180,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="245,93,307,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="207,44,253,82,250,86,204,48"/>
+</map>
