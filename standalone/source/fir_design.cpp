@@ -295,39 +295,57 @@ namespace {
 
     // Fix missing commas between port declarations (known csd-cpp issue)
     auto fix_verilog_ports(const std::string& verilog) -> std::string {
-        std::string result;
-        bool in_ports = false;
+        // Collect all lines
+        std::vector<std::string> lines;
         size_t pos = 0;
         while (pos < verilog.size()) {
             auto eol = verilog.find('\n', pos);
-            auto line = verilog.substr(pos, eol - pos);
-            auto stripped = line;
-            stripped.erase(0, stripped.find_first_not_of(" \t\r"));
-            if (in_ports) {
-                if (stripped == ");") {
-                    in_ports = false;
-                } else {
-                    // Check if code (before // comment) already ends with comma
-                    auto comment_pos = line.find("//");
-                    auto code_end = (comment_pos != std::string::npos)
-                                       ? comment_pos
-                                       : line.size();
-                    auto code = line.substr(0, code_end);
-                    while (!code.empty() && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
-                        code.pop_back();
-                    }
-                    if (!code.empty() && code.back() != ',') {
-                        line.insert(code_end, ",");
-                    }
+            lines.push_back(verilog.substr(pos, eol - pos));
+            pos = (eol != std::string::npos) ? eol + 1 : verilog.size();
+        }
+
+        // Identify port lines (between module header and ");")
+        int module_start = -1;
+        int paren_end = -1;
+        std::vector<int> port_lines;
+        for (int i = 0; i < static_cast<int>(lines.size()); ++i) {
+            auto& line = lines[i];
+            auto trimmed = line;
+            trimmed.erase(0, trimmed.find_first_not_of(" \t\r"));
+            if (module_start < 0 && trimmed.find("module ") == 0 && line.find('(') != std::string::npos) {
+                module_start = i;
+            }
+            if (module_start >= 0 && paren_end < 0) {
+                if (trimmed == ");") {
+                    paren_end = i;
+                } else if (i != module_start) {
+                    port_lines.push_back(i);
                 }
             }
-            if (line.find("module ") != std::string::npos
-                && line.find('(') != std::string::npos) {
-                in_ports = true;
+        }
+
+        // Add commas to all port lines except the last
+        for (size_t idx = 0; idx < port_lines.size(); ++idx) {
+            if (idx == port_lines.size() - 1) continue;  // skip last
+            auto& line = lines[port_lines[idx]];
+            auto comment_pos = line.find("//");
+            auto code_end = (comment_pos != std::string::npos)
+                               ? comment_pos
+                               : line.size();
+            auto code = line.substr(0, code_end);
+            while (!code.empty() && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
+                code.pop_back();
             }
-            result += line;
-            if (eol != std::string::npos) result += '\n';
-            pos = (eol != std::string::npos) ? eol + 1 : verilog.size();
+            if (!code.empty() && code.back() != ',') {
+                line.insert(code_end, ",");
+            }
+        }
+
+        // Rejoin
+        std::string result;
+        for (size_t i = 0; i < lines.size(); ++i) {
+            result += lines[i];
+            if (i + 1 < lines.size()) result += '\n';
         }
         return result;
     }
