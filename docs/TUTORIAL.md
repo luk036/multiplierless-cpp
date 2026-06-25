@@ -155,12 +155,27 @@ Add a `verilog` section:
 
 ```json
 "verilog": {
-  "input_width": 16,
-  "module_name": "fir_filter"
-}
-```
+    "input_width": 16,
+    "module_name": "fir_filter",
+    "form": "transpose"
+  }
+}```
 
 Omit the `verilog` key entirely to get coefficients only (faster).
+
+### Verilog form: direct vs transpose
+
+| Form | Description | Output |
+|------|-------------|--------|
+| `"transpose"` **(default)** | Complete pipelined FIR filter with clock/reset | Single `y` = sum(hᵢ · x) |
+| `"direct"` | Multiplier bank — each tap computed in parallel | N separate `hᵢ` = coeffᵢ · x |
+
+The transpose form is a **complete FIR filter module** with built-in pipeline
+registers — instantiate and connect. The direct form provides raw coefficient
+multiplier outputs for custom integration.
+
+> **Note**: The `form` option only matters if you include a `verilog` section.
+> Omit the `verilog` key entirely for coefficient-only output.
 
 ---
 
@@ -241,15 +256,22 @@ For a linear-phase FIR filter, use the squared magnitude response
 
 The generated Verilog uses **only shift and add/subtract** operations — no `*`.
 
+By default the generator produces a **transpose-form** FIR filter with built-in
+pipeline registers. You can select the **direct-form** multiplier bank via
+`"form": "direct"` in the JSON spec.
+
+### Transpose-form (default)
+
+The transpose-form module is a **complete FIR filter** ready for instantiation:
+
 ### Module signature
 
 ```verilog
 module fir_filter (
-    input signed [15:0] x,       // 16-bit input sample
-    output signed [41:0] h0,     // coefficient h[0] (41 bits = 16 + 25)
-    output signed [41:0] h1,
-    ...
-    output signed [41:0] h47
+    input clk,                     // Clock
+    input rst_n,                   // Active-low reset
+    input signed [15:0] x,         // 16-bit input sample
+    output signed [41:0] y         // Filter output = Σ hᵢ · x[n−i]
 );
 ```
 
@@ -263,7 +285,57 @@ wire signed [41:0] x_shift14 = x <<< 14;
 ...
 
 // Cross-CSE: shared sub-expression
-// Pattern "+0-" found in h0, h5, h13, h27 → factored out!
+// Pattern "+0-" found in multiple coefficients → factored out!
+wire signed [41:0] _cse_0 = x_shift14 - x_shift12;
+
+// Transpose-form pipeline registers
+reg signed [41:0] sum0;
+reg signed [41:0] sum1;
+...
+reg signed [41:0] sum47;
+
+// Coefficients applied in reverse order (canonical transpose form)
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        sum0 <= 0; sum1 <= 0; ... sum47 <= 0;
+    end else begin
+        sum0 <= /* h[47]*x using CSD */;               // last coefficient
+        sum1 <= sum0 + /* h[46]*x using CSD */;
+        ...
+        sum47 <= sum46 + /* h[0]*x using CSD */;        // first coefficient
+    end
+end
+
+assign y = sum47;
+```
+
+### Direct-form (opt-in)
+
+Set `"form": "direct"` in the JSON spec to generate a **multiplier bank**
+with separate tap outputs (for custom external accumulation):
+
+### Module signature (direct-form)
+
+```verilog
+module fir_filter (
+    input signed [15:0] x,       // 16-bit input sample
+    output signed [41:0] h0,     // coefficient h[0] (41 bits = 16 + 25)
+    output signed [41:0] h1,
+    ...
+    output signed [41:0] h47
+);
+```
+
+### Internal structure (direct-form)
+
+```verilog
+// Shifted copies of input (one wire per unique shift amount)
+wire signed [41:0] x_shift17 = x <<< 17;
+wire signed [41:0] x_shift16 = x <<< 16;
+wire signed [41:0] x_shift14 = x <<< 14;
+...
+
+// Cross-CSE: shared sub-expression
 wire signed [41:0] _cse_0 = x_shift14 - x_shift12;
 
 // Per-coefficient assignment (shift-and-add only)
