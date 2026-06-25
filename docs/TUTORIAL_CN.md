@@ -335,9 +335,6 @@ yosys -p "
 使用提供的脚本运行综合：
 
 ```bash
-# 修复 Verilog 端口语法（CSD 生成器产生无逗号的端口）
-python tools/fix_verilog_ports.py fir_filter_tutorial.v
-
 # 使用 Yosys 综合
 yosys -Q synthesize.ys
 ```
@@ -426,15 +423,7 @@ print(f'{len(data[\"verilog\"])} chars written')
 python tools/extract_verilog.py
 ```
 
-### 第 5 步：修复 Verilog 语法并综合
-
-CSD 生成器输出的端口之间缺少逗号。修复：
-
-```bash
-python tools/fix_verilog_ports.py fir_filter_tutorial.v
-```
-
-然后综合：
+### 第 5 步：使用 Yosys 综合
 
 ```bash
 yosys -Q synthesize.ys
@@ -451,20 +440,25 @@ yosys -Q synthesize.ys
 
 ### 第 6 步：集成到你的设计中
 
-在顶层模块中实例化：
+生成的 Verilog 是一个**完整 FIR 滤波器**（默认转置形式）。直接实例化：
 
 ```verilog
+wire clk, rst_n;
 wire signed [15:0] sample_in;
-wire signed [41:0] tap_0, tap_1, ..., tap_31;
+wire signed [41:0] filter_out;
 
 fir_filter u_fir (
+    .clk(clk),
+    .rst_n(rst_n),
     .x(sample_in),
-    .h0(tap_0), .h1(tap_1), ..., .h31(tap_31)
+    .y(filter_out)
 );
-
-// 带适当延迟求和以得到滤波器输出
-// （或输入到移位寄存器 + 加法树）
 ```
+
+无需外部累加器 — 滤波器输出 `y` 即为每个时钟周期完全计算的结果。
+
+> 若要生成**直接形式**乘法器组（单独的 `h0`..`hN` 输出用于自定义累加），
+> 在滤波器规格的 `verilog` 部分添加 `"form": "direct"`。
 
 ---
 

@@ -418,13 +418,9 @@ Without cross-CSE: ~110 cells. With cross-CSE: **82 cells** (a 25% reduction
 from shared sub-expression elimination). Each `$add` or `$sub` is one
 hardware adder/subtractor.
 
-To run synthesis with your own filter, use the provided script:
+To run synthesis with your own filter:
 
 ```bash
-# Fix Verilog port syntax (CSD generator produces comma-less ports)
-python tools/fix_verilog_ports.py fir_filter_tutorial.v
-
-# Synthesize with Yosys
 yosys -Q synthesize.ys
 ```
 
@@ -513,15 +509,7 @@ Or use the included tool:
 python tools/extract_verilog.py
 ```
 
-### Step 5: Fix Verilog syntax & synthesize
-
-The CSD generator outputs ports without commas between them. Fix with:
-
-```bash
-python tools/fix_verilog_ports.py fir_filter_tutorial.v
-```
-
-Then synthesize:
+### Step 5: Synthesize with Yosys
 
 ```bash
 yosys -Q synthesize.ys
@@ -538,20 +526,28 @@ Expected output:
 
 ### Step 6: Integrate into your design
 
-Instantiate the module in your top-level:
+The generated Verilog is a **complete FIR filter** (transpose-form by default).
+Instantiate directly:
 
 ```verilog
+wire clk, rst_n;
 wire signed [15:0] sample_in;
-wire signed [41:0] tap_0, tap_1, ..., tap_31;
+wire signed [41:0] filter_out;
 
 fir_filter u_fir (
+    .clk(clk),
+    .rst_n(rst_n),
     .x(sample_in),
-    .h0(tap_0), .h1(tap_1), ..., .h31(tap_31)
+    .y(filter_out)
 );
-
-// Sum the taps with appropriate delays to get the filter output
-// (or feed into a shift-register + adder tree)
 ```
+
+No external accumulator needed — the filter output `y` is the fully
+computed result at each clock cycle.
+
+> To generate a **direct-form** multiplier bank (separate `h0`..`hN` outputs
+> for custom accumulation), add `"form": "direct"` to the `verilog` section
+> of your filter spec.
 
 ---
 
