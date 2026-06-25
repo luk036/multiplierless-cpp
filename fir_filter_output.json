@@ -1,0 +1,169 @@
+{
+  "coefficients": [
+    {
+      "csd": "0.00000+0-0+000+",
+      "index": 0,
+      "value": 0.01275634765625
+    },
+    {
+      "csd": "0.0000+0-0-000-",
+      "index": 1,
+      "value": 0.0213623046875
+    },
+    {
+      "csd": "0.0000+0+0-000+",
+      "index": 2,
+      "value": 0.0372314453125
+    },
+    {
+      "csd": "0.000+00-0+0+",
+      "index": 3,
+      "value": 0.05712890625
+    },
+    {
+      "csd": "0.000+0+00+0-",
+      "index": 4,
+      "value": 0.07958984375
+    },
+    {
+      "csd": "0.00+0-0+000+",
+      "index": 5,
+      "value": 0.10205078125
+    },
+    {
+      "csd": "0.00+0000-000+00+",
+      "index": 6,
+      "value": 0.121368408203125
+    },
+    {
+      "csd": "0.00+000+0+00+",
+      "index": 7,
+      "value": 0.135009765625
+    },
+    {
+      "csd": "0.00+00+000000-00+",
+      "index": 8,
+      "value": 0.1405181884765625
+    },
+    {
+      "csd": "0.00+00+0-0-",
+      "index": 9,
+      "value": 0.1357421875
+    },
+    {
+      "csd": "0.00+0000-0-0+",
+      "index": 10,
+      "value": 0.120361328125
+    },
+    {
+      "csd": "0.00+0-000+00+",
+      "index": 11,
+      "value": 0.095947265625
+    },
+    {
+      "csd": "0.000+000+0-0-",
+      "index": 12,
+      "value": 0.065185546875
+    },
+    {
+      "csd": "0.0000+00000+0+0-",
+      "index": 13,
+      "value": 0.031829833984375
+    },
+    {
+      "csd": "0.0000000000+0-0000000+000-",
+      "index": 14,
+      "value": 0.00036665797233581543
+    },
+    {
+      "csd": "0.0000-00+0+0000-",
+      "index": 15,
+      "value": -0.026397705078125
+    },
+    {
+      "csd": "0.000-0+00+00000-",
+      "index": 16,
+      "value": -0.044952392578125
+    },
+    {
+      "csd": "0.000-00+00+000+",
+      "index": 17,
+      "value": -0.05364990234375
+    },
+    {
+      "csd": "0.000-00+0+000000+",
+      "index": 18,
+      "value": -0.0527191162109375
+    },
+    {
+      "csd": "0.000-0+0+0-",
+      "index": 19,
+      "value": -0.0439453125
+    },
+    {
+      "csd": "0.0000-000+0-0+",
+      "index": 20,
+      "value": -0.0296630859375
+    },
+    {
+      "csd": "0.00000-0+0-0-",
+      "index": 21,
+      "value": -0.012939453125
+    },
+    {
+      "csd": "0.0000000+00-00-0+",
+      "index": 22,
+      "value": 0.0033721923828125
+    },
+    {
+      "csd": "0.00000+00+0-0000+",
+      "index": 23,
+      "value": 0.0171051025390625
+    },
+    {
+      "csd": "0.0000+0-0+0+",
+      "index": 24,
+      "value": 0.02587890625
+    },
+    {
+      "csd": "0.0000+0000-0-0000-",
+      "index": 25,
+      "value": 0.03002166748046875
+    },
+    {
+      "csd": "0.0000+000-000-00000000-",
+      "index": 26,
+      "value": 0.0291745662689209
+    },
+    {
+      "csd": "0.0000+0-0+000+",
+      "index": 27,
+      "value": 0.0255126953125
+    },
+    {
+      "csd": "0.00000+0+000+0+",
+      "index": 28,
+      "value": 0.01983642578125
+    },
+    {
+      "csd": "0.00000+00-0000+00-",
+      "index": 29,
+      "value": 0.01372528076171875
+    },
+    {
+      "csd": "0.000000+000000+000-0000+",
+      "index": 30,
+      "value": 0.007869839668273926
+    },
+    {
+      "csd": "0.0000000+000-00+0+",
+      "index": 31,
+      "value": 0.00370025634765625
+    }
+  ],
+  "csd_nnz": 4,
+  "filter_order": 32,
+  "iterations": 1350,
+  "spectral_method": "fft",
+  "verilog": "\nmodule fir_filter (\n    input clk,\n    input rst_n,\n    input signed [15:0] x,\n    output signed [41:0] y\n);\n\n    // Shifted versions of input\n    wire signed [41:0] x_shift17 = x <<< 17;\n    wire signed [41:0] x_shift16 = x <<< 16;\n    wire signed [41:0] x_shift14 = x <<< 14;\n    wire signed [41:0] x_shift13 = x <<< 13;\n    wire signed [41:0] x_shift12 = x <<< 12;\n    wire signed [41:0] x_shift11 = x <<< 11;\n    wire signed [41:0] x_shift10 = x <<< 10;\n    wire signed [41:0] x_shift9 = x <<< 9;\n    wire signed [41:0] x_shift8 = x <<< 8;\n    wire signed [41:0] x_shift7 = x <<< 7;\n    wire signed [41:0] x_shift6 = x <<< 6;\n    wire signed [41:0] x_shift5 = x <<< 5;\n    wire signed [41:0] x_shift4 = x <<< 4;\n    wire signed [41:0] x_shift3 = x <<< 3;\n    wire signed [41:0] x_shift2 = x <<< 2;\n    wire signed [41:0] x_shift0 = x <<< 0;\n\n    // Cross-CSE: shared pattern \"+0-\"\n    wire signed [41:0] _cse_0 = x_shift14 - x_shift12;\n\n    // Transpose-form pipeline registers\n    reg signed [41:0] sum0;\n    reg signed [41:0] sum1;\n    reg signed [41:0] sum2;\n    reg signed [41:0] sum3;\n    reg signed [41:0] sum4;\n    reg signed [41:0] sum5;\n    reg signed [41:0] sum6;\n    reg signed [41:0] sum7;\n    reg signed [41:0] sum8;\n    reg signed [41:0] sum9;\n    reg signed [41:0] sum10;\n    reg signed [41:0] sum11;\n    reg signed [41:0] sum12;\n    reg signed [41:0] sum13;\n    reg signed [41:0] sum14;\n    reg signed [41:0] sum15;\n    reg signed [41:0] sum16;\n    reg signed [41:0] sum17;\n    reg signed [41:0] sum18;\n    reg signed [41:0] sum19;\n    reg signed [41:0] sum20;\n    reg signed [41:0] sum21;\n    reg signed [41:0] sum22;\n    reg signed [41:0] sum23;\n    reg signed [41:0] sum24;\n    reg signed [41:0] sum25;\n    reg signed [41:0] sum26;\n    reg signed [41:0] sum27;\n    reg signed [41:0] sum28;\n    reg signed [41:0] sum29;\n    reg signed [41:0] sum30;\n    reg signed [41:0] sum31;\n\n    always @(posedge clk or negedge rst_n) begin\n        if (!rst_n) begin\n            sum0 <= 0;\n            sum1 <= 0;\n            sum2 <= 0;\n            sum3 <= 0;\n            sum4 <= 0;\n            sum5 <= 0;\n            sum6 <= 0;\n            sum7 <= 0;\n            sum8 <= 0;\n            sum9 <= 0;\n            sum10 <= 0;\n            sum11 <= 0;\n            sum12 <= 0;\n            sum13 <= 0;\n            sum14 <= 0;\n            sum15 <= 0;\n            sum16 <= 0;\n            sum17 <= 0;\n            sum18 <= 0;\n            sum19 <= 0;\n            sum20 <= 0;\n            sum21 <= 0;\n            sum22 <= 0;\n            sum23 <= 0;\n            sum24 <= 0;\n            sum25 <= 0;\n            sum26 <= 0;\n            sum27 <= 0;\n            sum28 <= 0;\n            sum29 <= 0;\n            sum30 <= 0;\n            sum31 <= 0;\n        end else begin\n            sum0 <= x_shift9 - x_shift5 + x_shift2 + x_shift0;\n            sum1 <= sum0 + x_shift16 + x_shift9 - x_shift5 + x_shift0;\n            sum2 <= sum1 + x_shift11 - x_shift8 + x_shift3 - x_shift0;\n            sum3 <= sum2 + x_shift8 + x_shift6 + x_shift2 + x_shift0;\n            sum4 <= sum3 + (_cse_0 >>> 6) + x_shift4 + x_shift0;\n            sum5 <= sum4 + x_shift17 - x_shift13 - x_shift9 - x_shift0;\n            sum6 <= sum5 + x_shift12 - x_shift7 - x_shift5 - x_shift0;\n            sum7 <= sum6 + (_cse_0 >>> 8) + x_shift2 + x_shift0;\n            sum8 <= sum7 + x_shift10 + (_cse_0 >>> 7) + x_shift0;\n            sum9 <= sum8 + x_shift8 - x_shift5 - x_shift2 + x_shift0;\n            sum10 <= sum9 + -x_shift6 + (_cse_0 >>> 10) + -x_shift0;\n            sum11 <= sum10 + -x_shift8 + (_cse_0 >>> 10) + x_shift0;\n            sum12 <= sum11 + -x_shift6 + x_shift4 + (_cse_0 >>> 12);\n            sum13 <= sum12 + -x_shift12 + x_shift9 + x_shift7 + x_shift0;\n            sum14 <= sum13 + -x_shift10 + x_shift7 + x_shift4 + x_shift0;\n            sum15 <= sum14 + -x_shift11 + x_shift9 + x_shift6 - x_shift0;\n            sum16 <= sum15 + -x_shift10 + x_shift7 + x_shift5 - x_shift0;\n            sum17 <= sum16 + _cse_0 + x_shift4 - x_shift0;\n            sum18 <= sum17 + x_shift10 + x_shift4 + (_cse_0 >>> 12);\n            sum19 <= sum18 + x_shift8 + (_cse_0 >>> 10) + -x_shift0;\n            sum20 <= sum19 + (_cse_0 >>> 5) + x_shift3 + x_shift0;\n            sum21 <= sum20 + x_shift9 - x_shift4 - x_shift2 + x_shift0;\n            sum22 <= sum21 + x_shift7 + (_cse_0 >>> 10) + -x_shift0;\n            sum23 <= sum22 + x_shift13 + x_shift10 - x_shift3 + x_shift0;\n            sum24 <= sum23 + x_shift9 + x_shift5 + x_shift3 + x_shift0;\n            sum25 <= sum24 + x_shift12 - x_shift7 + x_shift3 + x_shift0;\n            sum26 <= sum25 + (_cse_0 >>> 6) + x_shift4 + x_shift0;\n            sum27 <= sum26 + x_shift7 + x_shift5 + (_cse_0 >>> 12);\n            sum28 <= sum27 + x_shift7 - x_shift4 + x_shift2 + x_shift0;\n            sum29 <= sum28 + x_shift8 + (_cse_0 >>> 8) + x_shift0;\n            sum30 <= sum29 + (_cse_0 >>> 6) + -x_shift4 - x_shift0;\n            sum31 <= sum30 + (_cse_0 >>> 6) + x_shift4 + x_shift0;\n        end\n    end\n\n    assign y = sum31;\nendmodule\n"
+}
