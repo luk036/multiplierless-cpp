@@ -6,13 +6,332 @@
 #include <ellalgo/ell.hpp>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <multiplierless/lowpass_oracle.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
 #include <nlohmann/json.hpp>
+#include <set>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 using json = nlohmann::json;
+
+// ============================================================
+//  Transpose-form FIR filter Verilog generator (self-contained)
+// ============================================================
+namespace {
+
+    // Count non-zero CSD digits ('+' or '-') in a string
+    auto count_nnz(const std::string& s) -> int {
+        int n = 0;
+        for (auto c : s) {
+            if (c == '+' || c == '-') ++n;
+        }
+        return n;
+    }
+
+    // Build a flat Verilog expression for a CSD range using x_shift references
+    auto build_range_expr(const std::string& csd_str, size_t start, size_t length,
+                          int max_power) -> std::string {
+        std::string expr;
+        bool first = true;
+        for (size_t i = start; i < start + length && i < csd_str.size(); ++i) {
+            auto const power = max_power - static_cast<int>(i);
+            switch (csd_str[i]) {
+                case '+':
+                    if (first) {
+                        expr += "x_shift" + std::to_string(power);
+                        first = false;
+                    } else {
+                        expr += " + x_shift" + std::to_string(power);
+                    }
+                    break;
+                case '-':
+                    if (first) {
+                        expr += "-x_shift" + std::to_string(power);
+                        first = false;
+                    } else {
+                        expr += " - x_shift" + std::to_string(power);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return expr;
+    }
+
+    // Find non-overlapping occurrences of |pattern| in |csd_str|
+    auto find_pattern_occurrences(const std::string& csd_str, const std::string& pattern)
+        -> std::vector<size_t> {
+        std::vector<size_t> positions;
+        size_t pos = 0;
+        while ((pos = csd_str.find(pattern, pos)) != std::string::npos) {
+            positions.push_back(pos);
+            pos += pattern.size();
+        }
+        return positions;
+    }
+
+    // Find substrings (NNZ >= 2) shared by >= 2 different CSD strings
+    auto find_cross_patterns(const std::vector<std::string>& csd_list)
+        -> std::map<std::string, std::vector<std::pair<int, int>>> {
+        std::map<std::string, std::vector<std::pair<int, int>>> patterns;
+        for (int ci = 0; ci < static_cast<int>(csd_list.size()); ++ci) {
+            auto const& csd = csd_list[ci];
+            auto const n = static_cast<int>(csd.size());
+            for (int i = 0; i < n; ++i) {
+                for (int j = i + 2; j <= n; ++j) {
+                    auto sub = csd.substr(i, j - i);
+                    if (count_nnz(sub) >= 2) {
+                        patterns[sub].emplace_back(ci, i);
+                    }
+                }
+            }
+        }
+        // Keep only patterns crossing >= 2 different CSD strings
+        auto it = patterns.begin();
+        while (it != patterns.end()) {
+            std::set<int> unique_idx;
+            for (auto const& occ_pair : it->second) {
+                unique_idx.insert(occ_pair.first);
+            }
+            if (unique_idx.size() < 2) {
+                it = patterns.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        return patterns;
+    }
+
+    // Build coefficient expression using CSE wire + flat gap terms
+    auto build_coeff_expr(const std::string& csd, int max_power,
+                          const std::string& pattern, int base_pos,
+                          const std::string& cse_name) -> std::string {
+        if (pattern.empty()) {
+            return build_range_expr(csd, 0, csd.size(), max_power);
+        }
+        auto const positions = find_pattern_occurrences(csd, pattern);
+        std::vector<std::string> parts;
+        size_t cur = 0;
+        for (auto const pos : positions) {
+            if (pos > cur) {
+                auto gap = build_range_expr(csd, cur, pos - cur, max_power);
+                if (!gap.empty()) parts.push_back(gap);
+            }
+            auto const shift = static_cast<int>(pos) - base_pos;
+            if (shift == 0) {
+                parts.push_back(cse_name);
+            } else {
+                parts.push_back("(" + cse_name + " >>> " + std::to_string(shift) + ")");
+            }
+            cur = pos + pattern.size();
+        }
+        if (cur < csd.size()) {
+            auto gap = build_range_expr(csd, cur, csd.size() - cur, max_power);
+            if (!gap.empty()) parts.push_back(gap);
+        }
+        if (parts.empty()) return {};
+        std::string result = parts[0];
+        for (size_t i = 1; i < parts.size(); ++i) {
+            result += " + " + parts[i];
+        }
+        return result;
+    }
+
+    // Generate transpose-form FIR filter Verilog with cross-CSE
+    auto generate_transpose_form_verilog(
+        const std::vector<csd::MultiplierSpec>& coeffs,
+        const std::string& module_name) -> std::string {
+
+        if (coeffs.empty()) {
+            throw std::invalid_argument("At least one coefficient is required");
+        }
+        auto const input_width = coeffs[0].input_width;
+        auto const max_power = coeffs[0].max_power;
+        auto const N = static_cast<int>(coeffs.size());
+        auto const output_width = input_width + max_power;
+
+        // Validation
+        for (auto const& spec : coeffs) {
+            if (spec.input_width != input_width || spec.max_power != max_power) {
+                throw std::invalid_argument(
+                    "All coefficients must share input_width and max_power");
+            }
+            auto const len = static_cast<int>(spec.csd.size());
+            if (len != max_power + 1) {
+                throw std::invalid_argument("CSD length mismatch for '" + spec.name + "'");
+            }
+            for (auto c : spec.csd) {
+                if (c != '+' && c != '-' && c != '0') {
+                    throw std::invalid_argument("CSD string can only contain '+', '-', or '0'");
+                }
+            }
+        }
+
+        // Collect shift powers
+        std::set<int, std::greater<int>> all_powers;
+        for (auto const& spec : coeffs) {
+            for (int i = 0; i < static_cast<int>(spec.csd.size()); ++i) {
+                if (spec.csd[i] != '0') {
+                    all_powers.insert(max_power - i);
+                }
+            }
+        }
+
+        // Cross-CSE pattern detection
+        std::vector<std::string> csd_strings;
+        csd_strings.reserve(N);
+        for (auto const& spec : coeffs) {
+            csd_strings.push_back(spec.csd);
+        }
+        auto const cross = find_cross_patterns(csd_strings);
+
+        std::string best_pattern;
+        std::vector<std::pair<int, int>> best_occurrences;
+        int best_score = 0;
+        for (auto const& kv : cross) {
+            auto const& pat = kv.first;
+            auto const& occ = kv.second;
+            auto const nnz = count_nnz(pat);
+            auto const score_val = (nnz - 1) * (static_cast<int>(occ.size()) - 1);
+            if (score_val > best_score) {
+                best_score = score_val;
+                best_pattern = pat;
+                best_occurrences = occ;
+            }
+        }
+
+        int cse_base_pos = 0;
+        if (!best_pattern.empty()) {
+            cse_base_pos = best_occurrences[0].second;
+            for (auto const& occ_pair : best_occurrences) {
+                if (occ_pair.second < cse_base_pos) {
+                    cse_base_pos = occ_pair.second;
+                }
+            }
+        }
+        std::set<int> cse_coeffs;
+        for (auto const& occ_pair : best_occurrences) {
+            cse_coeffs.insert(occ_pair.first);
+        }
+
+        // Build Verilog module
+        std::string verilog;
+        verilog += "\nmodule " + module_name + " (";
+        verilog += "\n    input clk,";
+        verilog += "\n    input rst_n,";
+        verilog += "\n    input signed [" + std::to_string(input_width - 1) + ":0] x,";
+        verilog += "\n    output signed [" + std::to_string(output_width - 1) + ":0] y";
+        verilog += "\n);";
+
+        if (!all_powers.empty()) {
+            verilog += "\n\n    // Shifted versions of input";
+            for (auto p : all_powers) {
+                verilog += "\n    wire signed [" + std::to_string(output_width - 1)
+                           + ":0] x_shift" + std::to_string(p) + " = x <<< "
+                           + std::to_string(p) + ";";
+            }
+        }
+
+        if (!best_pattern.empty()) {
+            auto const cse_expr = build_range_expr(best_pattern, 0, best_pattern.size(),
+                                                   max_power - cse_base_pos);
+            verilog += "\n\n    // Cross-CSE: shared pattern \"" + best_pattern + "\"";
+            verilog += "\n    wire signed [" + std::to_string(output_width - 1)
+                       + ":0] _cse_0 = " + cse_expr + ";";
+        }
+
+        verilog += "\n\n    // Transpose-form pipeline registers";
+        for (int idx = 0; idx < N; ++idx) {
+            verilog += "\n    reg signed [" + std::to_string(output_width - 1)
+                       + ":0] sum" + std::to_string(idx) + ";";
+        }
+
+        verilog += "\n\n    always @(posedge clk or negedge rst_n) begin";
+        verilog += "\n        if (!rst_n) begin";
+        for (int idx = 0; idx < N; ++idx) {
+            verilog += "\n            sum" + std::to_string(idx) + " <= 0;";
+        }
+        verilog += "\n        end else begin";
+
+        // Coefficients in REVERSE order (canonical transpose form)
+        for (int idx = 0; idx < N; ++idx) {
+            auto const coeff_idx = N - 1 - idx;
+            auto const& spec = coeffs[coeff_idx];
+            bool has_cse = !best_pattern.empty() && (cse_coeffs.count(coeff_idx) != 0U);
+            auto const expr = has_cse
+                ? build_coeff_expr(spec.csd, max_power, best_pattern, cse_base_pos, "_cse_0")
+                : build_coeff_expr(spec.csd, max_power, {}, 0, {});
+
+            if (idx == 0) {
+                if (expr.empty()) {
+                    verilog += "\n            sum0 <= 0;";
+                } else {
+                    verilog += "\n            sum0 <= " + expr + ";";
+                }
+            } else {
+                if (expr.empty()) {
+                    verilog += "\n            sum" + std::to_string(idx)
+                               + " <= sum" + std::to_string(idx - 1) + ";";
+                } else {
+                    verilog += "\n            sum" + std::to_string(idx)
+                               + " <= sum" + std::to_string(idx - 1)
+                               + " + " + expr + ";";
+                }
+            }
+        }
+
+        verilog += "\n        end";
+        verilog += "\n    end";
+
+        verilog += "\n\n    assign y = sum" + std::to_string(N - 1) + ";";
+        verilog += "\nendmodule\n";
+        return verilog;
+    }
+
+    // Fix missing commas between port declarations (known csd-cpp issue)
+    auto fix_verilog_ports(const std::string& verilog) -> std::string {
+        std::string result;
+        bool in_ports = false;
+        size_t pos = 0;
+        while (pos < verilog.size()) {
+            auto eol = verilog.find('\n', pos);
+            auto line = verilog.substr(pos, eol - pos);
+            auto stripped = line;
+            stripped.erase(0, stripped.find_first_not_of(" \t\r"));
+            if (in_ports) {
+                if (stripped == ");") {
+                    in_ports = false;
+                } else {
+                    // Check if code (before // comment) already ends with comma
+                    auto comment_pos = line.find("//");
+                    auto code_end = (comment_pos != std::string::npos)
+                                       ? comment_pos
+                                       : line.size();
+                    auto code = line.substr(0, code_end);
+                    while (!code.empty() && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
+                        code.pop_back();
+                    }
+                    if (!code.empty() && code.back() != ',') {
+                        line.insert(code_end, ",");
+                    }
+                }
+            }
+            if (line.find("module ") != std::string::npos
+                && line.find('(') != std::string::npos) {
+                in_ports = true;
+            }
+            result += line;
+            if (eol != std::string::npos) result += '\n';
+            pos = (eol != std::string::npos) ? eol + 1 : verilog.size();
+        }
+        return result;
+    }
+}  // anonymous namespace
 
 extern auto csd_quantize(double num, unsigned int nnz) -> double;
 extern auto spectral_fact_fft(const Arr& r) -> Arr;
@@ -112,6 +431,7 @@ int main(int argc, char** argv) {
         auto& vl = spec["verilog"];
         auto input_width = vl.value("input_width", 16);
         auto module_name = vl.value("module_name", "fir_filter");
+        auto verilog_form = vl.value("form", std::string("transpose"));
 
         std::vector<std::string> csd_strings;
         for (const auto& c : output["coefficients"]) {
@@ -137,7 +457,13 @@ int main(int argc, char** argv) {
                              .max_power = max_power});
         }
 
-        output["verilog"] = csd::generate_csd_multipliers(specs, module_name);
+        if (verilog_form == "transpose") {
+            output["verilog"]
+                = generate_transpose_form_verilog(specs, module_name);
+        } else {
+            auto raw = csd::generate_csd_multipliers(specs, module_name);
+            output["verilog"] = fix_verilog_ports(raw);
+        }
     }
 
     std::cout << output.dump(2) << '\n';
