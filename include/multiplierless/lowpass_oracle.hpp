@@ -92,6 +92,18 @@ class LowpassOracle {
      * and returns the appropriate gradient and objective function values.
      *
      * @param[in] x The filter coefficients (autocorrelation coefficients r).
+     *
+     * @f[
+     *     \begin{array}{ll}
+     *     \text{minimize} & \max_{\omega \in \Omega_s} R(\omega) \\
+     *     \text{subject to} & L^2 \le R(\omega) \le U^2,\; \omega \in \Omega_p \\
+     *                       & R(\omega) \ge 0
+     *     \end{array}
+     * @f]
+     * where \f$R(\omega) = r_0 + 2\sum_{k=1}^{N-1} r_k \cos(k\omega)\f$ is the
+     * squared magnitude response, and \f$\Omega_p, \Omega_s\f$ are passband/stopband
+     * frequency sets.
+     *
      * @param[in,out] Spsq On input, the initial stopband attenuation squared target.
      *                      On output, the achieved maximum stopband value.
      *
@@ -107,6 +119,16 @@ class LowpassOracle {
      * This is a convenience function that forwards to assess_optim.
      *
      * @param[in] x The filter coefficients (autocorrelation coefficients r).
+     *
+     * @f[
+     *     \begin{array}{ll}
+     *     \text{minimize} & \max_{\omega \in \Omega_s} R(\omega) \\
+     *     \text{subject to} & L^2 \le R(\omega) \le U^2,\; \omega \in \Omega_p \\
+     *                       & R(\omega) \ge 0
+     *     \end{array}
+     * @f]
+     * where \f$R(\omega) = r_0 + 2\sum_{k=1}^{N-1} r_k \cos(k\omega)\f$.
+     *
      * @param[in,out] Spsq On input, the initial stopband attenuation squared target.
      *                      On output, the achieved maximum stopband value.
      *
