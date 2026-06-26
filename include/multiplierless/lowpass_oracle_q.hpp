@@ -43,6 +43,17 @@ class LowpassOracleQ {
      * cutting plane information along with the quantized coefficients.
      *
      * @param[in] r The filter coefficients (autocorrelation coefficients).
+     *
+     * @f[
+     *     \begin{array}{ll}
+     *     \text{minimize} & \max_{\omega \in \Omega_s} R(\omega) \\
+     *     \text{subject to} & L^2 \le R(\omega) \le U^2,\; \omega \in \Omega_p \\
+     *                       & R(\omega) \ge 0,\; r \in \mathcal{C}
+     *     \end{array}
+     * @f]
+     * where \f$R(\omega) = r_0 + 2\sum_{k=1}^{N-1} r_k \cos(k\omega)\f$ and
+     * \f$\mathcal{C}\f$ denotes the CSD quantization constraint.
+     *
      * @param[in,out] Spsq On input, the target stopband attenuation squared.
      *                      On output, the achieved maximum stopband value.
      * @param[in] retry Whether this is a retry after the previous cut had no effect.

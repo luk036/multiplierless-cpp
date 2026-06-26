@@ -27,6 +27,11 @@ inline CArr cast_to_complex(const Arr& a) {
 
 /// @brief Real-input FFT (r2c 1D).
 /// Computes the one-dimensional FFT of a real-valued array using FFTW's r2c transform.
+///
+/// @f[
+///     X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i k n / N}
+/// @f]
+///
 /// @param in Real-valued input array.
 /// @return Complex frequency-domain representation (n/2 + 1 elements).
 inline CArr rfft(const Arr& in) {
@@ -43,6 +48,11 @@ inline CArr rfft(const Arr& in) {
 /// @brief Inverse real FFT (c2r 1D).
 /// Computes the inverse FFT of a complex array back to a real-valued result,
 /// with a 1/N scaling applied to match the MATLAB/numpy convention.
+///
+/// @f[
+///     x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k e^{2\pi i k n / N}
+/// @f]
+///
 /// @param in Complex frequency-domain input (n/2 + 1 elements from rfft).
 /// @param expected_size Expected output size (original N before rfft).
 /// @return Real-valued time-domain array of length expected_size.
@@ -60,6 +70,11 @@ inline Arr irfft(const CArr& in, size_t expected_size) {
 
 /// @brief Full complex-to-complex FFT (like numpy.fft.fft).
 /// No scaling is applied to the output.
+///
+/// @f[
+///     X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i k n / N}
+/// @f]
+///
 /// @param in Complex-valued input array.
 /// @return Complex frequency-domain representation (same size as input).
 inline CArr fft(const CArr& in) {
@@ -76,6 +91,11 @@ inline CArr fft(const CArr& in) {
 
 /// @brief Full complex-to-real IFFT (like numpy.fft.ifft, taking real part).
 /// The result is scaled by 1/N to match the numpy convention.
+///
+/// @f[
+///     x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k e^{2\pi i k n / N}
+/// @f]
+///
 /// @param in Complex-valued frequency-domain input.
 /// @return Real-valued time-domain array (same size as input).
 inline Arr ifft(const CArr& in) {
@@ -128,6 +148,11 @@ inline CArr operator+(const Arr& a, const CArr& b) {
 }
 
 /// @brief Element-wise complex exponential.
+///
+/// @f[
+///     \exp(z) = e^{\operatorname{Re}(z)} \bigl(\cos\operatorname{Im}(z) + i\sin\operatorname{Im}(z)\bigr)
+/// @f]
+///
 inline CArr exp(const CArr& a) {
     CArr out(a.size());
     for (size_t i = 0; i < a.size(); ++i) out[i] = std::exp(a[i]);
@@ -135,6 +160,11 @@ inline CArr exp(const CArr& a) {
 }
 
 /// @brief Element-wise complex magnitude.
+///
+/// @f[
+///     |z| = \sqrt{\operatorname{Re}(z)^2 + \operatorname{Im}(z)^2}
+/// @f]
+///
 inline Arr abs(const CArr& a) {
     Arr out(a.size());
     for (size_t i = 0; i < a.size(); ++i) out(i) = std::abs(a[i]);
