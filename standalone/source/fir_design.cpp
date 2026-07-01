@@ -33,8 +33,8 @@ namespace {
     }
 
     // Build a flat Verilog expression for a CSD range using x_shift references
-    auto build_range_expr(const std::string& csd_str, size_t start, size_t length,
-                          int max_power) -> std::string {
+    auto build_range_expr(const std::string& csd_str, size_t start, size_t length, int max_power)
+        -> std::string {
         std::string expr;
         bool first = true;
         for (size_t i = start; i < start + length && i < csd_str.size(); ++i) {
@@ -108,9 +108,8 @@ namespace {
     }
 
     // Build coefficient expression using CSE wire + flat gap terms
-    auto build_coeff_expr(const std::string& csd, int max_power,
-                          const std::string& pattern, int base_pos,
-                          const std::string& cse_name) -> std::string {
+    auto build_coeff_expr(const std::string& csd, int max_power, const std::string& pattern,
+                          int base_pos, const std::string& cse_name) -> std::string {
         if (pattern.empty()) {
             return build_range_expr(csd, 0, csd.size(), max_power);
         }
@@ -143,10 +142,8 @@ namespace {
     }
 
     // Generate transpose-form FIR filter Verilog with cross-CSE
-    auto generate_transpose_form_verilog(
-        const std::vector<csd::MultiplierSpec>& coeffs,
-        const std::string& module_name) -> std::string {
-
+    auto generate_transpose_form_verilog(const std::vector<csd::MultiplierSpec>& coeffs,
+                                         const std::string& module_name) -> std::string {
         if (coeffs.empty()) {
             throw std::invalid_argument("At least one coefficient is required");
         }
@@ -231,15 +228,14 @@ namespace {
         if (!all_powers.empty()) {
             verilog += "\n\n    // Shifted versions of input";
             for (auto p : all_powers) {
-                verilog += "\n    wire signed [" + std::to_string(output_width - 1)
-                           + ":0] x_shift" + std::to_string(p) + " = x <<< "
-                           + std::to_string(p) + ";";
+                verilog += "\n    wire signed [" + std::to_string(output_width - 1) + ":0] x_shift"
+                           + std::to_string(p) + " = x <<< " + std::to_string(p) + ";";
             }
         }
 
         if (!best_pattern.empty()) {
-            auto const cse_expr = build_range_expr(best_pattern, 0, best_pattern.size(),
-                                                   max_power - cse_base_pos);
+            auto const cse_expr
+                = build_range_expr(best_pattern, 0, best_pattern.size(), max_power - cse_base_pos);
             verilog += "\n\n    // Cross-CSE: shared pattern \"" + best_pattern + "\"";
             verilog += "\n    wire signed [" + std::to_string(output_width - 1)
                        + ":0] _cse_0 = " + cse_expr + ";";
@@ -247,8 +243,8 @@ namespace {
 
         verilog += "\n\n    // Transpose-form pipeline registers";
         for (int idx = 0; idx < N; ++idx) {
-            verilog += "\n    reg signed [" + std::to_string(output_width - 1)
-                       + ":0] sum" + std::to_string(idx) + ";";
+            verilog += "\n    reg signed [" + std::to_string(output_width - 1) + ":0] sum"
+                       + std::to_string(idx) + ";";
         }
 
         verilog += "\n\n    always @(posedge clk or negedge rst_n) begin";
@@ -263,9 +259,9 @@ namespace {
             auto const coeff_idx = N - 1 - idx;
             auto const& spec = coeffs[coeff_idx];
             bool has_cse = !best_pattern.empty() && (cse_coeffs.count(coeff_idx) != 0U);
-            auto const expr = has_cse
-                ? build_coeff_expr(spec.csd, max_power, best_pattern, cse_base_pos, "_cse_0")
-                : build_coeff_expr(spec.csd, max_power, {}, 0, {});
+            auto const expr = has_cse ? build_coeff_expr(spec.csd, max_power, best_pattern,
+                                                         cse_base_pos, "_cse_0")
+                                      : build_coeff_expr(spec.csd, max_power, {}, 0, {});
 
             if (idx == 0) {
                 if (expr.empty()) {
@@ -275,12 +271,11 @@ namespace {
                 }
             } else {
                 if (expr.empty()) {
-                    verilog += "\n            sum" + std::to_string(idx)
-                               + " <= sum" + std::to_string(idx - 1) + ";";
+                    verilog += "\n            sum" + std::to_string(idx) + " <= sum"
+                               + std::to_string(idx - 1) + ";";
                 } else {
-                    verilog += "\n            sum" + std::to_string(idx)
-                               + " <= sum" + std::to_string(idx - 1)
-                               + " + " + expr + ";";
+                    verilog += "\n            sum" + std::to_string(idx) + " <= sum"
+                               + std::to_string(idx - 1) + " + " + expr + ";";
                 }
             }
         }
@@ -312,7 +307,8 @@ namespace {
             auto& line = lines[i];
             auto trimmed = line;
             trimmed.erase(0, trimmed.find_first_not_of(" \t\r"));
-            if (module_start < 0 && trimmed.find("module ") == 0 && line.find('(') != std::string::npos) {
+            if (module_start < 0 && trimmed.find("module ") == 0
+                && line.find('(') != std::string::npos) {
                 module_start = i;
             }
             if (module_start >= 0 && paren_end < 0) {
@@ -329,11 +325,10 @@ namespace {
             if (idx == port_lines.size() - 1) continue;  // skip last
             auto& line = lines[port_lines[idx]];
             auto comment_pos = line.find("//");
-            auto code_end = (comment_pos != std::string::npos)
-                               ? comment_pos
-                               : line.size();
+            auto code_end = (comment_pos != std::string::npos) ? comment_pos : line.size();
             auto code = line.substr(0, code_end);
-            while (!code.empty() && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
+            while (!code.empty()
+                   && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
                 code.pop_back();
             }
             if (!code.empty() && code.back() != ',') {
@@ -476,8 +471,7 @@ int main(int argc, char** argv) {
         }
 
         if (verilog_form == "transpose") {
-            output["verilog"]
-                = generate_transpose_form_verilog(specs, module_name);
+            output["verilog"] = generate_transpose_form_verilog(specs, module_name);
         } else {
             auto raw = csd::generate_csd_multipliers(specs, module_name);
             output["verilog"] = fix_verilog_ports(raw);
