@@ -80,7 +80,7 @@ auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_fft(r); }
  * transform to obtain the minimum-phase log-magnitude / phase pair,
  * and returns the inverse FFT of \f$ e^{\alpha + j\phi} \f$.
  *
- * Results are cached for repeated calls with the same filter order.
+ * Uses FFT (via rfft) to compute the frequency response instead of a stored matrix.
  *
  * @param[in] r Autocorrelation sequence (top half).
  * @return Minimum-phase impulse response h.
@@ -89,20 +89,24 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
     const auto n = static_cast<int>(r.size());
     const auto mult_factor = 100;
     const auto m = mult_factor * n;
+    const auto m_sz = static_cast<size_t>(m);
 
-    static int cached_n = 0;
-    static Arr cached_A;
-    if (n != cached_n) {
-        const auto step_w = 2.0 * M_PI / static_cast<double>(m);
-        Arr w(m);
-        for (size_t i = 0; std::cmp_less(i, m); ++i) w(i) = static_cast<double>(i) * step_w;
-        auto cols = arange(1.0, static_cast<double>(n));
-        Arr An = 2.0 * cos(outer(w, cols));
-        cached_A = concatenate(ones(m, 1), An, 1);
-        cached_n = n;
+    // Compute R(ω) = r₀ + 2·Σ_{k=1}^{n-1} r[k]·cos(k·ω) via FFT instead of matrix multiply.
+    // Zero-pad r to length m and take rfft: S[i] = Σ r[k]·exp(-j·k·ω_i)
+    // Then R[i] = 2·Re(S[i]) - r₀, since Re(S[i]) = r₀ + Σ r[k]·cos(k·ω_i)
+    auto pad = zeros(m_sz);
+    for (size_t i = 0; i < r.size(); ++i) pad(i) = r(i);
+    auto S = rfft(pad);
+
+    Arr R(m_sz);
+    const double r0 = r(0);
+    const auto half = m_sz / 2;
+    for (size_t i = 0; i <= half; ++i) {
+        R(i) = 2.0 * S[i].real() - r0;
     }
-    const auto& A = cached_A;
-    Arr R = dot(A, r);
+    for (size_t i = half + 1; i < m_sz; ++i) {
+        R(i) = R(m_sz - i);
+    }
 
     auto min_val = *std::ranges::min_element(R);
     if (min_val <= 0) {
