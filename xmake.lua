@@ -59,7 +59,7 @@ target("Ginger")
 
 target("Csd")
 	set_kind("static")
-	set_languages("c++14")
+	set_languages("c++17")
 	add_includedirs(path.join(csd_dir, "include"), {public = true})
 	add_files(path.join(csd_dir, "source/csd.cpp"), path.join(csd_dir, "source/csd_multiplier.cpp"),
 	          path.join(csd_dir, "source/lcsre.cpp"))
