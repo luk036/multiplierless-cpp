@@ -17,14 +17,14 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.6
+  GIT_TAG v1.6.8
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES"
 )
 
 CPMAddPackage(
   NAME Csd
-  GIT_TAG 1.1.2
+  GIT_TAG v1.1.4
   GITHUB_REPOSITORY luk036/csd-cpp
   OPTIONS "INSTALL_ONLY YES"
 )
@@ -37,7 +37,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Ginger
-  GIT_TAG 1.1.3
+  GIT_TAG v1.1.5
   GITHUB_REPOSITORY luk036/ginger-cpp
   OPTIONS "INSTALL_ONLY YES"
 )
