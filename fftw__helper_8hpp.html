@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.3;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.4;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -234,6 +234,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Full complex-to-complex FFT (like numpy.fft.fft). No scaling is applied to the output. </p>
+<p class="formulaDsp">
+\[
+    X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i k n / N}
+\]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">in</td><td>Complex-valued input array. </td></tr>
@@ -269,6 +274,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Full complex-to-real IFFT (like numpy.fft.ifft, taking real part). The result is scaled by 1/N to match the numpy convention. </p>
+<p class="formulaDsp">
+\[
+    x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k e^{2\pi i k n / N}
+\]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">in</td><td>Complex-valued frequency-domain input. </td></tr>
@@ -314,6 +324,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Inverse real FFT (c2r 1D). Computes the inverse FFT of a complex array back to a real-valued result, with a 1/N scaling applied to match the MATLAB/numpy convention. </p>
+<p class="formulaDsp">
+\[
+    x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k e^{2\pi i k n / N}
+\]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">in</td><td>Complex frequency-domain input (n/2 + 1 elements from rfft). </td></tr>
@@ -385,6 +400,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Real-input FFT (r2c 1D). Computes the one-dimensional FFT of a real-valued array using FFTW's r2c transform. </p>
+<p class="formulaDsp">
+\[
+    X_k = \sum_{n=0}^{N-1} x_n e^{-2\pi i k n / N}
+\]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">in</td><td>Real-valued input array. </td></tr>

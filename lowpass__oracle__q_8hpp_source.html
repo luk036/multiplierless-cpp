@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.3;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.4;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -109,21 +109,21 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        : _nnz(nnz), _lowpass(std::move(lowpass)) {}</div>
 </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">   56</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a>(<span class="keyword">const</span> Arr&amp; r, <span class="keywordtype">double</span>&amp; Spsq, <span class="keywordtype">bool</span> retry)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        -&gt; std::tuple&lt;ParallelCut, bool, Arr, bool&gt;;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">   75</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">operator()</a>(<span class="keyword">const</span> Arr&amp; r, <span class="keywordtype">double</span>&amp; Spsq, <span class="keywordtype">bool</span> retry)</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        -&gt; std::tuple&lt;ParallelCut, bool, Arr, bool&gt; {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a>(r, Spsq, retry);</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">   67</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a>(<span class="keyword">const</span> Arr&amp; r, <span class="keywordtype">double</span>&amp; Spsq, <span class="keywordtype">bool</span> retry)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        -&gt; std::tuple&lt;ParallelCut, bool, Arr, bool&gt;;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">   86</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">operator()</a>(<span class="keyword">const</span> Arr&amp; r, <span class="keywordtype">double</span>&amp; Spsq, <span class="keywordtype">bool</span> retry)</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        -&gt; std::tuple&lt;ParallelCut, bool, Arr, bool&gt; {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a>(r, Spsq, retry);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
 </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>};</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>};</div>
 </div>
 <div class="ttc" id="aclassLowpassOracleQ_html"><div class="ttname"><a href="classLowpassOracleQ.html">LowpassOracleQ</a></div><div class="ttdoc">Oracle for quantized FIR lowpass filter design.</div><div class="ttdef"><b>Definition</b> lowpass_oracle_q.hpp:18</div></div>
 <div class="ttc" id="aclassLowpassOracleQ_html_a6eb0d122a53ffda2d5483d2a6f1f93f2"><div class="ttname"><a href="classLowpassOracleQ.html#a6eb0d122a53ffda2d5483d2a6f1f93f2">LowpassOracleQ::LowpassOracleQ</a></div><div class="ttdeci">LowpassOracleQ(unsigned int nnz, LowpassOracle &amp;&amp;lowpass)</div><div class="ttdoc">Construct a new LowpassOracleQ object.</div><div class="ttdef"><b>Definition</b> lowpass_oracle_q.hpp:34</div></div>
 <div class="ttc" id="aclassLowpassOracleQ_html_ad8175839dfb1ebb8ad2f6ace96e02d8c"><div class="ttname"><a href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">LowpassOracleQ::assess_optim_q</a></div><div class="ttdeci">auto assess_optim_q(const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</div><div class="ttdoc">Assess optimization with quantized filter coefficients.</div></div>
-<div class="ttc" id="aclassLowpassOracleQ_html_ae75d8d47f6667685b75e952ce24def6e"><div class="ttname"><a href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">LowpassOracleQ::operator()</a></div><div class="ttdeci">auto operator()(const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</div><div class="ttdoc">Operator function for optimization assessment.</div><div class="ttdef"><b>Definition</b> lowpass_oracle_q.hpp:75</div></div>
+<div class="ttc" id="aclassLowpassOracleQ_html_ae75d8d47f6667685b75e952ce24def6e"><div class="ttname"><a href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">LowpassOracleQ::operator()</a></div><div class="ttdeci">auto operator()(const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</div><div class="ttdoc">Operator function for optimization assessment.</div><div class="ttdef"><b>Definition</b> lowpass_oracle_q.hpp:86</div></div>
 <div class="ttc" id="aclassLowpassOracle_html"><div class="ttname"><a href="classLowpassOracle.html">LowpassOracle</a></div><div class="ttdoc">Oracle for FIR lowpass filter design.</div><div class="ttdef"><b>Definition</b> lowpass_oracle.hpp:67</div></div>
 <div class="ttc" id="alowpass__oracle_8hpp_html"><div class="ttname"><a href="lowpass__oracle_8hpp.html">lowpass_oracle.hpp</a></div><div class="ttdoc">Oracle for FIR lowpass filter design via spectral factorization and convex optimization.</div></div>
 </div><!-- fragment --></div><!-- contents -->
