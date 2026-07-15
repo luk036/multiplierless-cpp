@@ -150,7 +150,8 @@ inline CArr operator+(const Arr& a, const CArr& b) {
 /// @brief Element-wise complex exponential.
 ///
 /// @f[
-///     \exp(z) = e^{\operatorname{Re}(z)} \bigl(\cos\operatorname{Im}(z) + i\sin\operatorname{Im}(z)\bigr)
+///     \exp(z) = e^{\operatorname{Re}(z)} \bigl(\cos\operatorname{Im}(z) +
+///     i\sin\operatorname{Im}(z)\bigr)
 /// @f]
 ///
 inline CArr exp(const CArr& a) {
