@@ -19,8 +19,8 @@ template <typename T> static void check_unsigned() {
     auto z3 = -z2;
     auto a4 = -a3;
     auto z4 = -z3;
-    auto a5 = T(a4 + v);
-    auto z5 = T(z4 + v);
+    auto a5 = T(a4 + std::make_signed_t<T>(v));
+    auto z5 = T(z4 + std::make_signed_t<T>(v));
 
     CHECK(a == a5);
     CHECK(z == z5);
