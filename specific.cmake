@@ -1,12 +1,17 @@
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 12.1.0
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES"
-)
+find_package(fmt CONFIG QUIET)
+if(fmt_FOUND)
+  message(STATUS "Found system fmt: ${fmt_DIR}")
+else()
+  CPMAddPackage(
+    NAME fmt
+    GIT_TAG 12.1.0
+    GITHUB_REPOSITORY fmtlib/fmt
+    OPTIONS "FMT_INSTALL YES"
+  )
+endif()
 
 CPMAddPackage(
   NAME spdlog
