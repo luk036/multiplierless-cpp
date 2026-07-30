@@ -28,6 +28,7 @@ find_package(Ginger REQUIRED)
 find_package(Csd REQUIRED)
 find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB DOUBLE_LIB LONGDOUBLE_LIB)
 find_package(Threads REQUIRED)
+CPMAddPackage("gh:nlohmann/json@3.12.0")
 find_package(${PROJECT_NAME} REQUIRED)
 
 set(SPECIFIC_LIBS Ginger::Ginger EllAlgo::EllAlgo Csd::Csd
