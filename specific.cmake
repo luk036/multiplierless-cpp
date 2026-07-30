@@ -1,17 +1,18 @@
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-# Note: unconditional CPMAddPackage for fmt is intentional.
-# In the test_installed CI scenario, system fmt is installed by the build step.
-# Using find_package + CPM guard here creates duplicate target conflicts when
-# transitive deps (EllAlgo's spdlog) also process fmt. CPM handles dedup
-# internally via target checks when using CPMAddPackage exclusively.
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 12.1.0
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES"
-)
+find_package(fmt CONFIG QUIET)
+if(fmt_FOUND)
+  message(STATUS "Found system fmt: ${fmt_DIR}")
+  set(CPM_fmt_ADDED YES)
+else()
+  CPMAddPackage(
+    NAME fmt
+    GIT_TAG 12.1.0
+    GITHUB_REPOSITORY fmtlib/fmt
+    OPTIONS "FMT_INSTALL YES"
+  )
+endif()
 
 CPMAddPackage(
   NAME spdlog
