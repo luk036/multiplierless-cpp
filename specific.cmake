@@ -4,6 +4,13 @@ find_package(Threads REQUIRED)
 find_package(fmt CONFIG QUIET)
 if(fmt_FOUND)
   message(STATUS "Found system fmt: ${fmt_DIR}")
+  # Create a real target so CPM's if(TARGET fmt) check prevents re-adding.
+  # Without this, transitive deps (e.g. EllAlgo) that also call CPMAddPackage(fmt)
+  # would conflict because find_package only creates IMPORTED fmt::fmt, not REAL fmt.
+  if(NOT TARGET fmt)
+    add_library(fmt INTERFACE)
+    target_link_libraries(fmt INTERFACE fmt::fmt)
+  endif()
 else()
   CPMAddPackage(
     NAME fmt
