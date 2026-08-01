@@ -5,7 +5,8 @@ option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 
 # ---- Dependencies ----
 
-# Try system-installed doctest first (Ubuntu: doctest-dev, macOS: brew install doctest, Termux: doctest)
+# Try system-installed doctest first (Ubuntu: doctest-dev, macOS: brew install doctest, Termux:
+# doctest)
 find_package(doctest CONFIG QUIET)
 
 if(NOT doctest_FOUND)
@@ -46,7 +47,7 @@ if(rapidcheck_ADDED)
   if(TARGET rapidcheck::rapidcheck)
     target_link_libraries(${PROJECT_NAME}Tests rapidcheck::rapidcheck)
   else()
-    target_include_directories(${PROJECT_NAME}Tests PRIVATE ${rapidcheck_SOURCE_DIR}/include)
+    target_include_directories(${PROJECT_NAME}Tests SYSTEM PRIVATE ${rapidcheck_SOURCE_DIR}/include)
     if(TARGET rapidcheck)
       target_link_libraries(${PROJECT_NAME}Tests rapidcheck)
     endif()

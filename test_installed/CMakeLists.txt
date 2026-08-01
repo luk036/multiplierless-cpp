@@ -31,7 +31,14 @@ find_package(Threads REQUIRED)
 CPMAddPackage("gh:nlohmann/json@3.12.0")
 find_package(${PROJECT_NAME} REQUIRED)
 
-set(SPECIFIC_LIBS Ginger::Ginger EllAlgo::EllAlgo Csd::Csd
-    ${FFTW_LIBRARIES} Threads::Threads fmt::fmt spdlog::spdlog)
+set(SPECIFIC_LIBS
+    Ginger::Ginger
+    EllAlgo::EllAlgo
+    Csd::Csd
+    ${FFTW_LIBRARIES}
+    Threads::Threads
+    fmt::fmt
+    spdlog::spdlog
+)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)

@@ -79,14 +79,14 @@ namespace {
     auto find_cross_patterns(const std::vector<std::string>& csd_list)
         -> std::map<std::string, std::vector<std::pair<int, int>>> {
         std::map<std::string, std::vector<std::pair<int, int>>> patterns;
-        for (int ci = 0; ci < static_cast<int>(csd_list.size()); ++ci) {
+        for (size_t ci = 0; ci < csd_list.size(); ++ci) {
             auto const& csd = csd_list[ci];
-            auto const n = static_cast<int>(csd.size());
-            for (int i = 0; i < n; ++i) {
-                for (int j = i + 2; j <= n; ++j) {
+            auto const n = csd.size();
+            for (size_t i = 0; i < n; ++i) {
+                for (size_t j = i + 2; j <= n; ++j) {
                     auto sub = csd.substr(i, j - i);
                     if (count_nnz(sub) >= 2) {
-                        patterns[sub].emplace_back(ci, i);
+                        patterns[sub].emplace_back(static_cast<int>(ci), static_cast<int>(i));
                     }
                 }
             }
@@ -172,16 +172,16 @@ namespace {
         // Collect shift powers
         std::set<int, std::greater<int>> all_powers;
         for (auto const& spec : coeffs) {
-            for (int i = 0; i < static_cast<int>(spec.csd.size()); ++i) {
+            for (size_t i = 0; i < spec.csd.size(); ++i) {
                 if (spec.csd[i] != '0') {
-                    all_powers.insert(max_power - i);
+                    all_powers.insert(max_power - static_cast<int>(i));
                 }
             }
         }
 
         // Cross-CSE pattern detection
         std::vector<std::string> csd_strings;
-        csd_strings.reserve(N);
+        csd_strings.reserve(static_cast<size_t>(N));
         for (auto const& spec : coeffs) {
             csd_strings.push_back(spec.csd);
         }
@@ -257,7 +257,7 @@ namespace {
         // Coefficients in REVERSE order (canonical transpose form)
         for (int idx = 0; idx < N; ++idx) {
             auto const coeff_idx = N - 1 - idx;
-            auto const& spec = coeffs[coeff_idx];
+            auto const& spec = coeffs[static_cast<size_t>(coeff_idx)];
             bool has_cse = !best_pattern.empty() && (cse_coeffs.count(coeff_idx) != 0U);
             auto const expr = has_cse ? build_coeff_expr(spec.csd, max_power, best_pattern,
                                                          cse_base_pos, "_cse_0")
@@ -304,7 +304,7 @@ namespace {
         int paren_end = -1;
         std::vector<int> port_lines;
         for (int i = 0; i < static_cast<int>(lines.size()); ++i) {
-            auto& line = lines[i];
+            auto& line = lines[static_cast<size_t>(i)];
             auto trimmed = line;
             trimmed.erase(0, trimmed.find_first_not_of(" \t\r"));
             if (module_start < 0 && trimmed.find("module ") == 0
@@ -323,7 +323,7 @@ namespace {
         // Add commas to all port lines except the last
         for (size_t idx = 0; idx < port_lines.size(); ++idx) {
             if (idx == port_lines.size() - 1) continue;  // skip last
-            auto& line = lines[port_lines[idx]];
+            auto& line = lines[static_cast<size_t>(port_lines[idx])];
             auto comment_pos = line.find("//");
             auto code_end = (comment_pos != std::string::npos) ? comment_pos : line.size();
             auto code = line.substr(0, code_end);
@@ -390,7 +390,7 @@ int main(int argc, char** argv) {
     auto wstop_norm = spec.value("stopband_edge", 0.20);
     auto passband_ripple = spec.value("passband_ripple", 0.125);
     auto stopband_attn = spec.value("stopband_attenuation", 0.125);
-    auto csd_nnz = spec.value("csd_nnz", 7);
+    auto csd_nnz = spec.value("csd_nnz", 7U);
     auto disc_factor = spec.value("discretization_factor", 15);
     auto max_iters = spec.value("max_iters", static_cast<size_t>(50000));
     auto tolerance = spec.value("tolerance", 1e-14);
@@ -404,7 +404,7 @@ int main(int argc, char** argv) {
 
     auto omega = LowpassOracleQ(csd_nnz, LowpassOracle(std::move(Fdc)));
 
-    auto r0 = zeros(filter_order);
+    auto r0 = zeros(static_cast<size_t>(filter_order));
     auto ellip = Ell<Arr>(ell_radius, r0);
     ellip.set_use_parallel_cut(parallel_cut);
 
