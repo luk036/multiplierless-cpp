@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   Multiplierless
-  VERSION 1.0.4
+  VERSION 1.0.5
   LANGUAGES CXX
 )
 
