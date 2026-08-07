@@ -47,19 +47,21 @@ filter_design_construct::filter_design_construct(int argN, double wpass_norm, do
     const auto delta = 20 * std::log10(1 + passband_ripple);
     const auto delta2 = 20 * std::log10(stopband_attn);
     const auto m = discretization_factor * this->N;
-    const auto w = linspace(0, M_PI, static_cast<size_t>(m));  // omega
+    const auto m_sz = static_cast<size_t>(m);
+    const auto N1 = static_cast<size_t>(this->N - 1);
+    const auto w = linspace(0, M_PI, m_sz);  // omega
     // passband 0 <= w <= w_pass
     const auto Lp = std::pow(10, -delta / 20);
     const auto Up = std::pow(10, +delta / 20);
     // A is the matrix used to compute the power spectrum
     // A(w,:) = [1 2*cos(w) 2*cos(2*w) ... 2*cos((this->N-1)*w)]
-    Arr An = zeros(m, this->N - 1);
-    for (auto i = 0; i != m; ++i) {
-        for (auto j = 0; j != this->N - 1; ++j) {
-            An(i, j) = 2.0 * std::cos(w(i) * (j + 1));
+    Arr An = zeros(m_sz, N1);
+    for (size_t i = 0; i != m_sz; ++i) {
+        for (size_t j = 0; j != N1; ++j) {
+            An(i, j) = 2.0 * std::cos(w(i) * static_cast<double>(j + 1));
         }
     }
-    Arr A = concatenate(ones(m, 1), An, 1);
+    Arr A = concatenate(ones(m_sz, 1), An, 1);
     const auto ind_p = where(w <= wpass)[0];  // passband
     auto ind_p_size = ind_p.size();
     this->Ap = view(A, Range(0, ind_p_size), Range(Range::ALL));

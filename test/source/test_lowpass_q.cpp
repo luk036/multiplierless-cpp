@@ -17,7 +17,7 @@ extern auto create_lowpass_case(int N) -> std::tuple<LowpassOracle, double>;
  */
 auto create_csdlowpass_case(int N = 32, int nnz = 8) -> std::tuple<LowpassOracleQ, double> {
     auto [omega, Spsq] = create_lowpass_case(N);
-    auto Pcsd = LowpassOracleQ(nnz, std::move(omega));
+    auto Pcsd = LowpassOracleQ(static_cast<unsigned int>(nnz), std::move(omega));
     return {std::move(Pcsd), Spsq};
 }
 

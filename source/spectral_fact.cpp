@@ -123,8 +123,8 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
 
     const std::complex<double> j_{0, 1};
     Arr phi = ifft(j_ * alphatmp);
-    auto alpha1 = view(alpha, Range(0, m, static_cast<size_t>(mult_factor)));
-    auto phi1 = view(phi, Range(0, m, static_cast<size_t>(mult_factor)));
+    auto alpha1 = view(alpha, Range(0, m_sz, static_cast<size_t>(mult_factor)));
+    auto phi1 = view(phi, Range(0, m_sz, static_cast<size_t>(mult_factor)));
     return ifft(exp(cast_to_complex(alpha1) + j_ * cast_to_complex(phi1)));
 }
 

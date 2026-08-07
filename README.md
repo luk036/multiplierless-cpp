@@ -53,7 +53,7 @@ Use the following command to build and run the executable target.
 ```bash
 cmake -S. -B build
 cmake --build build
-./build/standalone/Multiplierless --help
+./build/Multiplierless --help
 ```
 
 ### Build and run test suite
@@ -63,14 +63,13 @@ Use the following commands from the project's root directory to run the test sui
 ```bash
 cmake -S. -B build
 cmake --build build
-cd build/test
-CTEST_OUTPUT_ON_FAILURE=1 ctest
+CTEST_OUTPUT_ON_FAILURE=1 ctest --test-dir build
 
 # or maybe simply call the executable:
-./build/test/MultiplierlessTests
+./build/MultiplierlessTests
 ```
 
-To collect code coverage information, run CMake with the `-DENABLE_TEST_COVERAGE=1` option.
+To collect code coverage information, run CMake with the `-DMULTIPLIERLESS_ENABLE_COVERAGE=1` option.
 
 ### Run clang-format
 
@@ -98,7 +97,7 @@ To manually build documentation, call the following command.
 cmake -S. -B build
 cmake --build build --target GenerateDocs
 # view the docs
-open build/documentation/doxygen/html/index.html
+open build/doxygen/html/index.html
 ```
 
 To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
