@@ -176,7 +176,12 @@ add_library(${PROJECT_NAME} ${headers} ${sources})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
 
 # Enable interprocedural optimization (LTO) for better inlining and code generation
-set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+if(MULTIPLIERLESS_ENABLE_COVERAGE)
+  # LTO conflicts with gcov instrumentation (undefined __gcov_* symbols at link); disable it.
+  set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION FALSE)
+else()
+  set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
 
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
@@ -299,7 +304,8 @@ if(MULTIPLIERLESS_BUILD_TESTS)
   target_link_libraries(MultiplierlessTests PRIVATE doctest::doctest Multiplierless::Multiplierless
                                                ${SPECIFIC_LIBS} rapidcheck
   )
-  target_include_directories(MultiplierlessTests PRIVATE ${rapidcheck_SOURCE_DIR}/include)
+  # rapidcheck headers are not -Werror-clean; keep them out of the warning scope.
+  target_include_directories(MultiplierlessTests SYSTEM PRIVATE ${rapidcheck_SOURCE_DIR}/include)
   target_compile_definitions(MultiplierlessTests PRIVATE RAPIDCHECK_H)
   set_target_properties(MultiplierlessTests PROPERTIES CXX_STANDARD 20)
   target_enable_warnings(MultiplierlessTests)
