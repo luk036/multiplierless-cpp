@@ -19,17 +19,17 @@ cmake --build build
 
 ### Run All Tests
 ```bash
-./build/test/MultiplierlessTests
+./build/MultiplierlessTests
 # or via ctest:
-cd build/test && CTEST_OUTPUT_ON_FAILURE=1 ctest
+CTEST_OUTPUT_ON_FAILURE=1 ctest --test-dir build
 ```
 
 ### Run a Single Test
 ```bash
 # Option 1: Use doctest filter with command-line argument
-./build/test/MultiplierlessTests --test-case="Lowpass Filter*"
+./build/MultiplierlessTests --test-case="Lowpass Filter*"
 # Option 2: Use ctest with test name
-cd build/test && ctest -R "multiplierlessTests" -V
+ctest --test-dir build -R "multiplierlessTests" -V
 ```
 
 ### Code Formatting (clang-format + cmake-format)
@@ -145,7 +145,7 @@ TEST_CASE("Description") {
 1. Create feature branch: `git checkout -b feature/xxx`
 2. Make changes following style guidelines
 3. Run formatting: `cmake --build build --target fix-format`
-4. Build and test: `cmake --build build && ./build/test/MultiplierlessTests`
+4. Build and test: `cmake --build build && ./build/MultiplierlessTests`
 5. Commit: `git add` + `git commit -m "description"`
 6. Push and PR
 
