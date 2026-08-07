@@ -365,12 +365,16 @@ endif()
 # ---------------------------------------------------------------------------
 
 if(MULTIPLIERLESS_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-  foreach(COVERAGE_TARGET Multiplierless MultiplierlessTests MultiplierlessStandalone)
+  foreach(COVERAGE_TARGET Multiplierless MultiplierlessTests MultiplierlessStandalone
+                          MultiplierlessLoggerExample MultiplierlessFirDesign
+  )
     if(TARGET ${COVERAGE_TARGET})
       target_compile_options(${COVERAGE_TARGET} PRIVATE -O0 -g -fprofile-arcs -ftest-coverage)
     endif()
   endforeach()
-  foreach(COVERAGE_EXEC MultiplierlessTests MultiplierlessStandalone)
+  foreach(COVERAGE_EXEC MultiplierlessTests MultiplierlessStandalone MultiplierlessLoggerExample
+                        MultiplierlessFirDesign
+  )
     if(TARGET ${COVERAGE_EXEC})
       target_link_options(${COVERAGE_EXEC} PRIVATE -fprofile-arcs -ftest-coverage)
     endif()
