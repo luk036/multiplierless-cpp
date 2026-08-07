@@ -14,6 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y --no-install-recommends doxygen graphviz
+          sudo apt-get install -y libopenblas-dev libfftw3-dev
 
       - name: Build
         run: |
