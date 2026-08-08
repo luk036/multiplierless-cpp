@@ -50,8 +50,10 @@ local ginger_dir = path.join(os.projectdir(), "../ginger-cpp")
 
 target("Ginger")
 	set_kind("static")
-	set_languages("c++17")
+	set_languages("c++20")
+	-- aberth.hpp publicly includes <lds/lds.hpp>, so the Lds include dir must be public
 	add_includedirs(path.join(ginger_dir, "include"), {public = true})
+	add_includedirs(path.join(os.projectdir(), "../lds-cpp/include"), {public = true})
 	add_files(path.join(ginger_dir, "source/aberth.cpp"),
 	          path.join(ginger_dir, "source/autocorr.cpp"),
 	          path.join(ginger_dir, "source/rootfinding.cpp"))
