@@ -75,20 +75,17 @@ else()
   )
 endif()
 
-# spdlog is used by the compiled logger source; prefer a system-installed spdlog when available.
-# SPDLOG_FMT_EXTERNAL is always set so spdlog uses the external fmt and avoids duplicate symbols.
-find_package(spdlog CONFIG QUIET)
-if(spdlog_FOUND)
-  message(STATUS "Found system spdlog: ${spdlog_DIR}")
-  set(CPM_spdlog_ADDED YES)
-else()
-  CPMAddPackage(
-    NAME spdlog
-    GIT_TAG v1.17.0
-    GITHUB_REPOSITORY gabime/spdlog
-    OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
-  )
-endif()
+# spdlog is used by the compiled logger source. SPDLOG_FMT_EXTERNAL is always set so spdlog uses the
+# external fmt and avoids duplicate symbols. spdlog is always built from source rather than found on
+# the system: EllAlgo v1.6.9 unconditionally FetchContent-declares spdlog, so building it first here
+# marks it populated and lets EllAlgo reuse it, avoiding an ALIAS/IMPORTED target collision with a
+# system-provided spdlog::spdlog.
+CPMAddPackage(
+  NAME spdlog
+  GIT_TAG v1.17.0
+  GITHUB_REPOSITORY gabime/spdlog
+  OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
+)
 
 # EllAlgo provides the oracle/arr types used across the public headers.
 CPMAddPackage(
