@@ -41,11 +41,11 @@ cmake --build build --target format
 cmake --build build --target fix-format
 ```
 
-### Static Analysis (optional)
+### Static Analyzers
 ```bash
-# Enable clang-tidy during build
-cmake -S. -B build -DUSE_STATIC_ANALYZER=clang-tidy
-cmake --build build
+# clang-tidy over the public headers (uses the checks in .clang-tidy)
+cmake -S . -B build -DMULTIPLIERLESS_ENABLE_CLANG_TIDY=ON
+cmake --build build --target clang-tidy
 ```
 
 ### Sanitizers (optional)
