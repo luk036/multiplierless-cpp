@@ -55,8 +55,8 @@ endif()
 include(${CPM_DOWNLOAD_LOCATION})
 
 # Always build dependencies from source. EllAlgo declares spdlog itself via FetchContent and assumes
-# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in an
-# imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
+# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in
+# an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
 set(CPM_USE_LOCAL_PACKAGES OFF)
 
 # PackageProject.cmake will be used to make our target installable
