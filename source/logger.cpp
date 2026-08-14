@@ -9,8 +9,8 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
 
-#include <multiplierless/logger.hpp>
 #include <memory>
+#include <multiplierless/logger.hpp>
 
 namespace multiplierless {
 
