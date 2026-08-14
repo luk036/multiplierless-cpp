@@ -54,11 +54,6 @@ if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
 endif()
 include(${CPM_DOWNLOAD_LOCATION})
 
-# Always build dependencies from source. EllAlgo declares spdlog itself via FetchContent and assumes
-# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in
-# an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
-set(CPM_USE_LOCAL_PACKAGES OFF)
-
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 
@@ -91,13 +86,14 @@ CPMAddPackage(
 # EllAlgo provides the oracle/arr types used across the public headers.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.9
+  GIT_TAG v1.6.10
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "ELLALGO_BUILD_TESTS OFF" "ELLALGO_BUILD_STANDALONE OFF"
 )
 
-# ellalgo v1.6.9 compiles spdlog headers in its library but does not link fmt. With
-# SPDLOG_FMT_EXTERNAL (set on the shared spdlog above), its logger needs fmt's include dir.
+# ellalgo v1.6.10 no longer re-fetches spdlog, but it still compiles spdlog headers in its library
+# without linking fmt. With SPDLOG_FMT_EXTERNAL (set on the shared spdlog above), those headers
+# include fmt, so fmt's include dir must be added to EllAlgo manually.
 if(TARGET EllAlgo)
   get_target_property(FMT_INCLUDE_DIRS fmt::fmt INTERFACE_INCLUDE_DIRECTORIES)
   target_include_directories(EllAlgo PRIVATE ${FMT_INCLUDE_DIRS})
@@ -114,7 +110,7 @@ CPMAddPackage(
 # Ginger provides polynomial root-finding; installed so consumers can find its config.
 CPMAddPackage(
   NAME Ginger
-  GIT_TAG v1.1.6
+  GIT_TAG v1.1.7
   GITHUB_REPOSITORY luk036/ginger-cpp
   OPTIONS "GINGER_BUILD_TESTS OFF" "GINGER_BUILD_STANDALONE OFF"
 )
@@ -221,7 +217,7 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 12.1.0" "EllAlgo 1.6.9" "Csd 1.1.5" "Ginger 1.1.6"
+  DEPENDENCIES "fmt 12.1.0" "EllAlgo 1.6.10" "Csd 1.1.5" "Ginger 1.1.7"
 )
 
 # ---------------------------------------------------------------------------
