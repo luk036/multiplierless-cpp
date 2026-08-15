@@ -60,12 +60,20 @@ CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 # FindFFTW.cmake lives in cmake/; expose it to find_package(FFTW).
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# fmt is a transitive dependency of spdlog; prefer a system-installed fmt when available.
-find_package(fmt CONFIG QUIET)
-if(fmt_FOUND)
-  message(STATUS "Found system fmt: ${fmt_DIR}")
-  set(CPM_fmt_ADDED YES)
-else()
+# fmt is a transitive dependency of spdlog; prefer a system-installed fmt when available. On MSVC,
+# skip prebuilt system packages (e.g. conda): they are Release-only shared libraries whose
+# std::string ABI (_ITERATOR_DEBUG_LEVEL=0) mismatches Debug builds (_ITERATOR_DEBUG_LEVEL=2),
+# corrupting std::strings returned by fmt::format. Build fmt from source on MSVC so the ABI always
+# matches (same as CI's windows-latest runner).
+if(NOT MSVC)
+  find_package(fmt CONFIG QUIET)
+  if(fmt_FOUND)
+    message(STATUS "Found system fmt: ${fmt_DIR}")
+    set(CPM_fmt_ADDED YES)
+  endif()
+endif()
+
+if(NOT fmt_FOUND)
   CPMAddPackage(
     NAME fmt
     GIT_TAG 12.1.0
