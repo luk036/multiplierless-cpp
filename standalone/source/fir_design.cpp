@@ -5,10 +5,12 @@
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <multiplierless/lowpass_oracle.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
+#include <multiplierless/spectral_fact.hpp>
 #include <nlohmann/json.hpp>
 #include <set>
 #include <stdexcept>
@@ -344,11 +346,23 @@ namespace {
         }
         return result;
     }
+
+    // Strategy registry: verilog form -> generator (transpose / direct)
+    using VerilogGenerator
+        = std::function<std::string(const std::vector<csd::MultiplierSpec>&, const std::string&)>;
+    const std::map<std::string, VerilogGenerator> verilog_generators{
+        {"transpose",
+         [](const auto& specs, const std::string& module_name) {
+             return generate_transpose_form_verilog(specs, module_name);
+         }},
+        {"direct",
+         [](const auto& specs, const std::string& module_name) {
+             return fix_verilog_ports(csd::generate_csd_multipliers(specs, module_name));
+         }},
+    };
 }  // anonymous namespace
 
 extern auto csd_quantize(double num, unsigned int nnz) -> double;
-extern auto spectral_fact_fft(const Arr& r) -> Arr;
-extern auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 extern auto to_csdnnz(double num, unsigned int nnz) -> std::string;
 
 /**
@@ -418,20 +432,16 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    auto spectral_method = spec.value("spectral_method", std::string("fft"));
+    auto spectral_method_str = spec.value("spectral_method", std::string("fft"));
     auto root_tol = spec.value("root_tolerance", 1e-8);
-    Arr h;
-    if (spectral_method == "fft") {
-        h = spectral_fact_fft(r);
-    } else {
-        h = spectral_fact_root(r, root_tol);
-    }
+    const auto method = spectral_method_str == "fft" ? spectral_method::fft : spectral_method::root;
+    Arr h = spectral_fact(r, method, root_tol);
 
     json output;
     output["filter_order"] = filter_order;
     output["csd_nnz"] = csd_nnz;
     output["iterations"] = num_iters;
-    output["spectral_method"] = spectral_method;
+    output["spectral_method"] = spectral_method_str;
     output["coefficients"] = json::array();
 
     for (size_t i = 0; i < h.size(); ++i) {
@@ -470,12 +480,12 @@ int main(int argc, char** argv) {
                              .max_power = max_power});
         }
 
-        if (verilog_form == "transpose") {
-            output["verilog"] = generate_transpose_form_verilog(specs, module_name);
-        } else {
-            auto raw = csd::generate_csd_multipliers(specs, module_name);
-            output["verilog"] = fix_verilog_ports(raw);
+        auto generator = verilog_generators.find(verilog_form);
+        if (generator == verilog_generators.end()) {
+            std::cerr << "Unknown verilog form: " << verilog_form << '\n';
+            return 1;
         }
+        output["verilog"] = generator->second(specs, module_name);
     }
 
     std::cout << output.dump(2) << '\n';

@@ -2,24 +2,8 @@
 #include <ellalgo/arr.hpp>
 #include <ellalgo/cutting_plane.hpp>            // for cutting_plane_optim_q
 #include <ellalgo/ell.hpp>                      // for Ell
-#include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ
+#include <multiplierless/lowpass_oracle_q.hpp>  // for LowpassOracleQ, create_csdlowpass_case
 #include <tuple>                                // for make_tuple, tuple
-
-class LowpassOracle;
-
-extern auto create_lowpass_case(int N) -> std::tuple<LowpassOracle, double>;
-
-/**
- * @brief Create a LowpassOracleQ with default parameters.
- * @param[in] N    Filter order (default 32).
- * @param[in] nnz  Maximum non-zero CSD digits (default 8).
- * @return (LowpassOracleQ, initial Spsq) tuple.
- */
-auto create_csdlowpass_case(int N = 32, int nnz = 8) -> std::tuple<LowpassOracleQ, double> {
-    auto [omega, Spsq] = create_lowpass_case(N);
-    auto Pcsd = LowpassOracleQ(static_cast<unsigned int>(nnz), std::move(omega));
-    return {std::move(Pcsd), Spsq};
-}
 
 // ********************************************************************
 // optimization

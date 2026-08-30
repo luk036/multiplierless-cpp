@@ -1,13 +1,8 @@
 #include <ellalgo/arr.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
-
-using Vec = std::valarray<double>;
-using ParallelCut = std::pair<Arr, Vec>;
+#include <multiplierless/spectral_fact.hpp>
 
 extern auto csd_quantize(double num, unsigned int) -> double;
-
-extern auto inverse_spectral_fact(const Arr& r) -> Arr;
-extern auto spectral_fact(const Arr& r) -> Arr;
 
 /**
  * @brief Assess the optimization with quantized (CSD) coefficients.
@@ -53,5 +48,5 @@ auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
         dot_val += gc(i) * (this->rcsd(i) - r(i));
     }
     hc += dot_val;
-    return {cut, shrunk, this->rcsd, this->_num_retries < 15};
+    return {cut, shrunk, this->rcsd, this->_num_retries < LowpassOracleQ::MAX_RETRIES};
 }

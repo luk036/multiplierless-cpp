@@ -5,9 +5,15 @@
  *  @brief Oracle for FIR lowpass filter design via spectral factorization and convex optimization.
  */
 
+#include <cstddef>
 #include <ellalgo/arr.hpp>
+#include <ellalgo/round_robin.hpp>
+#include <utility>
 #include <valarray>
 #include <vector>
+
+using Vec = std::valarray<double>;
+using ParallelCut = std::pair<Arr, Vec>;
 
 // Modified from CVX code by Almir Mutapcic in 2006.
 // Adapted in 2010 for impulse response peak-minimization by convex iteration by
@@ -65,14 +71,11 @@ struct filter_design_construct {
  * [0, \\pi] R(\\omega) > 0, \\forall \\omega \\in [0, \\pi]
  */
 class LowpassOracle {
-    using Vec = std::valarray<double>;
-    using ParallelCut = std::pair<Arr, Vec>;
-
-    size_t _i_Anr{};
-    size_t _i_As{};
-    size_t _i_Ap{};
-
     filter_design_construct _Fdc;
+
+    RoundRobin _rr_ap;   // passband scan: [0, Ap.rows())
+    RoundRobin _rr_as;   // stopband scan: [0, As.rows())
+    RoundRobin _rr_anr;  // non-redundant scan: [0, Anr.rows())
 
   public:
     /*!
@@ -81,7 +84,11 @@ class LowpassOracle {
      * @param[in] Fdc A filter_design_construct object containing all necessary parameters
      *                for the lowpass filter design (Ap, As, Anr, Lpsq, Upsq, etc.)
      */
-    explicit LowpassOracle(filter_design_construct&& Fdc) : _Fdc{std::move(Fdc)} {}
+    explicit LowpassOracle(filter_design_construct&& Fdc) : _Fdc{std::move(Fdc)} {
+        _rr_ap = RoundRobin{0, static_cast<size_t>(_Fdc.Ap.rows())};
+        _rr_as = RoundRobin{0, static_cast<size_t>(_Fdc.As.rows())};
+        _rr_anr = RoundRobin{0, static_cast<size_t>(_Fdc.Anr.rows())};
+    }
 
     /*!
      * @brief Assess the optimization problem for the given filter coefficients.

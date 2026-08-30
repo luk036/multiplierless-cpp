@@ -2,10 +2,7 @@
 
 #include <cmath>
 #include <ellalgo/arr.hpp>
-
-extern auto spectral_fact(const Arr& r) -> Arr;
-extern auto spectral_fact_fft(const Arr& r) -> Arr;
-extern auto inverse_spectral_fact(const Arr& h) -> Arr;
+#include <multiplierless/spectral_fact.hpp>
 
 /**
  * @brief Fill r with an AR(1) auto-correlation: r(k) = alpha^k.

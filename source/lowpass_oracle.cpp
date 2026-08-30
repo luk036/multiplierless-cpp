@@ -1,13 +1,45 @@
 #include <cmath>
 #include <multiplierless/lowpass_oracle.hpp>
 #include <numbers>
-
-using Vec = std::valarray<double>;
-using ParallelCut = std::pair<Arr, Vec>;
+#include <optional>
 
 #ifndef M_PI
 constexpr double M_PI = std::numbers::pi;
 #endif
+
+namespace {
+
+    /// @brief Dot product of one constraint row with the variable vector x.
+    /// @param[in] mat Constraint matrix
+    /// @param[in] row Row index
+    /// @param[in] x   Variable vector
+    /// @return Row dot product
+    auto dot_row(const Arr& mat, std::size_t row, const Arr& x) -> double {
+        double sum = 0.0;
+        for (std::size_t j = 0; j < x.size(); ++j) {
+            sum += mat(row, j) * x(j);
+        }
+        return sum;
+    }
+
+    /// @brief Template-Method skeleton: scan the rows of `mat` in round-robin
+    /// order and return the first violating cut reported by `check`, or nullopt.
+    ///
+    /// The `check` callback receives (row, dot) and returns an optional cut;
+    /// returning nullopt continues the scan.
+    template <typename Check> auto scan_constraints(const Arr& mat, RoundRobin& rr, const Arr& x,
+                                                    Check&& check) -> std::optional<ParallelCut> {
+        const auto n = mat.rows();
+        for (auto i = 0U; i != n; ++i) {
+            const auto k = rr.next();
+            if (auto cut = check(k, dot_row(mat, k, x))) {
+                return cut;
+            }
+        }
+        return std::nullopt;
+    }
+
+}  // namespace
 
 /**
  * @brief Default constructor using built-in default filter specs.
@@ -104,97 +136,87 @@ auto LowpassOracle::assess_optim(const Arr& x, double& Spsq) -> std::tuple<Paral
         return {{std::move(g), std::move(f)}, false};
     }
 
-    // case 2,
     // 2.0 passband constraints
-    auto N = this->_Fdc.Ap.rows();
-
-    auto dot_row = [&](const Arr& mat, size_t row) -> double {
-        double sum = 0.0;
-        for (size_t j = 0; j < x.size(); ++j) {
-            sum += mat(row, j) * x(j);
-        }
-        return sum;
-    };
-
-    auto k = this->_i_Ap;
-    for (auto i = 0U; i != N; ++i, ++k) {
-        if (k == N) {
-            k = 0;  // round robin
-        }
-        auto v = dot_row(this->_Fdc.Ap, k);
-        if (v > this->_Fdc.Upsq) {
-            // Calculate: f = v - Upsq;
-            Arr g(this->_Fdc.Ap.cols());
-            for (size_t j = 0; j < this->_Fdc.Ap.cols(); ++j) g(j) = this->_Fdc.Ap(k, j);
-            Vec f{v - this->_Fdc.Upsq, v - this->_Fdc.Lpsq};
-            this->_i_Ap = k + 1;
-            return {{std::move(g), std::move(f)}, false};
-        }
-        if (v < this->_Fdc.Lpsq) {
-            // Calculate: f = Lpsq - v;
-            Arr g(this->_Fdc.Ap.cols());
-            for (size_t j = 0; j < this->_Fdc.Ap.cols(); ++j) g(j) = -this->_Fdc.Ap(k, j);
-            Vec f{-v + this->_Fdc.Lpsq, -v + this->_Fdc.Upsq};
-            this->_i_Ap = k + 1;
-            return {{std::move(g), std::move(f)}, false};
-        }
+    if (auto cut = scan_constraints(this->_Fdc.Ap, this->_rr_ap, x,
+                                    [&](std::size_t k, double v) -> std::optional<ParallelCut> {
+                                        if (v > this->_Fdc.Upsq) {
+                                            // Calculate: f = v - Upsq;
+                                            Arr g(this->_Fdc.Ap.cols());
+                                            for (std::size_t j = 0; j < this->_Fdc.Ap.cols(); ++j) {
+                                                g(j) = this->_Fdc.Ap(k, j);
+                                            }
+                                            Vec f{v - this->_Fdc.Upsq, v - this->_Fdc.Lpsq};
+                                            return ParallelCut{std::move(g), std::move(f)};
+                                        }
+                                        if (v < this->_Fdc.Lpsq) {
+                                            // Calculate: f = Lpsq - v;
+                                            Arr g(this->_Fdc.Ap.cols());
+                                            for (std::size_t j = 0; j < this->_Fdc.Ap.cols(); ++j) {
+                                                g(j) = -this->_Fdc.Ap(k, j);
+                                            }
+                                            Vec f{-v + this->_Fdc.Lpsq, -v + this->_Fdc.Upsq};
+                                            return ParallelCut{std::move(g), std::move(f)};
+                                        }
+                                        return std::nullopt;
+                                    })) {
+        return {std::move(*cut), false};
     }
 
-    // case 3,
     // 3.0 stopband constraint
-    N = this->_Fdc.As.rows();
     auto fmax = -1.e100;
-    size_t imax = 0U;
-    k = this->_i_As;
-    for (auto i = 0U; i != N; ++i, ++k) {
-        if (k == N) {
-            k = 0;  // round robin
-        }
-        auto v = dot_row(this->_Fdc.As, k);
-        if (v > Spsq) {
-            // Calculate: f = v - Spsq
-            Arr g(this->_Fdc.As.cols());
-            for (size_t j = 0; j < this->_Fdc.As.cols(); ++j) g(j) = this->_Fdc.As(k, j);
-            Vec f{v - Spsq, v};
-            this->_i_As = k + 1;
-            return {{std::move(g), std::move(f)}, false};
-        }
-        if (v < 0) {
-            // Calculate: f = v - Spsq
-            Arr g(this->_Fdc.As.cols());
-            for (size_t j = 0; j < this->_Fdc.As.cols(); ++j) g(j) = -this->_Fdc.As(k, j);
-            Vec f{-v, -v + Spsq};
-            this->_i_As = k + 1;
-            return {{std::move(g), std::move(f)}, false};
-        }
-        if (v > fmax) {
-            fmax = v;
-            imax = k;
-        }
+    std::size_t imax = 0U;
+    if (auto cut = scan_constraints(this->_Fdc.As, this->_rr_as, x,
+                                    [&](std::size_t k, double v) -> std::optional<ParallelCut> {
+                                        if (v > Spsq) {
+                                            // Calculate: f = v - Spsq
+                                            Arr g(this->_Fdc.As.cols());
+                                            for (std::size_t j = 0; j < this->_Fdc.As.cols(); ++j) {
+                                                g(j) = this->_Fdc.As(k, j);
+                                            }
+                                            Vec f{v - Spsq, v};
+                                            return ParallelCut{std::move(g), std::move(f)};
+                                        }
+                                        if (v < 0) {
+                                            // Calculate: f = v - Spsq
+                                            Arr g(this->_Fdc.As.cols());
+                                            for (std::size_t j = 0; j < this->_Fdc.As.cols(); ++j) {
+                                                g(j) = -this->_Fdc.As(k, j);
+                                            }
+                                            Vec f{-v, -v + Spsq};
+                                            return ParallelCut{std::move(g), std::move(f)};
+                                        }
+                                        if (v > fmax) {
+                                            fmax = v;
+                                            imax = k;
+                                        }
+                                        return std::nullopt;
+                                    })) {
+        return {std::move(*cut), false};
     }
 
-    // case 4,
-    // 1.0 nonnegative-real constraint
-    N = this->_Fdc.Anr.rows();
-    k = this->_i_Anr;
-    for (auto i = 0U; i != N; ++i, ++k) {
-        if (k == N) {
-            k = 0;  // round robin
-        }
-        auto v = dot_row(this->_Fdc.Anr, k);
-        if (v < 0.0) {
-            Vec f{-v};
-            Arr g(this->_Fdc.Anr.cols());
-            for (size_t j = 0; j < this->_Fdc.Anr.cols(); ++j) g(j) = -this->_Fdc.Anr(k, j);
-            this->_i_Anr = k + 1;
-            return {{std::move(g), std::move(f)}, false};
-        }
+    // 4.0 nonnegative-real constraint on the non-redundant rows
+    if (auto cut = scan_constraints(this->_Fdc.Anr, this->_rr_anr, x,
+                                    [&](std::size_t k, double v) -> std::optional<ParallelCut> {
+                                        if (v < 0.0) {
+                                            Vec f{-v};
+                                            Arr g(this->_Fdc.Anr.cols());
+                                            for (std::size_t j = 0; j < this->_Fdc.Anr.cols();
+                                                 ++j) {
+                                                g(j) = -this->_Fdc.Anr(k, j);
+                                            }
+                                            return ParallelCut{std::move(g), std::move(f)};
+                                        }
+                                        return std::nullopt;
+                                    })) {
+        return {std::move(*cut), false};
     }
 
     // Begin objective function
     Spsq = fmax;
     Vec f{0.0, fmax};
     Arr g(this->_Fdc.As.cols());
-    for (size_t j = 0; j < this->_Fdc.As.cols(); ++j) g(j) = this->_Fdc.As(imax, j);
+    for (std::size_t j = 0; j < this->_Fdc.As.cols(); ++j) {
+        g(j) = this->_Fdc.As(imax, j);
+    }
     return {{std::move(g), std::move(f)}, true};
 }

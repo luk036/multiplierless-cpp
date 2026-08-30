@@ -5,6 +5,7 @@
 #include <ginger/aberth.hpp>
 #include <ginger/config.hpp>
 #include <multiplierless/fftw_helper.hpp>
+#include <multiplierless/spectral_fact.hpp>
 #include <numbers>
 #include <utility>
 #include <vector>
@@ -12,8 +13,6 @@
 #ifndef M_PI
 constexpr double M_PI = std::numbers::pi;
 #endif
-
-auto spectral_fact_fft(const Arr& r) -> Arr;
 
 /**
  * @brief Spectral factorization via root-finding.
@@ -39,7 +38,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     std::ranges::reverse(coeffs);
 
     auto zs = initial_aberth_autocorr(coeffs);
-    Options opts;
+    ginger::Options opts;
     opts.tolerance = tolerance;
     opts.max_iters = 500;
     aberth_autocorr(coeffs, zs, opts);
@@ -62,15 +61,6 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     for (size_t i = 0; i < n && i < hc.size(); ++i) h(i) = hc[i];
     return h;
 }
-
-/**
- * @brief Spectral factorization (convenience wrapper).
- *
- * Delegates to spectral_fact_fft.
- * @param[in] r Autocorrelation sequence.
- * @return Minimum-phase impulse response h.
- */
-auto spectral_fact(const Arr& r) -> Arr { return spectral_fact_fft(r); }
 
 /**
  * @brief Spectral factorization via FFT / Hilbert transform.
