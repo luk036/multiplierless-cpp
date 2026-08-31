@@ -7,7 +7,7 @@
 
 #include <cstddef>
 #include <ellalgo/arr.hpp>
-#include <multiplierless/round_robin.hpp>
+#include <ellalgo/round_robin.hpp>
 #include <utility>
 #include <valarray>
 #include <vector>
