@@ -38,7 +38,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
     std::ranges::reverse(coeffs);
 
     auto zs = initial_aberth_autocorr(coeffs);
-    Options opts;
+    ginger::Options opts;
     opts.tolerance = tolerance;
     opts.max_iters = 500;
     aberth_autocorr(coeffs, zs, opts);

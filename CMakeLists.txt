@@ -118,7 +118,7 @@ CPMAddPackage(
 # Ginger provides polynomial root-finding; installed so consumers can find its config.
 CPMAddPackage(
   NAME Ginger
-  GIT_TAG v1.1.7
+  GIT_TAG v1.1.9
   GITHUB_REPOSITORY luk036/ginger-cpp
   OPTIONS "GINGER_BUILD_TESTS OFF" "GINGER_BUILD_STANDALONE OFF"
 )
