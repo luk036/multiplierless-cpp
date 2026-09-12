@@ -15,9 +15,12 @@ namespace {
     /// @param[in] x   Variable vector
     /// @return Row dot product
     auto dot_row(const Arr& mat, std::size_t row, const Arr& x) -> double {
+        const double* row_data = mat.data() + row * mat.cols();
+        const double* x_data = x.data();
+        const auto n = x.size();
         double sum = 0.0;
-        for (std::size_t j = 0; j < x.size(); ++j) {
-            sum += mat(row, j) * x(j);
+        for (std::size_t j = 0; j < n; ++j) {
+            sum += row_data[j] * x_data[j];
         }
         return sum;
     }
