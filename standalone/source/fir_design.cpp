@@ -172,7 +172,7 @@ namespace {
         }
 
         // Collect shift powers
-        std::set<int, std::greater<int>> all_powers;
+        std::set<int, std::greater<>> all_powers;
         for (auto const& spec : coeffs) {
             for (size_t i = 0; i < spec.csd.size(); ++i) {
                 if (spec.csd[i] != '0') {
@@ -208,9 +208,7 @@ namespace {
         if (!best_pattern.empty()) {
             cse_base_pos = best_occurrences[0].second;
             for (auto const& occ_pair : best_occurrences) {
-                if (occ_pair.second < cse_base_pos) {
-                    cse_base_pos = occ_pair.second;
-                }
+                cse_base_pos = std::min(occ_pair.second, cse_base_pos);
             }
         }
         std::set<int> cse_coeffs;
@@ -260,7 +258,7 @@ namespace {
         for (int idx = 0; idx < N; ++idx) {
             auto const coeff_idx = N - 1 - idx;
             auto const& spec = coeffs[static_cast<size_t>(coeff_idx)];
-            bool has_cse = !best_pattern.empty() && (cse_coeffs.count(coeff_idx) != 0U);
+            bool has_cse = !best_pattern.empty() && (cse_coeffs.contains(coeff_idx));
             auto const expr = has_cse ? build_coeff_expr(spec.csd, max_power, best_pattern,
                                                          cse_base_pos, "_cse_0")
                                       : build_coeff_expr(spec.csd, max_power, {}, 0, {});
@@ -305,11 +303,11 @@ namespace {
         int module_start = -1;
         int paren_end = -1;
         std::vector<int> port_lines;
-        for (int i = 0; i < static_cast<int>(lines.size()); ++i) {
+        for (int i = 0; std::cmp_less(i, lines.size()); ++i) {
             auto& line = lines[static_cast<size_t>(i)];
             auto trimmed = line;
             trimmed.erase(0, trimmed.find_first_not_of(" \t\r"));
-            if (module_start < 0 && trimmed.find("module ") == 0
+            if (module_start < 0 && trimmed.starts_with("module ")
                 && line.find('(') != std::string::npos) {
                 module_start = i;
             }
