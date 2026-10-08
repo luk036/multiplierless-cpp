@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   Multiplierless
-  VERSION 1.0.5
+  VERSION 1.0.6
   LANGUAGES CXX
 )
 
@@ -94,7 +94,7 @@ CPMAddPackage(
 # EllAlgo provides the oracle/arr types used across the public headers.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.14
+  GIT_TAG v1.6.15
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "ELLALGO_BUILD_TESTS OFF" "ELLALGO_BUILD_STANDALONE OFF"
 )
@@ -110,7 +110,7 @@ endif()
 # Csd provides canonical-signed-digit conversions.
 CPMAddPackage(
   NAME Csd
-  GIT_TAG v1.1.5
+  GIT_TAG v1.1.6
   GITHUB_REPOSITORY luk036/csd-cpp
   OPTIONS "CSD_BUILD_TESTS OFF" "CSD_BUILD_STANDALONE OFF"
 )
@@ -118,7 +118,7 @@ CPMAddPackage(
 # Ginger provides polynomial root-finding; installed so consumers can find its config.
 CPMAddPackage(
   NAME Ginger
-  GIT_TAG v1.1.9
+  GIT_TAG v1.1.10
   GITHUB_REPOSITORY luk036/ginger-cpp
   OPTIONS "GINGER_BUILD_TESTS OFF" "GINGER_BUILD_STANDALONE OFF"
 )
