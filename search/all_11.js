@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['♒︎_20multiplierless_20fir_20filter_20optimization_20using_20ellipsoid_20method_0',['♒︎ Multiplierless FIR Filter optimization (using Ellipsoid Method)',['../index.html#autotoc_md0',1,'']]]
+  ['your_20needs_0',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]]
 ];

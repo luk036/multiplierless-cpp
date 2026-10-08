@@ -6,6 +6,5 @@ var searchData=
   ['the_20documentation_3',['Build the documentation',['../index.html#autotoc_md7',1,'']]],
   ['the_20standalone_20target_4',['Build and run the standalone target',['../index.html#autotoc_md4',1,'']]],
   ['the_20template_20to_20your_20needs_5',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]],
-  ['to_20your_20needs_6',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]],
-  ['tools_7',['Additional tools',['../index.html#additional-tools',1,'']]]
+  ['to_20your_20needs_6',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]]
 ];

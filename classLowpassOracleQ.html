@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">Multiplierless<span id="projectnumber">&#160;1.0.6</span>
    </div>
   </td>
  </tr>
@@ -78,6 +78,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classLowpassOracleQ-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">LowpassOracleQ Class Reference</div></div>
 </div><!--header-->
@@ -93,12 +94,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6eb0d122a53ffda2d5483d2a6f1f93f2" id="r_a6eb0d122a53ffda2d5483d2a6f1f93f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#a6eb0d122a53ffda2d5483d2a6f1f93f2">LowpassOracleQ</a> (unsigned int nnz, <a class="el" href="classLowpassOracle.html">LowpassOracle</a> &amp;&amp;lowpass)</td></tr>
 <tr class="memdesc:a6eb0d122a53ffda2d5483d2a6f1f93f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classLowpassOracleQ.html" title="Oracle for quantized FIR lowpass filter design.">LowpassOracleQ</a> object.  <br /></td></tr>
 <tr class="separator:a6eb0d122a53ffda2d5483d2a6f1f93f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8175839dfb1ebb8ad2f6ace96e02d8c" id="r_ad8175839dfb1ebb8ad2f6ace96e02d8c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a> (const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</td></tr>
+<tr class="memitem:ad8175839dfb1ebb8ad2f6ace96e02d8c" id="r_ad8175839dfb1ebb8ad2f6ace96e02d8c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#ad8175839dfb1ebb8ad2f6ace96e02d8c">assess_optim_q</a> (const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; <a class="el" href="lowpass__oracle_8hpp.html#a42d85879869aa22be9a4d32d0258557c">ParallelCut</a>, bool, Arr, bool &gt;</td></tr>
 <tr class="memdesc:ad8175839dfb1ebb8ad2f6ace96e02d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assess optimization with quantized filter coefficients.  <br /></td></tr>
 <tr class="separator:ad8175839dfb1ebb8ad2f6ace96e02d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae75d8d47f6667685b75e952ce24def6e" id="r_ae75d8d47f6667685b75e952ce24def6e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">operator()</a> (const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</td></tr>
+<tr class="memitem:ae75d8d47f6667685b75e952ce24def6e" id="r_ae75d8d47f6667685b75e952ce24def6e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#ae75d8d47f6667685b75e952ce24def6e">operator()</a> (const Arr &amp;r, double &amp;Spsq, bool retry) -&gt; std::tuple&lt; <a class="el" href="lowpass__oracle_8hpp.html#a42d85879869aa22be9a4d32d0258557c">ParallelCut</a>, bool, Arr, bool &gt;</td></tr>
 <tr class="memdesc:ae75d8d47f6667685b75e952ce24def6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operator function for optimization assessment.  <br /></td></tr>
 <tr class="separator:ae75d8d47f6667685b75e952ce24def6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a3b067b5b1fad7229f0aff459091f0dc8" id="r_a3b067b5b1fad7229f0aff459091f0dc8"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLowpassOracleQ.html#a3b067b5b1fad7229f0aff459091f0dc8">MAX_RETRIES</a> = 15</td></tr>
+<tr class="memdesc:a3b067b5b1fad7229f0aff459091f0dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of retry attempts for the quantized optimization.  <br /></td></tr>
+<tr class="separator:a3b067b5b1fad7229f0aff459091f0dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Oracle for quantized FIR lowpass filter design. </p>
@@ -177,7 +184,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt;  std::tuple&lt; ParallelCut, bool, Arr, bool &gt;</td>
+          <td></td><td> -&gt;  std::tuple&lt; <a class="el" href="lowpass__oracle_8hpp.html#a42d85879869aa22be9a4d32d0258557c">ParallelCut</a>, bool, Arr, bool &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,7 +254,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; std::tuple&lt;ParallelCut, bool, Arr, bool&gt; </td>
+          <td></td><td> -&gt; std::tuple&lt;<a class="el" href="lowpass__oracle_8hpp.html#a42d85879869aa22be9a4d32d0258557c">ParallelCut</a>, bool, Arr, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -274,6 +281,31 @@ Public Member Functions</h2></td></tr>
 <li>bool: True if more retries should be attempted </li>
 </ul>
 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a3b067b5b1fad7229f0aff459091f0dc8" name="a3b067b5b1fad7229f0aff459091f0dc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b067b5b1fad7229f0aff459091f0dc8">&#9670;&#160;</a></span>MAX_RETRIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr unsigned int LowpassOracleQ::MAX_RETRIES = 15</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Maximum number of retry attempts for the quantized optimization. </p>
 
 </div>
 </div>
