@@ -1,5 +1,6 @@
 #include <doctest/doctest.h>
 
+#include <algorithm>
 #include <multiplierless/lowpass_oracle.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
 
@@ -71,7 +72,7 @@ TEST_CASE("LowpassOracle assess_optim with all ones") {
     auto fdc = filter_design_construct(8);
     LowpassOracle oracle(std::move(fdc));
     Arr x = zeros(8);
-    std::fill(x.begin(), x.end(), 1.0);
+    std::ranges::fill(x, 1.0);
     double Spsq = 0.0;
     auto [cut, is_optimal] = oracle.assess_optim(x, Spsq);
     // All-ones input should exercise various constraint checks
@@ -105,7 +106,7 @@ TEST_CASE("LowpassOracle assess_optim zero coefficients") {
 TEST_CASE("LowpassOracleQ with oracle") {
     auto fdc = filter_design_construct(8);
     LowpassOracle oracle(std::move(fdc));
-    LowpassOracleQ oracle_q(8u, std::move(oracle));
+    LowpassOracleQ oracle_q(8U, std::move(oracle));
 }
 
 // --- Filter design extreme parameters ---
