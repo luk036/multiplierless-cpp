@@ -25,7 +25,6 @@ A multiplierless FIR filter is a type of finite impulse response (FIR) filter th
 - Reproducible dependency management via [CPM.cmake](https://github.com/TheLartians/CPM.cmake)
 - Installable target with automatic versioning information and header generation via [PackageProject.cmake](https://github.com/TheLartians/PackageProject.cmake)
 - Automatic [documentation](https://thelartians.github.io/ModernCppStarter) and deployment with [Doxygen](https://www.doxygen.nl) and [GitHub Pages](https://pages.github.com)
-- Support for [sanitizer tools, and more](#additional-tools)
 
 ## Usage
 
@@ -102,24 +101,15 @@ open build/doxygen/html/index.html
 
 To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
 
-### Additional tools {#additional-tools}
+### Static analysis
 
-The test and standalone subprojects include the [tools.cmake](cmake/tools.cmake) file which is used to import additional tools on-demand through CMake configuration arguments.
-The following are currently supported.
+clang-tidy can be enabled by configuring CMake with `-DMULTIPLIERLESS_ENABLE_CLANG_TIDY=ON` and building the `clang-tidy` target.
+It analyzes the public headers using the checks configured in `.clang-tidy`.
 
-#### Sanitizers
-
-Sanitizers can be enabled by configuring CMake with `-DUSE_SANITIZER=<Address | Memory | MemoryWithOrigins | Undefined | Thread | Leak | 'Address;Undefined'>`.
-
-#### Static Analyzers
-
-Static Analyzers can be enabled by setting `-DUSE_STATIC_ANALYZER=<clang-tidy | iwyu | cppcheck>`, or a combination of those in quotation marks, separated by semicolons.
-By default, analyzers will automatically find configuration files such as `.clang-format`.
-Additional arguments can be passed to the analyzers by setting the `CLANG_TIDY_ARGS`, `IWYU_ARGS` or `CPPCHECK_ARGS` variables.
-
-#### Ccache
-
-Ccache can be enabled by configuring with `-DUSE_CCACHE=<ON | OFF>`.
+```bash
+cmake -B build -DMULTIPLIERLESS_ENABLE_CLANG_TIDY=ON
+cmake --build build --target clang-tidy
+```
 
 ## ❓ FAQ
 

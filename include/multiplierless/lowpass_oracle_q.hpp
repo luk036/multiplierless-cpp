@@ -16,15 +16,15 @@
  * with the quantized values while tracking the number of retries.
  */
 class LowpassOracleQ {
-    using Vec = std::valarray<double>;
-    using ParallelCut = std::pair<Arr, Vec>;
-
     Arr rcsd{};                     ///< Quantized filter coefficients in CSD representation
     unsigned int _nnz;              ///< Maximum number of non-zero CSD digits
     LowpassOracle _lowpass;         ///< The underlying lowpass oracle for optimization
     unsigned int _num_retries = 0;  ///< Number of retry attempts made
 
   public:
+    /// @brief Maximum number of retry attempts for the quantized optimization.
+    static constexpr unsigned int MAX_RETRIES = 15;
+
     /*!
      * @brief Construct a new LowpassOracleQ object.
      *
@@ -88,3 +88,15 @@ class LowpassOracleQ {
         return this->assess_optim_q(r, Spsq, retry);
     }
 };
+
+/// @brief Create a LowpassOracleQ with default filter specs.
+/// @param[in] N    Filter order (default 32).
+/// @param[in] nnz  Maximum non-zero CSD digits (default 8).
+/// @return (LowpassOracleQ, initial Spsq) pair.
+inline auto create_csdlowpass_case(int N = 32, unsigned int nnz = 8)
+    -> std::pair<LowpassOracleQ, double> {
+    auto Fdc = filter_design_construct(N);
+    auto Spsq = Fdc.Spsq;
+    auto omega = LowpassOracle(std::move(Fdc));
+    return {LowpassOracleQ(nnz, std::move(omega)), Spsq};
+}

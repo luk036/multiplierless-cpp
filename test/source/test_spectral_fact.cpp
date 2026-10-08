@@ -1,9 +1,7 @@
 #include <doctest/doctest.h>
 
 #include <ellalgo/arr.hpp>
-
-extern auto spectral_fact_fft(const Arr& r) -> Arr;
-extern auto inverse_spectral_fact(const Arr& h) -> Arr;
+#include <multiplierless/spectral_fact.hpp>
 
 TEST_CASE("spectral_fact round-trip (Python reference test)") {
     // Exact test case from Python's test_spectral_fact.py

@@ -23,8 +23,8 @@ endif()
 find_package(Multiplierless REQUIRED)
 
 add_executable(multiplierless_installed_test main.cpp)
-target_link_libraries(multiplierless_installed_test PRIVATE Multiplierless::Multiplierless
-                                                       ${FFTW_LIBRARIES}
+target_link_libraries(
+  multiplierless_installed_test PRIVATE Multiplierless::Multiplierless ${FFTW_LIBRARIES}
 )
 target_include_directories(multiplierless_installed_test PRIVATE ${FFTW_INCLUDE_DIRS})
 
