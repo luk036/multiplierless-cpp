@@ -1,8 +1,7 @@
 #include <ellalgo/arr.hpp>
+#include <multiplierless/csd_quantize.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
 #include <multiplierless/spectral_fact.hpp>
-
-extern auto csd_quantize(double num, unsigned int) -> double;
 
 /**
  * @brief Assess the optimization with quantized (CSD) coefficients.
@@ -24,22 +23,36 @@ extern auto csd_quantize(double num, unsigned int) -> double;
  *         - Arr:          The quantized autocorrelation coefficients used.
  *         - bool:         True if more retries should be attempted.
  */
+auto LowpassOracleQ::quantize(const Arr& r) const -> Arr {
+    auto h = spectral_fact(r);
+    auto hcsd = Arr(h.size());
+    for (auto i = 0U; i != h.size(); ++i) {
+        hcsd(i) = csd_quantize(h(i), this->_nnz);
+    }
+    return inverse_spectral_fact(hcsd);
+}
+
 auto LowpassOracleQ::assess_optim_q(const Arr& r, double& Spsq, bool retry)
     -> std::tuple<ParallelCut, bool, Arr, bool> {
-    if (!retry) {  // retry due to no effect in the previous cut
+    if (!retry) {
         auto [cut, shrunk] = this->_lowpass(r, Spsq);
         if (!shrunk) {
+            this->_rcsd_valid = false;
             return {cut, shrunk, r, true};
         }
-        auto h = spectral_fact(r);
-        auto hcsd = Arr(h.size());
-        for (auto i = 0U; i != h.size(); ++i) {
-            hcsd(i) = csd_quantize(h(i), this->_nnz);
-        }
-        this->rcsd = inverse_spectral_fact(hcsd);
-        this->_num_retries = 0;  // reset to zero
+        this->rcsd = this->quantize(r);
+        this->_rcsd_valid = true;
+        this->_num_retries = 0;
     } else {
         this->_num_retries += 1;
+        if (!this->_rcsd_valid) {
+            if (r.size() == 0 || r(0) <= 0.0) {
+                auto [cut, shrunk] = this->_lowpass(r, Spsq);
+                return {cut, shrunk, r, false};
+            }
+            this->rcsd = this->quantize(r);
+            this->_rcsd_valid = true;
+        }
     }
     auto [cut, shrunk] = this->_lowpass(this->rcsd, Spsq);
     auto& [gc, hc] = cut;

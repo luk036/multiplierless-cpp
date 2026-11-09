@@ -1,5 +1,10 @@
 /** @page about About
-  @section doc ModernCppStarter Documentation
-  This is the auto-generated documentation for the initial project of the ModernCppStater.
-  It shows how we can use Doxygen to automatically build a browsable documentation for your projects.
+  @section doc Multiplierless FIR Filter Design
+
+  This project designs multiplierless FIR lowpass filters with the ellipsoid
+  method. It quantizes the impulse response to Canonical Signed Digit (CSD)
+  form and can emit synthesizable transpose- or direct-form Verilog.
+
+  The public headers are under `include/multiplierless/`; the FIR design CLI
+  lives in `standalone/source/fir_design.cpp`.
 */

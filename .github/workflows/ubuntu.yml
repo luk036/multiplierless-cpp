@@ -18,7 +18,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get install -y libopenblas-dev libfftw3-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas-dev libfftw3-dev iverilog python3
 
       - name: Configure
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -29,6 +31,9 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
+      - name: Verify generated Verilog
+        run: python3 tools/test_verilog.py
+
   coverage:
     runs-on: ubuntu-latest
 
@@ -36,7 +41,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get install -y libopenblas-dev libfftw3-dev lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas-dev libfftw3-dev lcov
 
       - name: Configure with coverage
         run: cmake -B build -DMULTIPLIERLESS_ENABLE_COVERAGE=ON -DMULTIPLIERLESS_BUILD_TESTS=ON
@@ -47,5 +54,8 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
-      - name: Collect code coverage
-        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false

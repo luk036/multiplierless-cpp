@@ -5,39 +5,56 @@ This file provides context for AI agents operating in this repository.
 ## Project Overview
 
 - **Multiplierless FIR Filter optimization** using Ellipsoid Method
-- A C++17 library for multiplierless FIR filter design via spectral factorization and convex optimization
-- Dependencies: xtensor, spdlog, fmt, doctest, RapidCheck (property-based testing)
-- Standard: C++17, CMake 3.14+
+- A C++20 library for multiplierless FIR filter design via spectral factorization and convex optimization
+- Dependencies: ellalgo-cpp, csd-cpp, ginger-cpp, FFTW, nlohmann_json, spdlog, fmt, doctest, RapidCheck, cxxopts
+- Standard: C++20; CMake 3.14+ or xmake
 
 ## Build Commands
 
-### Full Build
+### xmake (local development, uses sibling checkouts)
 ```bash
-cmake -S. -B build
-cmake --build build
+xmake f -m release
+xmake -y -j8
+xmake test
+```
+`xmake.lua` expects `../ellalgo-cpp`, `../csd-cpp`, `../ginger-cpp`, and `../lds-cpp`.
+
+### CMake (CI / standalone install)
+```bash
+cmake -S. -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j4
 ```
 
 ### Run All Tests
 ```bash
-./build/MultiplierlessTests
-# or via ctest:
-CTEST_OUTPUT_ON_FAILURE=1 ctest --test-dir build
+xmake test
+# or via CMake/ctest:
+CTEST_OUTPUT_ON_FAILURE=1 ctest --test-dir build --output-on-failure
 ```
 
 ### Run a Single Test
 ```bash
-# Option 1: Use doctest filter with command-line argument
+# xmake
+xmake run MultiplierlessTests --test-case="Lowpass Filter*"
+# or the built binary / ctest
 ./build/MultiplierlessTests --test-case="Lowpass Filter*"
-# Option 2: Use ctest with test name
-ctest --test-dir build -R "multiplierlessTests" -V
+ctest --test-dir build -R "MultiplierlessAllTests" -V
+```
+
+### Verify Generated Verilog
+```bash
+python tools/test_verilog.py   # requires iverilog + vvp
 ```
 
 ### Code Formatting (clang-format + cmake-format)
 ```bash
+# C++ sources
+clang-format -i include/**/*.hpp source/*.cpp standalone/source/*.cpp test/source/*.cpp
+# CMake files (if cmake-format is installed)
+cmake-format -i CMakeLists.txt
+# Or via CMake's Format.cmake targets
 cmake -S. -B build
-# View changes without applying
 cmake --build build --target format
-# Apply fixes
 cmake --build build --target fix-format
 ```
 
@@ -100,8 +117,8 @@ multiplierless-cpp/
 - No exceptions in library code unless documented
 - Use doctest `CHECK()` / `REQUIRE()` for test assertions
 
-### C++17 Features
-- Allowed: structured bindings (`auto [a, b] = ...;`), `std::optional`, `std::variant`
+### C++20 Features
+- Allowed: designated initializers, structured bindings, `std::optional`, `std::variant`, `std::erase`, `std::set::contains`, `std::string::starts_with`
 - Avoid: heap allocations in hot paths
 - Use `constexpr` where appropriate
 
@@ -149,11 +166,17 @@ TEST_CASE("Description") {
 5. Commit: `git add` + `git commit -m "description"`
 6. Push and PR
 
-## External Dependencies (CPM.cmake)
+## External Dependencies
 
-Managed via CPM.cmake - fetched automatically on first build. Key packages:
-- `xtensor` - multi-dimensional arrays
-- `spdlog` - logging
-- `fmt` - formatting
-- `doctest` - testing
-- `rapidcheck` - property-based testing
+CMake uses CPM.cmake (pinned tags) and fetches everything automatically. xmake
+uses the sibling checkouts listed above and `add_requires` for FFTW, fmt,
+spdlog, nlohmann_json, cxxopts, and doctest.
+
+Key packages:
+- `ellalgo-cpp` - ellipsoid method and `Arr`
+- `csd-cpp` - CSD conversion
+- `ginger-cpp` - root finding
+- `FFTW` - FFT-based spectral factorization
+- `nlohmann_json` - CLI JSON
+- `spdlog` / `fmt` - logging and formatting
+- `doctest` / `rapidcheck` - testing

@@ -225,7 +225,7 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 12.1.0" "EllAlgo 1.6.10" "Csd 1.1.5" "Ginger 1.1.7"
+  DEPENDENCIES "fmt 12.1.0" "EllAlgo 1.6.15" "Csd 1.1.6" "Ginger 1.1.10"
 )
 
 # ---------------------------------------------------------------------------

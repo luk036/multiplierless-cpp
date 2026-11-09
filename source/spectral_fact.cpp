@@ -7,12 +7,32 @@
 #include <multiplierless/fftw_helper.hpp>
 #include <multiplierless/spectral_fact.hpp>
 #include <numbers>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
 #ifndef M_PI
 constexpr double M_PI = std::numbers::pi;
 #endif
+
+namespace {
+
+    /// @brief Reject empty, non-finite, or non-positive-definite inputs early.
+    void validate_autocorr(const Arr& r) {
+        if (r.size() == 0) {
+            throw std::invalid_argument("autocorrelation must be non-empty");
+        }
+        for (size_t i = 0; i < r.size(); ++i) {
+            if (!std::isfinite(r(i))) {
+                throw std::invalid_argument("autocorrelation must contain only finite values");
+            }
+        }
+        if (r(0) <= 0.0) {
+            throw std::invalid_argument("autocorrelation r(0) must be positive");
+        }
+    }
+
+}  // namespace
 
 /**
  * @brief Spectral factorization via root-finding.
@@ -27,6 +47,10 @@ constexpr double M_PI = std::numbers::pi;
  * @return The minimum-phase impulse response coefficients h.
  */
 auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
+    if (tolerance <= 0.0) {
+        throw std::invalid_argument("tolerance must be positive");
+    }
+    validate_autocorr(r);
     const auto n = r.size();
     const auto deg = 2 * n - 2;
     std::vector<double> coeffs(deg + 1, 0.0);
@@ -76,6 +100,7 @@ auto spectral_fact_root(const Arr& r, double tolerance) -> Arr {
  * @return Minimum-phase impulse response h.
  */
 auto spectral_fact_fft(const Arr& r) -> Arr {
+    validate_autocorr(r);
     const auto n = static_cast<int>(r.size());
     const auto mult_factor = 100;
     const auto m = mult_factor * n;
@@ -98,10 +123,20 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
         R(i) = R(m_sz - i);
     }
 
-    auto min_val = *std::ranges::min_element(R);
+    auto max_abs = 0.0;
+    for (size_t i = 0; i < R.size(); ++i) {
+        max_abs = std::max(max_abs, std::abs(R(i)));
+    }
+    auto const scale = std::max(max_abs, r0);
+    auto const min_val = *std::ranges::min_element(R);
     if (min_val <= 0) {
-        for (size_t i = 0; i < R.size(); ++i)
-            if (R(i) <= 0) R(i) = 1e-10;
+        if (min_val <= -1e-4 * scale) {
+            throw std::runtime_error("Spectral factorization failed: min="
+                                     + std::to_string(min_val));
+        }
+        for (size_t i = 0; i < R.size(); ++i) {
+            if (R(i) <= 0) R(i) = 1e-10 * scale;
+        }
     }
 
     Arr alpha = 0.5 * log(abs(R));
@@ -128,6 +163,14 @@ auto spectral_fact_fft(const Arr& r) -> Arr {
  * @return Autocorrelation sequence r (same length as h).
  */
 auto inverse_spectral_fact(const Arr& h) -> Arr {
+    if (h.size() == 0) {
+        throw std::invalid_argument("impulse response must be non-empty");
+    }
+    for (size_t i = 0; i < h.size(); ++i) {
+        if (!std::isfinite(h(i))) {
+            throw std::invalid_argument("impulse response must contain only finite values");
+        }
+    }
     auto n = h.size();
     Arr r(n);
     for (size_t t = 0; t < n; ++t) {

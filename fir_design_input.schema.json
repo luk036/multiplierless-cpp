@@ -104,6 +104,12 @@
           "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
           "default": "fir_filter",
           "description": "Name of the generated Verilog module."
+        },
+        "form": {
+          "type": "string",
+          "enum": ["transpose", "direct"],
+          "default": "transpose",
+          "description": "Verilog form: 'transpose' = complete pipelined filter (default), 'direct' = per-tap multiplier bank."
         }
       }
     }

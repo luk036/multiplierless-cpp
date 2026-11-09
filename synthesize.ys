@@ -1,8 +1,8 @@
 # Yosys synthesis script for multiplierless FIR filter
 # Usage: yosys -Q synthesize.ys
-# Override input file: yosys -p "set in_file fir_filter_cpp.v" -Q synthesize.ys
+# Override input file: yosys -p "set in_file fir_filter_direct.v" -Q synthesize.ys
 
-if {[info exists in_file]} { } else { set in_file fir_filter_cpp.v }
+if {[info exists in_file]} { } else { set in_file fir_filter.v }
 
 read_verilog $in_file
 hierarchy -top fir_filter

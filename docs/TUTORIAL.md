@@ -135,7 +135,7 @@ The CLI supports two spectral factorization algorithms:
 
 | Method | Key | Speed | Accuracy | When to use |
 |--------|-----|-------|----------|-------------|
-| **FFT (Kolmogorov 1939)** | `"fft"` | Stable, slower (~1482 iter) | Reference (exact values) | **Default**, most stable |
+| **FFT (Kolmogorov 1939)** | `"fft"` | Stable, ~2300 iter | Reference (exact values) | **Default**, most stable |
 | **Aberth root-finding** | `"root"` | Fast (~333 iter) | Good (configurable tolerance) | Quick experiments, tuning |
 
 The FFT method is the **default** because it's numerically more stable —
@@ -271,7 +271,7 @@ module fir_filter (
     input clk,                     // Clock
     input rst_n,                   // Active-low reset
     input signed [15:0] x,         // 16-bit input sample
-    output signed [41:0] y         // Filter output = Σ hᵢ · x[n−i]
+    output signed [45:0] y         // Filter output = Σ hᵢ · x[n−i] (46 bits)
 );
 ```
 
@@ -279,20 +279,20 @@ module fir_filter (
 
 ```verilog
 // Shifted copies of input (one wire per unique shift amount)
-wire signed [41:0] x_shift17 = x <<< 17;
-wire signed [41:0] x_shift16 = x <<< 16;
-wire signed [41:0] x_shift14 = x <<< 14;
+wire signed [45:0] x_shift17 = x <<< 17;
+wire signed [45:0] x_shift16 = x <<< 16;
+wire signed [45:0] x_shift14 = x <<< 14;
 ...
 
 // Cross-CSE: shared sub-expression
 // Pattern "+0-" found in multiple coefficients → factored out!
-wire signed [41:0] _cse_0 = x_shift14 - x_shift12;
+wire signed [45:0] _cse_0 = x_shift14 - x_shift12;
 
 // Transpose-form pipeline registers
-reg signed [41:0] sum0;
-reg signed [41:0] sum1;
+reg signed [45:0] sum0;
+reg signed [45:0] sum1;
 ...
-reg signed [41:0] sum47;
+reg signed [45:0] sum47;
 
 // Coefficients applied in reverse order (canonical transpose form)
 always @(posedge clk or negedge rst_n) begin
@@ -358,14 +358,20 @@ With CSE:     _cse_0 = +0- (1 adder), h0 = _cse_0 >>> 6, h5 = _cse_0 >>> 5 = 1 a
 
 ### Output width
 
-Output width = `input_width + max_power`, where `max_power` is the highest
-shift amount across all coefficients.
+Output width = `input_width + max_power + ceil(log2(taps))`, where
+`max_power` is the highest shift amount across all coefficients. The extra
+`ceil(log2(taps))` bits are accumulator headroom for summing all taps.
 
-| input_width | Typical output_width |
-|-------------|---------------------|
-| 8 | ~25 |
-| 16 | ~41 |
-| 24 | ~55 |
+For the 32-tap, `nnz=4` example (`max_power=25`, headroom=5):
+
+| input_width | Transpose output_width |
+|-------------|------------------------|
+| 8 | 38 |
+| 16 | 46 |
+| 24 | 54 |
+
+The direct form has one output per tap and does not sum taps, so its width is
+`input_width + max_power` (41 bits in this example).
 
 ---
 
@@ -376,7 +382,7 @@ The Verilog output is ready for Yosys synthesis:
 ```bash
 # Synthesize to a generic gate-level netlist
 yosys -p "
-  read_verilog fir_filter_cpp.v;
+  read_verilog fir_filter.v;
   synth -top fir_filter;
   write_json fir_filter_synth.json;
   stat
@@ -387,7 +393,7 @@ To target a specific technology (e.g., SkyWater 130nm):
 
 ```bash
 yosys -p "
-  read_verilog fir_filter_cpp.v;
+  read_verilog fir_filter.v;
   synth -top fir_filter;
   abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib;
   write_verilog fir_filter_mapped.v;
@@ -397,26 +403,11 @@ yosys -p "
 
 ### Expected area
 
-For a 32-tap filter with nnz=4 and cross-CSE, the actual Yosys synthesis
-results from our example are:
-
-```
-=== fir_filter ===
-
-   Number of wires:                100
-   Number of wire bits:           3778
-   Number of public wires:          49
-   Number of cells:                 82
-     $add                           51
-     $neg                            7
-     $sub                           24
-
-   No multipliers — purely shift-and-add!
-```
-
-Without cross-CSE: ~110 cells. With cross-CSE: **82 cells** (a 25% reduction
-from shared sub-expression elimination). Each `$add` or `$sub` is one
-hardware adder/subtractor.
+The exact cell count depends on the filter order, `csd_nnz`, cross-CSE
+opportunities, and the target technology. After running `yosys -Q
+synthesize.ys`, inspect the `stat` output; the generated RTL contains no
+multipliers — only shifts, `$add`, and `$sub` cells. Cross-CSE reduces the
+adder count further by sharing repeated CSD patterns across taps.
 
 To run synthesis with your own filter:
 
@@ -426,7 +417,7 @@ yosys -Q synthesize.ys
 
 The `synthesize.ys` script does the following:
 ```tcl
-read_verilog fir_filter_tutorial.v    # load your design
+read_verilog fir_filter.v             # load your design
 hierarchy -top fir_filter             # check module hierarchy
 proc                                  # process always blocks
 opt                                   # optimize expressions
@@ -473,7 +464,7 @@ Look at the output:
 
 ```json
 {
-  "iterations": 1482,
+  "iterations": 2296,
   "filter_order": 32,
   "csd_nnz": 4,
   "coefficients": [
@@ -485,7 +476,7 @@ Look at the output:
 }
 ```
 
-- **1482 iterations** — converged in < 2 minutes
+- **~2300 iterations** — converged in well under a minute
 - **Coefficient h[7]** = 0.128059, CSD = `0.00+0000+0-00+` — 4 non-zero digits
 - **Coefficient h[15]** = −0.017375, CSD = `0.00000-00-00+0-` — 4 non-zero digits
 
@@ -515,14 +506,8 @@ python tools/extract_verilog.py
 yosys -Q synthesize.ys
 ```
 
-Expected output:
-```
-=== fir_filter ===
-   Number of cells:   82
-     $add             51
-     $neg              7
-     $sub             24
-```
+Yosys prints a `stat` summary with the cell counts for your design and target
+technology.
 
 ### Step 6: Integrate into your design
 
@@ -532,7 +517,7 @@ Instantiate directly:
 ```verilog
 wire clk, rst_n;
 wire signed [15:0] sample_in;
-wire signed [41:0] filter_out;
+wire signed [45:0] filter_out;
 
 fir_filter u_fir (
     .clk(clk),
