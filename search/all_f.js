@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['upsq_0',['Upsq',['../structfilter__design__construct.html#ac9e9b15e13be7cd007ac7f6ddac0b7a3',1,'filter_design_construct']]],
-  ['usage_1',['Usage',['../index.html#autotoc_md2',1,'']]],
-  ['using_20ellipsoid_20method_2',['♒︎ Multiplierless FIR Filter optimization (using Ellipsoid Method)',['../index.html#autotoc_md0',1,'']]]
+  ['value_0',['value',['../structCsdParts.html#a5abd5c3c103d702bb6ed2815862ecb90',1,'CsdParts']]],
+  ['vec_1',['Vec',['../lowpass__oracle_8hpp.html#a2367ce3eebf3aff11d4e9a7aae3b513a',1,'lowpass_oracle.hpp']]],
+  ['verify_2',['Verify',['../index.html#autotoc_md7',1,'']]],
+  ['verilog_20forms_3',['Verilog forms',['../index.html#autotoc_md6',1,'']]],
+  ['verilog_5futils_2ehpp_4',['verilog_utils.hpp',['../verilog__utils_8hpp.html',1,'']]]
 ];

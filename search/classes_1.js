@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lowpassoracle_0',['LowpassOracle',['../classLowpassOracle.html',1,'']]],
-  ['lowpassoracleq_1',['LowpassOracleQ',['../classLowpassOracleQ.html',1,'']]]
+  ['filter_5fdesign_5fconstruct_0',['filter_design_construct',['../structfilter__design__construct.html',1,'']]],
+  ['fixedcoefficients_1',['FixedCoefficients',['../structFixedCoefficients.html',1,'']]]
 ];

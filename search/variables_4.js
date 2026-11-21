@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['spsq_0',['Spsq',['../structfilter__design__construct.html#a5eff136a8667586f477b0cc6f65e25e8',1,'filter_design_construct']]]
+  ['n_0',['N',['../structfilter__design__construct.html#aab16b5648bed55f3c5a01f78c8d68a60',1,'filter_design_construct']]]
 ];

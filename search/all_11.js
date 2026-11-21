@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['your_20needs_0',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]]
+  ['♒︎_20multiplierless_20fir_20filter_20design_20c_0',['♒︎ Multiplierless FIR Filter Design (C++)',['../index.html#autotoc_md0',1,'']]]
 ];

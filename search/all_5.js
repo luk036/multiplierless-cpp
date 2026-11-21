@@ -1,11 +1,15 @@
 var searchData=
 [
-  ['faq_0',['❓ FAQ',['../index.html#autotoc_md9',1,'']]],
-  ['features_1',['✨ Features',['../index.html#autotoc_md1',1,'']]],
-  ['fft_2',['fft',['../fftw__helper_8hpp.html#af144971c6d9c022dfcccc6038d59c636',1,'fft(const CArr &amp;in):&#160;fftw_helper.hpp'],['../spectral__fact_8hpp.html#a7fea4ad5fcc82d4c8dda817df97555faa9473db81d7af66f5e2a8319424834877',1,'fft:&#160;spectral_fact.hpp']]],
-  ['fftw_5fhelper_2ehpp_3',['fftw_helper.hpp',['../fftw__helper_8hpp.html',1,'']]],
-  ['filter_20optimization_20using_20ellipsoid_20method_4',['♒︎ Multiplierless FIR Filter optimization (using Ellipsoid Method)',['../index.html#autotoc_md0',1,'']]],
-  ['filter_5fdesign_5fconstruct_5',['filter_design_construct',['../structfilter__design__construct.html',1,'filter_design_construct'],['../structfilter__design__construct.html#a0ba6ba85ad32a9d91e2d3e7c73733f93',1,'filter_design_construct::filter_design_construct(int argN=32)'],['../structfilter__design__construct.html#a3f1fc4d4a95b0767f19d90887b3509e8',1,'filter_design_construct::filter_design_construct(int argN, double wpass_norm, double wstop_norm, double passband_ripple, double stopband_attn, int discretization_factor)']]],
-  ['fir_20filter_20optimization_20using_20ellipsoid_20method_6',['♒︎ Multiplierless FIR Filter optimization (using Ellipsoid Method)',['../index.html#autotoc_md0',1,'']]],
-  ['format_7',['Run clang-format',['../index.html#autotoc_md6',1,'']]]
+  ['fft_0',['fft',['../fftw__helper_8hpp.html#af144971c6d9c022dfcccc6038d59c636',1,'fft(const CArr &amp;in):&#160;fftw_helper.hpp'],['../spectral__fact_8hpp.html#a7fea4ad5fcc82d4c8dda817df97555faa9473db81d7af66f5e2a8319424834877',1,'fft:&#160;spectral_fact.hpp']]],
+  ['fftw_5fhelper_2ehpp_1',['fftw_helper.hpp',['../fftw__helper_8hpp.html',1,'']]],
+  ['filter_20design_2',['Multiplierless FIR Filter Design',['../about.html#doc',1,'']]],
+  ['filter_20design_20c_3',['♒︎ Multiplierless FIR Filter Design (C++)',['../index.html#autotoc_md0',1,'']]],
+  ['filter_5fdesign_5fconstruct_4',['filter_design_construct',['../structfilter__design__construct.html',1,'filter_design_construct'],['../structfilter__design__construct.html#a0ba6ba85ad32a9d91e2d3e7c73733f93',1,'filter_design_construct::filter_design_construct(int argN=32)'],['../structfilter__design__construct.html#a3f1fc4d4a95b0767f19d90887b3509e8',1,'filter_design_construct::filter_design_construct(int argN, double wpass_norm, double wstop_norm, double passband_ripple, double stopband_attn, int discretization_factor)']]],
+  ['fir_20filter_20design_5',['Multiplierless FIR Filter Design',['../about.html#doc',1,'']]],
+  ['fir_20filter_20design_20c_6',['♒︎ Multiplierless FIR Filter Design (C++)',['../index.html#autotoc_md0',1,'']]],
+  ['fix_5fdirect_5fverilog_7',['fix_direct_verilog',['../verilog__utils_8hpp.html#af89f8bbc47cbf0afb6cbd12a7920a2c5',1,'verilog_utils.hpp']]],
+  ['fixedcoefficients_8',['FixedCoefficients',['../structFixedCoefficients.html',1,'']]],
+  ['for_20local_20development_9',['xmake (recommended for local development)',['../index.html#autotoc_md2',1,'']]],
+  ['format_5fcsd_10',['format_csd',['../csd__quantize_8hpp.html#a4eb646b76cd1509799bbed54f650408a',1,'csd_quantize.hpp']]],
+  ['forms_11',['Verilog forms',['../index.html#autotoc_md6',1,'']]]
 ];

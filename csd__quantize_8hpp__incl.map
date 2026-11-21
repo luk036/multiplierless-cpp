@@ -1,0 +1,9 @@
+<map id="multiplierless/csd_quantize.hpp" name="multiplierless/csd_quantize.hpp">
+<area shape="rect" id="Node000001" title="CSD quantization helpers shared by the optimizer and the CLI." alt="" coords="49,5,185,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,98,64,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,49,60,89,57,85,93,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="88,98,147,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="119,48,120,83,115,81,115,52"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="171,98,234,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,48,180,87,175,87,139,53"/>
+</map>
