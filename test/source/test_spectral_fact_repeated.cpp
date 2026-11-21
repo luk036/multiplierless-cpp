@@ -18,15 +18,13 @@ static void fill_ar1_acorr(Arr& r, double alpha) {
     }
 }
 
-TEST_CASE("spectral_fact_fft caching with same N") {
-    // First call builds the cache
+TEST_CASE("spectral_fact_fft repeated calls with same N") {
     auto r1 = Arr(32);
     fill_ar1_acorr(r1, 0.5);
 
     auto h1 = spectral_fact_fft(r1);
     CHECK(h1.size() == 32);
 
-    // Second call with same N hits the cache
     auto r2 = Arr(32);
     fill_ar1_acorr(r2, 0.6);
 
@@ -40,7 +38,7 @@ TEST_CASE("spectral_fact_fft caching with same N") {
     }
 }
 
-TEST_CASE("spectral_fact_fft different orders swap cache") {
+TEST_CASE("spectral_fact_fft handles different orders") {
     auto r16 = Arr(16);
     fill_ar1_acorr(r16, 0.5);
     auto h16 = spectral_fact_fft(r16);
@@ -51,7 +49,6 @@ TEST_CASE("spectral_fact_fft different orders swap cache") {
     auto h32 = spectral_fact_fft(r32);
     CHECK(h32.size() == 32);
 
-    // Calling 16 again re-builds cache
     auto h16b = spectral_fact_fft(r16);
     CHECK(h16b.size() == 16);
 }

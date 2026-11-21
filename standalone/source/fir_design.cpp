@@ -8,10 +8,13 @@
 #include <functional>
 #include <iostream>
 #include <map>
+#include <multiplierless/csd_quantize.hpp>
 #include <multiplierless/lowpass_oracle.hpp>
 #include <multiplierless/lowpass_oracle_q.hpp>
 #include <multiplierless/spectral_fact.hpp>
+#include <multiplierless/verilog_utils.hpp>
 #include <nlohmann/json.hpp>
+#include <regex>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -152,7 +155,10 @@ namespace {
         auto const input_width = coeffs[0].input_width;
         auto const max_power = coeffs[0].max_power;
         auto const N = static_cast<int>(coeffs.size());
-        auto const output_width = input_width + max_power;
+        // Summing N products can grow by log2(N) bits beyond a single product.
+        auto const headroom
+            = (N > 1) ? static_cast<int>(std::ceil(std::log2(static_cast<double>(N)))) : 0;
+        auto const output_width = input_width + max_power + headroom;
 
         // Validation
         for (auto const& spec : coeffs) {
@@ -288,63 +294,6 @@ namespace {
         return verilog;
     }
 
-    // Fix missing commas between port declarations (known csd-cpp issue)
-    auto fix_verilog_ports(const std::string& verilog) -> std::string {
-        // Collect all lines
-        std::vector<std::string> lines;
-        size_t pos = 0;
-        while (pos < verilog.size()) {
-            auto eol = verilog.find('\n', pos);
-            lines.push_back(verilog.substr(pos, eol - pos));
-            pos = (eol != std::string::npos) ? eol + 1 : verilog.size();
-        }
-
-        // Identify port lines (between module header and ");")
-        int module_start = -1;
-        int paren_end = -1;
-        std::vector<int> port_lines;
-        for (int i = 0; std::cmp_less(i, lines.size()); ++i) {
-            auto& line = lines[static_cast<size_t>(i)];
-            auto trimmed = line;
-            trimmed.erase(0, trimmed.find_first_not_of(" \t\r"));
-            if (module_start < 0 && trimmed.starts_with("module ")
-                && line.find('(') != std::string::npos) {
-                module_start = i;
-            }
-            if (module_start >= 0 && paren_end < 0) {
-                if (trimmed == ");") {
-                    paren_end = i;
-                } else if (i != module_start) {
-                    port_lines.push_back(i);
-                }
-            }
-        }
-
-        // Add commas to all port lines except the last
-        for (size_t idx = 0; idx < port_lines.size(); ++idx) {
-            if (idx == port_lines.size() - 1) continue;  // skip last
-            auto& line = lines[static_cast<size_t>(port_lines[idx])];
-            auto comment_pos = line.find("//");
-            auto code_end = (comment_pos != std::string::npos) ? comment_pos : line.size();
-            auto code = line.substr(0, code_end);
-            while (!code.empty()
-                   && (code.back() == ' ' || code.back() == '\t' || code.back() == '\r')) {
-                code.pop_back();
-            }
-            if (!code.empty() && code.back() != ',') {
-                line.insert(code_end, ",");
-            }
-        }
-
-        // Rejoin
-        std::string result;
-        for (size_t i = 0; i < lines.size(); ++i) {
-            result += lines[i];
-            if (i + 1 < lines.size()) result += '\n';
-        }
-        return result;
-    }
-
     // Strategy registry: verilog form -> generator (transpose / direct)
     using VerilogGenerator
         = std::function<std::string(const std::vector<csd::MultiplierSpec>&, const std::string&)>;
@@ -355,13 +304,13 @@ namespace {
          }},
         {"direct",
          [](const auto& specs, const std::string& module_name) {
-             return fix_verilog_ports(csd::generate_csd_multipliers(specs, module_name));
+             std::vector<std::string> names;
+             names.reserve(specs.size());
+             for (auto const& spec : specs) names.push_back(spec.name);
+             return fix_direct_verilog(csd::generate_csd_multipliers(specs, module_name), names);
          }},
     };
 }  // anonymous namespace
-
-extern auto csd_quantize(double num, unsigned int nnz) -> double;
-extern auto to_csdnnz(double num, unsigned int nnz) -> std::string;
 
 /**
  * @brief FIR filter design tool — main entry point.
@@ -375,117 +324,206 @@ extern auto to_csdnnz(double num, unsigned int nnz) -> std::string;
  * @param[in] argv Argument vector. Usage: fir_design <filter_spec.json>
  * @return 0 on success, 1 on error.
  */
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <filter_spec.json>\n";
-        std::cerr << "  Reads filter specifications from a JSON file and\n";
-        std::cerr << "  outputs multiplierless FIR coefficients in CSD format.\n";
-        return 1;
+namespace {
+
+    struct CliArgs {
+        std::string spec_path;
+        std::string output_path;
+        std::string verilog_path;
+        bool show_help = false;
+    };
+
+    auto usage(std::ostream& os, const char* prog) -> void {
+        os << "Usage: " << prog << " <filter_spec.json> [options]\n"
+           << "  -o, --output FILE       write result JSON to FILE (default: stdout)\n"
+           << "      --verilog-out FILE  write generated Verilog to FILE\n"
+           << "  -h, --help              show this help\n";
     }
 
-    std::ifstream ifs(argv[1]);
-    if (!ifs) {
-        std::cerr << "Error: cannot open " << argv[1] << '\n';
-        return 1;
-    }
-
-    json spec;
-    try {
-        ifs >> spec;
-    } catch (const json::parse_error& e) {
-        std::cerr << "JSON parse error: " << e.what() << '\n';
-        return 1;
-    }
-
-    auto filter_order = spec.value("filter_order", 32);
-    auto wpass_norm = spec.value("passband_edge", 0.12);
-    auto wstop_norm = spec.value("stopband_edge", 0.20);
-    auto passband_ripple = spec.value("passband_ripple", 0.125);
-    auto stopband_attn = spec.value("stopband_attenuation", 0.125);
-    auto csd_nnz = spec.value("csd_nnz", 7U);
-    auto disc_factor = spec.value("discretization_factor", 15);
-    auto max_iters = spec.value("max_iters", static_cast<size_t>(50000));
-    auto tolerance = spec.value("tolerance", 1e-14);
-    auto ell_radius = spec.value("ellipsoid_radius", 40.0);
-    auto parallel_cut = spec.value("parallel_cut", true);
-    auto gen_verilog = spec.contains("verilog");
-
-    auto Fdc = filter_design_construct(filter_order, wpass_norm, wstop_norm, passband_ripple,
-                                       stopband_attn, disc_factor);
-    auto Spsq = Fdc.Spsq;
-
-    auto omega = LowpassOracleQ(csd_nnz, LowpassOracle(std::move(Fdc)));
-
-    auto r0 = zeros(static_cast<size_t>(filter_order));
-    auto ellip = Ell<Arr>(ell_radius, r0);
-    ellip.set_use_parallel_cut(parallel_cut);
-
-    Options options(max_iters, tolerance);
-
-    auto [r, num_iters] = cutting_plane_optim_q(omega, ellip, Spsq, options);
-
-    if (r.size() == 0) {
-        std::cerr << "Optimization failed — no feasible solution found after " << num_iters
-                  << " iterations.\n";
-        return 1;
-    }
-
-    auto spectral_method_str = spec.value("spectral_method", std::string("fft"));
-    auto root_tol = spec.value("root_tolerance", 1e-8);
-    const auto method = spectral_method_str == "fft" ? spectral_method::fft : spectral_method::root;
-    Arr h = spectral_fact(r, method, root_tol);
-
-    json output;
-    output["filter_order"] = filter_order;
-    output["csd_nnz"] = csd_nnz;
-    output["iterations"] = num_iters;
-    output["spectral_method"] = spectral_method_str;
-    output["coefficients"] = json::array();
-
-    for (size_t i = 0; i < h.size(); ++i) {
-        auto coeff = csd_quantize(h(i), csd_nnz);
-        auto csd_str = to_csdnnz(h(i), csd_nnz);
-        output["coefficients"].push_back({{"index", i}, {"value", coeff}, {"csd", csd_str}});
-    }
-
-    if (gen_verilog) {
-        auto& vl = spec["verilog"];
-        auto input_width = vl.value("input_width", 16);
-        auto module_name = vl.value("module_name", "fir_filter");
-        auto verilog_form = vl.value("form", std::string("transpose"));
-
-        std::vector<std::string> csd_strings;
-        for (const auto& c : output["coefficients"]) {
-            csd_strings.push_back(c["csd"].get<std::string>());
-        }
-
-        auto max_len = static_cast<size_t>(0);
-        for (const auto& s : csd_strings) {
-            max_len = std::max(max_len, s.size());
-        }
-        auto max_power = static_cast<int>(max_len) - 1;
-
-        std::vector<csd::MultiplierSpec> specs;
-        for (size_t i = 0; i < csd_strings.size(); ++i) {
-            auto raw = csd_strings[i];
-            std::erase(raw, '.');
-            while (raw.size() < max_len) {
-                raw = "0" + raw;
+    auto parse_args(int argc, char** argv) -> CliArgs {
+        CliArgs args;
+        for (int i = 1; i < argc; ++i) {
+            std::string const arg = argv[i];
+            if (arg == "-h" || arg == "--help") {
+                args.show_help = true;
+            } else if ((arg == "-o" || arg == "--output") && i + 1 < argc) {
+                args.output_path = argv[++i];
+            } else if (arg == "--verilog-out" && i + 1 < argc) {
+                args.verilog_path = argv[++i];
+            } else if (!arg.empty() && arg[0] == '-') {
+                throw std::invalid_argument("unknown option: " + arg);
+            } else if (args.spec_path.empty()) {
+                args.spec_path = arg;
+            } else {
+                throw std::invalid_argument("unexpected argument: " + arg);
             }
-            specs.push_back({.name = "h" + std::to_string(i),
-                             .csd = raw,
-                             .input_width = input_width,
-                             .max_power = max_power});
         }
+        return args;
+    }
 
-        auto generator = verilog_generators.find(verilog_form);
-        if (generator == verilog_generators.end()) {
-            std::cerr << "Unknown verilog form: " << verilog_form << '\n';
+    auto write_text(const std::string& path, const std::string& text) -> void {
+        std::ofstream out(path, std::ios::binary);
+        if (!out) {
+            throw std::runtime_error("cannot write " + path);
+        }
+        out << text;
+        if (!out) {
+            throw std::runtime_error("failed while writing " + path);
+        }
+    }
+
+}  // namespace
+
+int main(int argc, char** argv) {
+    try {
+        auto const args = parse_args(argc, argv);
+        if (args.show_help) {
+            usage(std::cout, argv[0]);
+            return 0;
+        }
+        if (args.spec_path.empty()) {
+            usage(std::cerr, argv[0]);
             return 1;
         }
-        output["verilog"] = generator->second(specs, module_name);
-    }
 
-    std::cout << output.dump(2) << '\n';
-    return 0;
+        std::ifstream ifs(args.spec_path);
+        if (!ifs) {
+            std::cerr << "error: cannot open " << args.spec_path << '\n';
+            return 1;
+        }
+
+        json spec;
+        try {
+            ifs >> spec;
+        } catch (const json::parse_error& e) {
+            std::cerr << "error: invalid JSON in " << args.spec_path << ": " << e.what() << '\n';
+            return 1;
+        }
+        if (!spec.is_object()) {
+            std::cerr << "error: filter specification must be a JSON object\n";
+            return 1;
+        }
+
+        auto filter_order = spec.value("filter_order", 32);
+        auto csd_nnz = spec.value("csd_nnz", 7U);
+        if (filter_order < 1) {
+            throw std::invalid_argument("filter_order must be a positive integer");
+        }
+        if (csd_nnz < 1 || csd_nnz > 16) {
+            throw std::invalid_argument("csd_nnz must be between 1 and 16");
+        }
+
+        auto spectral_method_str = spec.value("spectral_method", std::string("fft"));
+        auto method = spectral_method::fft;
+        if (spectral_method_str == "fft") {
+            method = spectral_method::fft;
+        } else if (spectral_method_str == "root") {
+            method = spectral_method::root;
+        } else {
+            throw std::invalid_argument("unknown spectral_method: " + spectral_method_str);
+        }
+        auto root_tol = spec.value("root_tolerance", 1e-8);
+        if (root_tol <= 0.0) {
+            throw std::invalid_argument("root_tolerance must be positive");
+        }
+
+        auto wpass_norm = spec.value("passband_edge", 0.12);
+        auto wstop_norm = spec.value("stopband_edge", 0.20);
+        auto passband_ripple = spec.value("passband_ripple", 0.125);
+        auto stopband_attn = spec.value("stopband_attenuation", 0.125);
+        auto disc_factor = spec.value("discretization_factor", 15);
+        auto max_iters = spec.value("max_iters", static_cast<size_t>(50000));
+        auto tolerance = spec.value("tolerance", 1e-14);
+        auto ell_radius = spec.value("ellipsoid_radius", 40.0);
+        auto parallel_cut = spec.value("parallel_cut", true);
+        auto gen_verilog = spec.contains("verilog");
+        if (gen_verilog && !spec["verilog"].is_object()) {
+            throw std::invalid_argument("'verilog' must be a JSON object");
+        }
+
+        auto Fdc = filter_design_construct(filter_order, wpass_norm, wstop_norm, passband_ripple,
+                                           stopband_attn, disc_factor);
+        auto Spsq = Fdc.Spsq;
+        auto omega = LowpassOracleQ(csd_nnz, LowpassOracle(std::move(Fdc)));
+
+        auto r0 = zeros(static_cast<size_t>(filter_order));
+        auto ellip = Ell<Arr>(ell_radius, r0);
+        ellip.set_use_parallel_cut(parallel_cut);
+
+        Options options(max_iters, tolerance);
+        auto [r, num_iters] = cutting_plane_optim_q(omega, ellip, Spsq, options);
+        if (r.size() == 0) {
+            std::cerr << "error: no feasible solution after " << num_iters << " iterations\n";
+            return 1;
+        }
+
+        Arr h = spectral_fact(r, method, root_tol);
+
+        json output;
+        output["filter_order"] = filter_order;
+        output["csd_nnz"] = csd_nnz;
+        output["iterations"] = num_iters;
+        output["spectral_method"] = spectral_method_str;
+        output["coefficients"] = json::array();
+        for (size_t i = 0; i < h.size(); ++i) {
+            auto const parts = csd_quantize_parts(h(i), csd_nnz);
+            output["coefficients"].push_back(
+                {{"index", i}, {"value", parts.value}, {"csd", format_csd(parts.digits)}});
+        }
+
+        std::string verilog_text;
+        if (gen_verilog) {
+            auto const& vl = spec["verilog"];
+            auto input_width = vl.value("input_width", 16);
+            auto module_name = vl.value("module_name", std::string("fir_filter"));
+            auto verilog_form = vl.value("form", std::string("transpose"));
+            if (input_width < 1) {
+                throw std::invalid_argument("verilog.input_width must be a positive integer");
+            }
+            if (!std::regex_match(module_name, std::regex("[A-Za-z_][A-Za-z0-9_]*"))) {
+                throw std::invalid_argument("invalid verilog.module_name: " + module_name);
+            }
+            auto const generator = verilog_generators.find(verilog_form);
+            if (generator == verilog_generators.end()) {
+                throw std::invalid_argument("unknown verilog form: " + verilog_form);
+            }
+
+            std::vector<std::string> csd_strings;
+            csd_strings.reserve(output["coefficients"].size());
+            for (auto const& c : output["coefficients"]) {
+                csd_strings.push_back(c["csd"].get<std::string>());
+            }
+            auto const fixed = csd_coeffs_to_fixed(csd_strings);
+            std::vector<csd::MultiplierSpec> specs;
+            specs.reserve(fixed.digits.size());
+            for (size_t i = 0; i < fixed.digits.size(); ++i) {
+                specs.push_back({.name = "h" + std::to_string(i),
+                                 .csd = fixed.digits[i],
+                                 .input_width = input_width,
+                                 .max_power = fixed.max_power});
+            }
+            verilog_text = generator->second(specs, module_name);
+            output["verilog"] = verilog_text;
+        }
+
+        if (!args.verilog_path.empty()) {
+            if (!gen_verilog) {
+                throw std::invalid_argument("--verilog-out requires a 'verilog' section");
+            }
+            write_text(args.verilog_path, verilog_text);
+        }
+
+        auto const text = output.dump(2) + '\n';
+        if (!args.output_path.empty()) {
+            write_text(args.output_path, text);
+        } else {
+            std::cout << text;
+        }
+        return 0;
+    } catch (const json::exception& e) {
+        std::cerr << "error: invalid filter specification: " << e.what() << '\n';
+    } catch (const std::exception& e) {
+        std::cerr << "error: " << e.what() << '\n';
+    }
+    return 1;
 }

@@ -53,6 +53,24 @@ TEST_CASE("LowpassOracleQ assess_optim_q then retry") {
     }
 }
 
+TEST_CASE("LowpassOracleQ retries after a feasibility cut") {
+    auto [omega, Spsq] = create_lowpass_case(16);
+    auto omega_q = LowpassOracleQ(7, std::move(omega));
+
+    auto r = zeros(16);
+    r(0) = 1.0;  // zero response violates the passband lower bound
+
+    auto Spsq_val = Spsq;
+    auto [cut1, shrunk1, r_q1, more1] = omega_q.assess_optim_q(r, Spsq_val, false);
+    CHECK_FALSE(shrunk1);
+    CHECK(more1);
+
+    auto [cut2, shrunk2, r_q2, more2] = omega_q.assess_optim_q(r, Spsq_val, true);
+    CHECK(r_q2.size() == r.size());
+    CHECK(cut2.first.size() == r.size());
+    CHECK(cut2.second.size() > 0);
+}
+
 TEST_CASE("LowpassOracleQ operator() convenience") {
     auto [omega, Spsq] = create_lowpass_case(16);
     auto omega_q = LowpassOracleQ(7, std::move(omega));

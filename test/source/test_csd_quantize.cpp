@@ -2,9 +2,11 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <multiplierless/csd_quantize.hpp>
+#include <multiplierless/verilog_utils.hpp>
 #include <numbers>
-
-extern auto csd_quantize(double num, unsigned int nnz) -> double;
+#include <string>
+#include <vector>
 
 TEST_CASE("csd_quantize zero input") {
     CHECK(csd_quantize(0.0, 0) == doctest::Approx(0.0));
@@ -68,4 +70,32 @@ TEST_CASE("csd_quantize symmetry") {
     auto pos = csd_quantize(1.234, 4);
     auto neg = csd_quantize(-1.234, 4);
     CHECK(pos + neg == doctest::Approx(0.0));
+}
+
+TEST_CASE("CSD string round-trips the quantized value") {
+    for (auto const value : {0.0, 1.0, -1.0, 0.5, -0.5, 3.25, 0.9127555772777217}) {
+        auto const parts = csd_quantize_parts(value, 7);
+        auto const csd = format_csd(parts.digits);
+        CHECK(csd.find('.') != std::string::npos);
+        CHECK(csd_to_float(csd) == doctest::Approx(parts.value).epsilon(1e-15));
+        CHECK(csd_quantize(value, 7) == doctest::Approx(parts.value));
+    }
+}
+
+TEST_CASE("fixed-point coefficients share one scale") {
+    std::vector<std::string> const csds{"0.000000+0+000+000+", "0.+"};
+    auto const fixed = csd_coeffs_to_fixed(csds);
+    CHECK(fixed.max_power == 17);
+    for (size_t i = 0; i < fixed.digits.size(); ++i) {
+        auto const& raw = fixed.digits[i];
+        CHECK(raw.size() == static_cast<size_t>(fixed.max_power + 1));
+        auto value = 0LL;
+        for (size_t j = 0; j < raw.size(); ++j) {
+            auto const power = static_cast<int>(raw.size() - 1 - j);
+            if (raw[j] == '+') value += 1LL << power;
+            if (raw[j] == '-') value -= 1LL << power;
+        }
+        auto const want = std::llround(csd_to_float(csds[i]) * std::pow(2.0, fixed.scale_power));
+        CHECK(value == want);
+    }
 }

@@ -10,17 +10,21 @@
 enum class spectral_method { fft, root };
 
 /// @brief FFT-based spectral factorization (default method).
+/// @throws std::invalid_argument If @p r is empty, non-finite, or has r(0) <= 0.
+/// @throws std::runtime_error If the reconstructed power spectrum is significantly negative.
 auto spectral_fact_fft(const Arr& r) -> Arr;
 
 /// @brief Root-finding based spectral factorization (via ginger Aberth solver).
 /// @param[in] r         Autocorrelation sequence (top half).
 /// @param[in] tolerance Convergence tolerance for the root solver.
 /// @return Minimum-phase impulse response coefficients h.
+/// @throws std::invalid_argument If @p r is invalid or @p tolerance <= 0.
 auto spectral_fact_root(const Arr& r, double tolerance) -> Arr;
 
 /// @brief Inverse spectral factorization: autocorrelation of an impulse response.
 /// @param[in] h Impulse response coefficients.
 /// @return Autocorrelation sequence r (same length as h).
+/// @throws std::invalid_argument If @p h is empty or contains non-finite values.
 auto inverse_spectral_fact(const Arr& h) -> Arr;
 
 /// @brief Spectral factorization with explicit method selection.

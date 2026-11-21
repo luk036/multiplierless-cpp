@@ -1,4 +1,6 @@
 // -*- coding: utf-8 -*-
+#include <doctest/doctest.h>
+
 #include <ellalgo/arr.hpp>
 #include <ellalgo/cutting_plane.hpp>            // for cutting_plane_optim_q
 #include <ellalgo/ell.hpp>                      // for Ell
@@ -37,11 +39,12 @@ auto run_csdlowpass(bool use_parallel_cut) {
     return std::make_tuple(r.size() != 0U, num_iters);
 }
 
-// TEST_CASE("CSD Lowpass Filter (w/ parallel cut)") {
-//     const auto [feasible, num_iters] = run_csdlowpass(true);
-//     CHECK(feasible);
-//     CHECK(num_iters <= 1136);
-// }
+TEST_CASE("CSD Lowpass Filter (w/ parallel cut)") {
+    const auto [feasible, num_iters] = run_csdlowpass(true);
+    CHECK(feasible);
+    CHECK(num_iters > 0);
+    CHECK(num_iters < 50000);
+}
 
 // TEST_CASE("Lowpass Filter (w/o parallel cut)")
 // {

@@ -13,3 +13,6 @@ a.out
 compile_commands.json
 .pytest_cache/
 .ruff_cache/
+fir_filter_synth.json
+fir_filter_synth.v
+sim_build/

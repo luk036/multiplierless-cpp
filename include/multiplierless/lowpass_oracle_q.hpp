@@ -17,9 +17,13 @@
  */
 class LowpassOracleQ {
     Arr rcsd{};                     ///< Quantized filter coefficients in CSD representation
+    bool _rcsd_valid = false;       ///< Whether rcsd has been computed for the current point
     unsigned int _nnz;              ///< Maximum number of non-zero CSD digits
     LowpassOracle _lowpass;         ///< The underlying lowpass oracle for optimization
     unsigned int _num_retries = 0;  ///< Number of retry attempts made
+
+    /// @brief Quantize the spectral factor of @p r and return its autocorrelation.
+    auto quantize(const Arr& r) const -> Arr;
 
   public:
     /// @brief Maximum number of retry attempts for the quantized optimization.

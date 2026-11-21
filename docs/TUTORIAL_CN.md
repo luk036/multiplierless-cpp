@@ -45,16 +45,24 @@
 
 ## 2. 安装
 
-### 方案 A：C++ (cmake)
+### 方案 A：C++ (xmake，推荐)
 
 ```bash
 cd multiplierless-cpp
-cmake -S. -Bbuild
-cmake --build build --config Release
+xmake f -m release
+xmake -y -j8
+xmake test
 ```
 
-CLI 二进制文件位于 `build\standalone\Release\FirDesign.exe`
-（Linux 上为 `build/standalone/FirDesign`）。
+CLI 二进制文件位于 `build\windows\x64\release\FirDesign.exe`
+（Linux 上为 `build/linux/x86_64/release/FirDesign`）。
+
+也可以使用 CMake（CI 使用的方式）：
+
+```bash
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j4
+```
 
 ### 方案 B：Python (pip)
 
@@ -130,7 +138,7 @@ CLI 支持两种谱分解算法：
 
 | 方法 | 键值 | 速度 | 精度 | 适用场景 |
 |------|------|------|------|----------|
-| **FFT (Kolmogorov 1939)** | `"fft"` | 稳定，较慢 (~1482 次迭代) | 参考值（精确） | **默认**，最稳定 |
+| **FFT (Kolmogorov 1939)** | `"fft"` | 稳定，~2300 次迭代 | 参考值（精确） | **默认**，最稳定 |
 | **Aberth 根求解** | `"root"` | 快 (~333 次迭代) | 良好（可调容差） | 快速实验、调优 |
 
 FFT 方法是**默认值**，因为它数值更稳定 — 尤其适合大滤波器和严格规格。
@@ -275,13 +283,18 @@ wire signed [41:0] h5 = (_cse_0 >>> 5) + x_shift3 + x_shift0;
 
 ### 输出位宽
 
-输出位宽 = `input_width + max_power`，其中 `max_power` 是所有系数中最高的移位量。
+转置形式（transpose）的输出位宽 =
+`input_width + max_power + ceil(log2(taps))`，其中 `max_power` 是所有系数中
+最高的移位量，额外的高位是累加器余量。直连形式（direct）每个抽头单独输出，
+因此不需要累加余量，位宽为 `input_width + max_power`。
 
-| input_width | 典型 output_width |
-|-------------|------------------|
-| 8 | ~25 |
-| 16 | ~41 |
-| 24 | ~55 |
+以 32 抽头、`nnz=4` 为例（`max_power=25`，headroom=5）：
+
+| input_width | transpose | direct |
+|-------------|-----------|--------|
+| 8 | 38 | 33 |
+| 16 | 46 | 41 |
+| 24 | 54 | 49 |
 
 ---
 
@@ -292,7 +305,7 @@ Verilog 输出可直接用于 Yosys 综合：
 ```bash
 # 综合为通用门级网表
 yosys -p "
-  read_verilog fir_filter_cpp.v;
+  read_verilog fir_filter.v;
   synth -top fir_filter;
   write_json fir_filter_synth.json;
   stat
@@ -303,7 +316,7 @@ yosys -p "
 
 ```bash
 yosys -p "
-  read_verilog fir_filter_cpp.v;
+  read_verilog fir_filter.v;
   synth -top fir_filter;
   abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib;
   write_verilog fir_filter_mapped.v;
@@ -313,24 +326,9 @@ yosys -p "
 
 ### 预期面积
 
-32 抽头、nnz=4、启用 Cross-CSE 的滤波器，Yosys 实际综合结果如下：
-
-```
-=== fir_filter ===
-
-   Number of wires:                100
-   Number of wire bits:           3778
-   Number of public wires:          49
-   Number of cells:                 82
-     $add                           51
-     $neg                            7
-     $sub                           24
-
-   无乘法器 — 纯移位加减！
-```
-
-无 Cross-CSE：约 110 个单元。有 Cross-CSE：**82 个单元**（共享子表达式减少了 25%）。
-每个 `$add` 或 `$sub` 对应一个硬件加法器/减法器。
+实际单元数取决于滤波器阶数、`csd_nnz`、Cross-CSE 机会以及目标工艺。运行
+`yosys -Q synthesize.ys` 后查看 `stat` 输出即可；生成的 RTL 不含乘法器 —
+只有移位、`$add` 和 `$sub`。Cross-CSE 会进一步共享重复的 CSD 模式，减少加法器数量。
 
 使用提供的脚本运行综合：
 
@@ -341,7 +339,7 @@ yosys -Q synthesize.ys
 
 `synthesize.ys` 脚本执行以下操作：
 ```tcl
-read_verilog fir_filter_tutorial.v    # 加载设计
+read_verilog fir_filter.v    # 加载设计
 hierarchy -top fir_filter             # 检查模块层次
 proc                                  # 处理 always 块
 opt                                   # 优化表达式
@@ -387,7 +385,7 @@ fir-design lowpass_32.json | tee lowpass_32_output.json
 
 ```json
 {
-  "iterations": 1482,
+  "iterations": 2296,
   "filter_order": 32,
   "csd_nnz": 4,
   "coefficients": [
@@ -399,7 +397,7 @@ fir-design lowpass_32.json | tee lowpass_32_output.json
 }
 ```
 
-- **1482 次迭代** — 2 分钟内收敛
+- **~2300 次迭代** — 1 分钟内收敛
 - **系数 h[7]** = 0.128059，CSD = `0.00+0000+0-00+` — 4 个非零位
 - **系数 h[15]** = −0.017375，CSD = `0.00000-00-00+0-` — 4 个非零位
 
@@ -429,14 +427,7 @@ python tools/extract_verilog.py
 yosys -Q synthesize.ys
 ```
 
-预期输出：
-```
-=== fir_filter ===
-   Number of cells:   82
-     $add             51
-     $neg              7
-     $sub             24
-```
+Yosys 会打印 `stat` 汇总，单元数取决于你的设计和目标工艺。
 
 ### 第 6 步：集成到你的设计中
 
@@ -445,7 +436,7 @@ yosys -Q synthesize.ys
 ```verilog
 wire clk, rst_n;
 wire signed [15:0] sample_in;
-wire signed [41:0] filter_out;
+wire signed [45:0] filter_out;
 
 fir_filter u_fir (
     .clk(clk),
