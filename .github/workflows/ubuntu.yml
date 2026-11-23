@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libopenblas-dev libfftw3-dev lcov
+          sudo apt-get install -y libopenblas-dev libfftw3-dev
 
       - name: Configure with coverage
         run: cmake -B build -DMULTIPLIERLESS_ENABLE_COVERAGE=ON -DMULTIPLIERLESS_BUILD_TESTS=ON
@@ -54,8 +54,16 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
+      - name: Collect code coverage
+        run: |
+          pip install gcovr
+          gcovr --root . --xml --output coverage.xml --exclude test/ --exclude standalone/ --exclude-unreachable-branches --exclude-throw-branches
+
       - name: Upload coverage
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          disable_search: true
+          override_branch: ${{ github.event_name == 'push' && github.ref_name || '' }}
+          files: coverage.xml
           fail_ci_if_error: false
