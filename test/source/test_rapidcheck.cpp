@@ -3,12 +3,27 @@
 #    include <rapidcheck.h>
 
 #    include <cmath>
+#    include <csd/csd.hpp>
 #    include <string>
 
-// Include the functions we want to test
-extern auto to_csd(double num, int places = 0) -> std::string;
-extern auto to_decimal(const std::string& csd_str) -> double;
-extern auto to_csdnnz(double num, unsigned int nnz = 4) -> std::string;
+// Thin test-local shims over csd-cpp.  Kept here because these tests exercise the
+// dependency's string API, not multiplierless' double->double quantization.
+namespace {
+    auto to_csd(double num, int places = 0) -> std::string {
+        if (num == 0.0) {
+            return "0";
+        }
+        return csd::to_csd(num, places);
+    }
+
+    auto to_decimal(const std::string& csd_str) -> double {
+        return csd::to_decimal(csd_str.c_str());
+    }
+
+    auto to_csdnnz(double num, unsigned int nnz = 4) -> std::string {
+        return csd::to_csdnnz(num, nnz);
+    }
+}  // namespace
 
 TEST_CASE("Property-based test: CSD round-trip conversion") {
     rc::check("Converting to CSD and back yields original value", []() {

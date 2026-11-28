@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <ellalgo/arr.hpp>
+#include <limits>
 #include <multiplierless/spectral_fact.hpp>
 #include <stdexcept>
 
@@ -50,4 +51,34 @@ TEST_CASE("spectral_fact rejects significantly negative spectrum") {
     r(1) = 0.5;
     r(2) = 0.3;
     CHECK_THROWS_AS(spectral_fact_fft(r), std::runtime_error);
+}
+
+TEST_CASE("spectral_fact dispatches on the selected method") {
+    Arr h(4);
+    h(0) = 1.0;
+    h(1) = 0.5;
+    h(2) = 0.25;
+    h(3) = 0.125;
+    auto const r = inverse_spectral_fact(h);
+
+    auto const via_fft = spectral_fact(r, spectral_method::fft, 1e-8);
+    auto const via_default = spectral_fact(r);
+    CHECK(via_fft.size() == r.size());
+    for (size_t i = 0; i < r.size(); ++i) {
+        CHECK(via_default(i) == doctest::Approx(via_fft(i)));
+    }
+
+    // the tolerance argument is only used by the root solver
+    auto const via_root = spectral_fact(r, spectral_method::root, 1e-6);
+    CHECK(via_root.size() == r.size());
+    CHECK(via_root(0) != doctest::Approx(0.0));
+}
+
+TEST_CASE("inverse_spectral_fact rejects invalid input") {
+    CHECK_THROWS_AS(inverse_spectral_fact(zeros(0)), std::invalid_argument);
+
+    auto non_finite = zeros(3);
+    non_finite(0) = 1.0;
+    non_finite(1) = std::numeric_limits<double>::infinity();
+    CHECK_THROWS_AS(inverse_spectral_fact(non_finite), std::invalid_argument);
 }

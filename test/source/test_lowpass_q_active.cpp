@@ -84,3 +84,34 @@ TEST_CASE("LowpassOracleQ operator() convenience") {
     CHECK(cut.first.size() > 0);
     CHECK(cut.second.size() > 0);
 }
+
+TEST_CASE("LowpassOracleQ retry without a prior quantization") {
+    // retry=true on a fresh oracle: no rcsd yet, so it must be computed on the fly
+    {
+        auto [omega, Spsq] = create_lowpass_case(16);
+        auto omega_q = LowpassOracleQ(7, std::move(omega));
+
+        auto r = zeros(16);
+        r(0) = 1.0;
+        for (size_t i = 1; i < 16; ++i) r(i) = 0.5 / static_cast<double>(i + 1);
+
+        auto Spsq_val = Spsq;
+        auto [cut, shrunk, r_q, more] = omega_q.assess_optim_q(r, Spsq_val, true);
+        CHECK(cut.first.size() > 0);
+        CHECK(r_q.size() == r.size());
+        CHECK(more);  // retries remain
+    }
+
+    // degenerated r (r(0) <= 0): falls back to the continuous cut, no further retries
+    {
+        auto [omega, Spsq] = create_lowpass_case(16);
+        auto omega_q = LowpassOracleQ(7, std::move(omega));
+
+        auto r = zeros(16);
+        auto Spsq_val = Spsq;
+        auto [cut, shrunk, r_q, more] = omega_q.assess_optim_q(r, Spsq_val, true);
+        CHECK(cut.first.size() > 0);
+        CHECK(r_q.size() == r.size());
+        CHECK_FALSE(more);
+    }
+}

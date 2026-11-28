@@ -1,15 +1,12 @@
-/// @file csd.cpp
-/// @brief CSD wrapper — delegates to csd-cpp library, adds fast double-returning variant.
+/// @file csd_quantize.cpp
+/// @brief CSD quantization for multiplierless FIR filter design.
 ///
-/// Canonical Signed Digit functions for multiplierless FIR filter design.
-/// The core CSD ↔ decimal conversions live in the csd-cpp library
-/// (namespace csd). This file provides:
-///   - Global-namespace wrappers matching the old API used by tests and internals
-///   - csd_quantize() — a direct double→double CSD quantization (no string allocs)
+/// Implements the greedy double→double CSD quantization declared in
+/// <multiplierless/csd_quantize.hpp>. The string-based CSD <-> decimal
+/// conversions live in the csd-cpp library (namespace csd).
 
 #include <algorithm>
 #include <cmath>
-#include <csd/csd.hpp>
 #include <map>
 #include <multiplierless/csd_quantize.hpp>
 #include <string>
@@ -81,18 +78,3 @@ auto csd_to_float(const std::string& csd) -> double {
     }
     return value;
 }
-
-// =========================================================================
-//  Global-namespace wrappers — backward-compatible API for tests / internals
-// =========================================================================
-
-auto to_csd(double num, int places) -> std::string {
-    if (num == 0.0) {
-        return "0";
-    }
-    return csd::to_csd(num, places);
-}
-
-auto to_decimal(const std::string& csd_str) -> double { return csd::to_decimal(csd_str.c_str()); }
-
-auto to_csdnnz(double num, unsigned int nnz) -> std::string { return csd::to_csdnnz(num, nnz); }
